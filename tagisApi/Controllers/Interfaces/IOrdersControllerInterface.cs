@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-using tagis.Models;
+using System.Threading.Tasks;
+using tagisApi.Models;
 
-namespace tagis.Controllers.Interfaces
+namespace tagisApi.Controllers.Interfaces
 {
     public interface IOrdersControllerInterface
     {
         // Get functions
-        List<Order> getAllOrders();
+        Task<IEnumerable<Order>> GetOrders();
         List<Order> getOrderList();
         Order getOrder();
         List<Order> getRecentOrders();

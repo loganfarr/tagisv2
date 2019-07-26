@@ -1,25 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using tagis.Controllers.Interfaces;
-using tagis.Models;
+using tagisApi.Controllers.Interfaces;
+using tagisApi.Models;
+using tagisApi.Persistence;
 
-namespace tagis.Controllers
+namespace tagisApi.Controllers
 {
     [Route("[controller]")]
-    public class OrdersController : IOrdersControllerInterface
+    public class OrdersController : Controller, IOrdersControllerInterface
     {
-        private DbContext _context;
-
-        public OrdersController(DbContext context)
+        private readonly TagisDbContext _context;
+        public OrdersController(TagisDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public List<Order> getAllOrders()
+        public async Task<IEnumerable<Order>> GetOrders()
         {
+//            return await _context.Orders.Include(o => o.Models).ToList();
             throw new System.NotImplementedException();
         }
 

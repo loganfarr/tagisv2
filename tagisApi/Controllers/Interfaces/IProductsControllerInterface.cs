@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
-using tagis.Models;
+using tagisApi.Models;
 
-namespace tagis.Controllers.Interfaces
+namespace tagisApi.Controllers.Interfaces
 {
     public interface IProductsControllerInterface
     {

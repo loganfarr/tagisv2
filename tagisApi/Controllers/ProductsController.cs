@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using tagis.Controllers.Interfaces;
-using tagis.Models;
+using tagisApi.Controllers.Interfaces;
+using tagisApi.Models;
 
-namespace tagis.Controllers
+namespace tagisApi.Controllers
 {
     [Route("[controller]")]
-    public class ProductsController : IProductsControllerInterface
+    public class ProductsController : Controller, IProductsControllerInterface
     {
         [HttpGet]
         public List<Product> getAllProducts()

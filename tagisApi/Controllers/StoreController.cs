@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using tagis.Controllers.Interfaces;
-using tagis.Models;
+using tagisApi.Controllers.Interfaces;
+using tagisApi.Models;
 
-namespace tagis.Controllers
+namespace tagisApi.Controllers
 {
     [Route("[controller]")]
-    public class StoreController : IStoreControllerInterface
+    public class StoreController : Controller, IStoreControllerInterface
     {
         [HttpGet]
         public List<Store> getAllStores()
