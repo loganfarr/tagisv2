@@ -1,27 +1,30 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
+using tagisApi.Controllers.Resources;
 using tagisApi.Models;
-using tagisApi.Persistence;
 
 namespace tagisApi.Controllers
 {
     [Route("[controller]")]
-    public class OrdersController : Controller, IOrdersControllerInterface
+    public class OrdersController : ControllerBase, IOrdersControllerInterface
     {
         private readonly TagisDbContext _context;
-        public OrdersController(TagisDbContext context)
+        private readonly IMapper _mapper;
+        public OrdersController(TagisDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Order>> GetOrders()
+        public async Task<ActionResult<IEnumerable<OrderResource>>> GetOrders()
         {
-//            return await _context.Orders.Include(o => o.Models).ToList();
-            throw new System.NotImplementedException();
+            return await _context.Orders.ToListAsync();
         }
 
         [HttpGet("list")]

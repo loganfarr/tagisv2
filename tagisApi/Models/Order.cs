@@ -23,7 +23,7 @@ namespace tagisApi.Models
         public DateTime LastModifiedDate { get; set; }
 
         [Required]
-        public IList<Product> Products { get; set; }
+        public IList<OrderItem> Products { get; set; }
 
         [Required]
         public double taxes { get; set; }

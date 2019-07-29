@@ -27,8 +27,8 @@ namespace tagisApi.Controllers
             throw new System.NotImplementedException();
         }
 
-        [HttpGet("name/[name]")]
-        public Store getStoreByName(string title)
+        [HttpGet("name/{name}")]
+        public Store getStoreByName(string name)
         {
             throw new System.NotImplementedException();
         }

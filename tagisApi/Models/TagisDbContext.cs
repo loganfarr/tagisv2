@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using tagisApi.Models;
+using tagisApi.Controllers.Resources;
 
-namespace tagisApi.Persistence
+namespace tagisApi.Models
 {
     public class TagisDbContext : DbContext
     {
@@ -9,6 +9,6 @@ namespace tagisApi.Persistence
             : base(options)
         {}
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderResource> Orders { get; set; }
     }
 }
