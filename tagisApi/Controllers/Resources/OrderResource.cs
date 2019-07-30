@@ -17,24 +17,28 @@ namespace tagisApi.Controllers.Resources
         public string OrderStatus { get; set; }
 
         [Column("created_date")]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         
         [Column("last_modified_date")]
-        public DateTime LastModifiedDate { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
         
         // @todo Implement products list
 //        [Column("products")]
 //        public List<Product> Products { get; set; }
 
-        public double subtotal { get; set; }
+        [Column(TypeName = "decimal(8,2)")]
+        public double? subtotal { get; set; }
         
-        public double taxes { get; set; }
+        [Column(TypeName = "decimal(8,2)")]
+        public double? taxes { get; set; }
         
-        [Column("shipping_fees")]
-        public double shippingFees { get; set; }
+        [Column("shipping_fees", TypeName =  "decimal(8.2)")]
+        public double? shippingFees { get; set; }
         
-        public double total { get; set; }
+        [Column(TypeName = "decimal(8,2)")]
+        public double? total { get; set; }
         
+        [Required]
         private int Company { get; set; }
         
         [Column("order_source")]
@@ -68,12 +72,12 @@ namespace tagisApi.Controllers.Resources
         public string shippingCarrier { get; set; }
         
         [Column("receipt_email_sent")]
-        public DateTime receiptEmailSent { get; set; }
+        public DateTime? receiptEmailSent { get; set; }
         
         [Column("shipping_email_sent")]
-        public DateTime shippingEmailSent { get; set; }
+        public DateTime? shippingEmailSent { get; set; }
         
         [Column("order_notification_sent")]
-        public DateTime orderNotificationEmail { get; set; }
+        public DateTime? orderNotificationEmail { get; set; }
     }
 }

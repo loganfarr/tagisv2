@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,16 @@ namespace tagisApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderResource>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            Console.WriteLine("Getting orders.....");
+            var orders = await _context.Orders.ToListAsync();
+
+            if (orders == null)
+            {
+                Console.WriteLine("Orders object is null");
+                return NotFound();    
+            }
+            
+            return orders;
         }
 
         [HttpGet("list")]
