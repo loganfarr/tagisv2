@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
@@ -8,9 +9,9 @@ namespace tagisApi.Controllers.Interfaces
     public interface IOrdersControllerInterface
     {
         // Get functions
-//        Task<IEnumerable<OrderResource>> GetOrders();
+        Task<ActionResult<IEnumerable<OrderResource>>> GetOrders();
         List<Order> getOrderList();
-        Order getOrder();
+        Task<ActionResult<OrderResource>> getOrder(int id);
         List<Order> getRecentOrders();
         
         bool postOrder(Order order);

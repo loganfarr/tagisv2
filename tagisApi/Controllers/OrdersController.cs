@@ -26,15 +26,8 @@ namespace tagisApi.Controllers
         public async Task<ActionResult<IEnumerable<OrderResource>>> GetOrders()
         {
             Console.WriteLine("Getting orders.....");
-            var orders = await _context.Orders.ToListAsync();
-
-            if (orders == null)
-            {
-                Console.WriteLine("Orders object is null");
-                return NotFound();    
-            }
             
-            return orders;
+            return await _context.Orders.ToListAsync();
         }
 
         [HttpGet("list")]
@@ -44,9 +37,14 @@ namespace tagisApi.Controllers
         }
     
         [HttpGet("{id}")]
-        public Order getOrder()
+        public async Task<ActionResult<OrderResource>> getOrder(int id)
         {
-            throw new System.NotImplementedException();
+            var order = await _context.Orders.FindAsync(id);
+
+            if (order == null)
+                return NotFound();
+            
+            return order;
         }
 
         [HttpGet("recent")]
