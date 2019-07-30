@@ -1,3 +1,7 @@
+.DS_Store
 .idea/
 
-tagis/appsettings.json
+tagisApi/tagisApi/bin
+tagisApi/tagisApi/obj
+tagisApi/tagisApi/appsettings.Development.json
+tagisApi/tagisApi/appsettings.json
