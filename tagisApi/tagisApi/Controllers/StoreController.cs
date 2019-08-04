@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
+using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers
@@ -9,40 +13,43 @@ namespace tagisApi.Controllers
     [Route("[controller]")]
     public class StoreController : Controller, IStoreControllerInterface
     {
+        private readonly TagisDbContext _context;
+
+        public StoreController(TagisDbContext context)
+        {
+            _context = context;
+        }
+        
         [HttpGet]
-        public List<Store> getAllStores()
-        {
-            throw new System.NotImplementedException();
-        }
-
         [HttpGet("list")]
-        public List<Store> getStoreList()
+        public async Task<ActionResult<IEnumerable<StoreResource>>>  GetStores()
         {
-            throw new System.NotImplementedException();
+            return await _context.Stores.ToListAsync();
         }
-
+        
         [HttpGet("recent")]
-        public List<Store> getRecentStores()
+        public async Task<ActionResult<IEnumerable<StoreResource>>> GetRecentStores()
         {
-            throw new System.NotImplementedException();
+            return await _context.Stores.OrderByDescending(c => c._cid).Take(5).ToListAsync();
         }
 
         [HttpGet("name/{name}")]
-        public Store getStoreByName(string name)
+        public async Task<ActionResult<StoreResource>> GetStoreByName(string name)
         {
-            throw new System.NotImplementedException();
+            return await _context.Stores.Where(c => c.title == name).SingleOrDefaultAsync();
         }
         
         [HttpGet("{id}")]
-        public Store getStore(int id)
+        public async Task<ActionResult<StoreResource>> GetStore(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Stores.FindAsync(id);
         }
 
         [HttpGet("products")]
-        public List<Product> getStoreProducts()
+        public Task<ActionResult<IEnumerable<ProductResource>>> GetStoreProducts(int storeId)
         {
             throw new System.NotImplementedException();
+//            return await _context.Products.Where(p => p.storeId == storeId).ToListAsync();
         }
 
         [HttpGet("orders")]

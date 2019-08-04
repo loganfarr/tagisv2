@@ -1,7 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
+using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers
@@ -9,42 +14,44 @@ namespace tagisApi.Controllers
     [Route("[controller]")]
     public class ProductsController : Controller, IProductsControllerInterface
     {
-        [HttpGet]
-        public List<Product> getAllProducts()
+        private readonly TagisDbContext _context;
+        
+        public ProductsController(TagisDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
-
+        
+        [HttpGet]
         [HttpGet("list")]
-        public List<Product> getProductList()
+        public async Task<ActionResult<IEnumerable<ProductResource>>> GetProducts()
         {
-            throw new System.NotImplementedException();
+            return await _context.Products.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public Product getProduct()
+        public async Task<ActionResult<ProductResource>> GetProduct(int id)
         {
-            throw new System.NotImplementedException();
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+                return NotFound();
+
+            return product;
         }
 
         [HttpGet("sku/{sku}")]
-        public List<Product> getProductsBySku()
+        public async Task<ActionResult<ProductResource>> GetProductBySku(string sku)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public int checkStock(string sku)
-        {
-            throw new System.NotImplementedException();
+            return await _context.Products.Where(p => p.sku == sku).SingleOrDefaultAsync();
         }
 
         [HttpGet("lowStock")]
-        public List<Product> getLowStockProducts()
+        public async Task<ActionResult<IEnumerable<ProductResource>>> GetLowStockProducts()
         {
-            throw new System.NotImplementedException();
+            return await _context.Products.Where(p => p.stock > 0).OrderBy(p => p.stock).Take(5).ToListAsync();
         }
 
-        [HttpGet("update/{sku}/{status}")]
+        [HttpPut("update/{sku}/{status}")]
         public bool updateProductStatus(string sku, int status)
         {
             throw new System.NotImplementedException();
@@ -74,7 +81,7 @@ namespace tagisApi.Controllers
             throw new System.NotImplementedException();
         }
 
-        [HttpGet("stock/{sku}/{stock}")]
+        [HttpPut("stock/{sku}/{stock}")]
         public int updateProductInventory(int stock, string sku)
         {
             throw new System.NotImplementedException();
@@ -89,6 +96,12 @@ namespace tagisApi.Controllers
         private void processProduct(Product product)
         {
             throw new System.NotImplementedException();
+        }
+
+        private async Task<ActionResult<int>> GetStock(string sku)
+        {
+            var product = await _context.Products.Where(p => p.sku == sku).Take(1).SingleOrDefaultAsync();
+            return product.stock;
         }
     }
 }

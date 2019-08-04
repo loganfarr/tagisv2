@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers.Interfaces
 {
     public interface IProductsControllerInterface
     {
-        List<Product> getAllProducts();
-        List<Product> getProductList();
-        Product getProduct();
-        List<Product> getProductsBySku();
-        List<Product> getLowStockProducts();
+        Task<ActionResult<IEnumerable<ProductResource>>> GetProducts();
+        Task<ActionResult<ProductResource>> GetProduct(int id);
+        Task<ActionResult<ProductResource>> GetProductBySku(string sku);
+        Task<ActionResult<IEnumerable<ProductResource>>> GetLowStockProducts();
         bool updateProductStatus(string sku, int status);
 
         bool postProduct(Product product);

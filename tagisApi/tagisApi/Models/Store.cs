@@ -5,7 +5,7 @@ namespace tagisApi.Models
     public class Store
     {
         [Required]
-        public int Id { get; set; }
+        public int _cid { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -35,11 +35,7 @@ namespace tagisApi.Models
         public string websiteUrl { get; set; }
 
         public string companyStore { get; set; }
-
-        public string productApiEndpoint { get; set; }
-
-        public bool emailsEnabled { get; set; }
-
+        
         public string emailFromAddress { get; set; }
 
         public bool receiptEmail { get; set; }
@@ -50,6 +46,10 @@ namespace tagisApi.Models
 
         public string authToken { get; set; }
 
-        public string orderApiEndpoint { get; set; }
+        private string orderApiEndpoint { get; set; }
+        
+        private string productApiEndpoint { get; set; }
+
+        private bool emailsEnabled { get; set; }
     }
 }

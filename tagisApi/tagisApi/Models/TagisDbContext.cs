@@ -12,5 +12,7 @@ namespace tagisApi.Models
         public DbSet<OrderResource> Orders { get; set; }
         
         public DbSet<ProductResource> Products { get; set; }
+        
+        public DbSet<StoreResource> Stores { get; set; }
     }
 }
