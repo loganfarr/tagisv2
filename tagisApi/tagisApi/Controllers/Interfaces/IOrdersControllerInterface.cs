@@ -12,7 +12,7 @@ namespace tagisApi.Controllers.Interfaces
         Task<ActionResult<IEnumerable<OrderResource>>> GetOrders();
         Task<ActionResult<IEnumerable<OrderShortResource>>> getOrderList();
         Task<ActionResult<OrderResource>> getOrder(int id);
-        List<Order> getRecentOrders();
+        Task<ActionResult<IEnumerable<OrderResource>>> getRecentOrders();
         
         bool postOrder(Order order);
         

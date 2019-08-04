@@ -25,8 +25,6 @@ namespace tagisApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderResource>>> GetOrders()
         {
-            Console.WriteLine("Getting orders.....");
-            
             return await _context.Orders.ToListAsync();
         }
 
@@ -53,9 +51,9 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet("recent")]
-        public List<Order> getRecentOrders()
+        public async Task<ActionResult<IEnumerable<OrderResource>>> getRecentOrders()
         {
-            throw new System.NotImplementedException();
+            return await _context.Orders.OrderByDescending(o => o.CreatedDate).Take(10).ToListAsync();
         }
 
         [HttpPost]
