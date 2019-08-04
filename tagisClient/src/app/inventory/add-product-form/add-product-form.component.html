@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>{{ pageTitle }}</h1>
+  </div>
+</div>
+<form [formGroup]="addProductForm" (submit)="onSubmit($event)">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <div class="component-body">
+        <h3>Product information</h3>
+        <div class="row" style="margin: 0;">
+          <div class="form-group" style="padding-left: 0;">
+            <input 
+              required="required" 
+              type="text" 
+              name="sku"
+              id="sku"
+              formControlName="sku" 
+              (focusout)="checkInput($event.target)" 
+              [(ngModel)]="product.sku"
+              [ngClass]="{'filled': product.sku }"
+              #sku>
+            <label for="sku" (click)="sku.focus()">SKU</label>
+          </div>
+          <div class="form-group" style="padding-left: 0;">
+            <input 
+              required="required" 
+              type="text"
+              id="product_title"
+              name="product_title" 
+              formControlName="product_title" 
+              (focusout)="checkInput($event.target)" 
+              [(ngModel)]="product.product_title"
+              [ngClass]="{'filled': product.product_title}"
+              #product_title>
+            <label for="product_title" (click)="product_title.focus()">Title</label>
+          </div>
+          <div class="form-group textarea" style="padding-left: 0;">
+            <label>Description</label>
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              formControlName="description"
+              [(ngModel)]="product.description"
+              #description></textarea>
+          </div>
+          <div class="form-group" style="padding-left: 0;">
+            <input 
+              required="required" 
+              type="number"
+              id="stock"
+              name="stock" 
+              formControlName="stock" 
+              (focusout)="checkInput($event.target)" 
+              [(ngModel)]="product.stock"
+              [ngClass]="{'filled': product.stock != undefined && product.stock != null }"
+              #stock>
+            <label for="stock" (click)="stock.focus()">Stock</label>
+          </div>
+          <div class="row" *ngIf="product.image">
+            <img [src]="product.image" />
+          </div>
+          <div class="row">
+            <div class="col-xs-12" style="padding: 0;">
+              <label>Product image</label>
+              <input 
+                type="file" 
+                ng2FileSelect 
+                [uploader]="uploader"
+                #file />
+            </div>  
+          </div>
+          <div class="row">
+            <div class="col-xs-6 pull-right" style="padding-right: 0; padding-top: 26px;">
+              <a class="btn btn-primary btn-block" (click)="uploadImage()">Upload</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <div class="component-body">
+        <h3>Store information</h3>
+        <div class="form-group">
+          <company-selector [saved-company]="product.company" (company-selected)="addCompany($event)"></company-selector>
+        </div>
+        <div class="form-group" style="padding-left: 0;">
+          <input
+            type="number"
+            id="price"
+            name="price"
+            formControlName="price"
+            (focusout)="checkInput($event.target)"
+            [(ngModel)]="product.price"
+            [ngClass]="{'filled': product.price != undefined && product.price != null }"
+            #price>
+          <label for="price" (click)="stock.focus()">Price</label>
+        </div>
+        <div class="form-group" style="padding-left: 0;">
+          <input
+            type="number"
+            id="cost"
+            name="cost"
+            formControlName="cost"
+            (focusout)="checkInput($event.target)"
+            [(ngModel)]="product.cost"
+            [ngClass]="{'filled': product.cost != undefined && product.cost != null }"
+            #cost>
+          <label for="cost" (click)="stock.focus()">Cost</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-controls">
+        <a routerLink="/products" class="form-cancel">Cancel</a>
+        <input type="submit" class="btn btn-success" value="Save product" [disabled]="!addProductForm.valid || isSaving" />
+      </div>
+    </div>
+  </div>
+</form>

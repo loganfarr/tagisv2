@@ -1,0 +1,7 @@
+.user-list-header, .user {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.user {
+  padding: 15px 0px;
+}

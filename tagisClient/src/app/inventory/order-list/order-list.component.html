@@ -1,0 +1,66 @@
+<h1>Orders</h1>
+<ul class="right-options">
+  <li>
+    <a [routerLink]="['/orders/add']">Add order</a>
+  </li>
+</ul>
+<div class="component-body">
+  <div class="row filters">
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by order ID"
+        #orderIdSearch
+        (keyup)="filterByOrderId(orderIdSearch.value)" />
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding-right: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by customer name"
+        #nameSearch
+        (keyup)="filterByCustomerName(nameSearch.value)" />
+    </div>
+    <div class="col-xs-12 hidden-sm col-md-3" style="padding-right: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by store"
+        #companySearch
+        (keyup)="filterByCompany(companySearch.value)" />
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding-right: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by order status"
+        #statusSearch
+        (keyup)="filterByStatus(statusSearch.value)" />
+    </div>
+  </div>
+  <div class="row order-list-header">
+    <div class="col-xs-6 col-sm-4 col-md-3"><h3>Order number</h3></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><h3>Customer name</h3></div>
+    <div class="hidden-xs hidden-sm col-md-3"><h3>Store</h3></div>
+    <div class="hidden-xs col-sm-4 col-md-3"><h3>Status</h3></div>
+  </div>
+  <div class="row order" *ngFor="let order of filteredOrders">
+    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/orders', order._oid]">{{ order._oid }}</a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3">
+      <a [routerLink]="['/orders', order._oid]">
+        <span *ngIf="order.customer_name != '' && order.customer_name != ' '">{{ order.customer_name }}</span>
+        <span *ngIf="order.customer_name == ' ' && order.shipping_name != ''">{{ order.shipping_name }}</span>
+      </a>
+    </div>
+    <div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', order._cid]">{{ order.company_title }}</a></div>
+    <div class="hidden-xs col-sm-4 col-md-3">
+      <div 
+        class="label" 
+        [ngClass]="{
+          'label-info': order.order_status =='new', 
+          'label-primary': order.order_status=='shipped',
+          'label-success': order.order_status=='completed',
+          'label-danger': order.order_status=='cancelled'}" 
+        style="text-transform: capitalize;">
+        {{ order.order_status }}
+      </div>
+    </div>
+  </div>
+</div>

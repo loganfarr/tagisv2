@@ -1,0 +1,58 @@
+<h1>Products</h1>
+<ul class="right-options">
+  <li>
+    <a [routerLink]="['/products/add']">Add product</a>
+  </li>
+</ul>
+<div class="component-body">
+  <div class="row filters">
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by SKU"
+        #skuSearch
+        (keyup)="filterBySku(skuSearch.value)" />
+    </div>
+    <div class="col-xs-12 hidden-sm col-md-3" style="padding-right: 0;">
+      <label class="switch">
+        <input
+          type="checkbox"
+          checked="filteredByOutOfStock"
+          #disabled
+          (click)="filterByStatus()" />
+        <span class="slider round"></span>
+      </label>
+      <label class="switch-label">Show disabled products</label>
+    </div>
+    <div class="col-xs-12 hidden-sm col-md-3" style="padding-right: 0;">
+      <label class="switch">
+        <input
+          type="checkbox"
+          checked="filteredByOutOfStock"
+          #outOfStock
+          (click)="filterByOutOfStock()" />
+        <span class="slider round"></span>
+      </label>
+      <label class="switch-label">Show out of stock products</label>
+    </div>
+    <div class="col-xs-12 hidden-sm col-md-3" style="padding-right: 0;">
+      <input
+        class="form-control"
+        placeholder="Search by store"
+        #companySearch
+        (keyup)="filterByCompany(companySearch.value)" />
+    </div>
+  </div>
+  <div class="row product-list-header">
+    <div class="col-xs-6 col-sm-4 col-md-3"><h3>Title</h3></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><h3>Image</h3></div>
+    <div class="hidden-xs col-sm-4 col-md-3"><h3>Stock</h3></div>
+    <div class="hidden-xs hidden-sm col-md-3"><h3>Store</h3></div>
+  </div>
+  <div class="row product" *ngFor="let product of filteredProducts" [ngClass]="{'disabled': !product.status}">
+    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/products', product._pid]">{{ product.product_title }}</a><br />{{ product.sku }}</div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><img [src]="product.image" *ngIf="product.image && product.image != 'undefined' && product.image != 'null'" [alt]="product.title" class="product-image" /></div>
+    <div class="hidden-xs col-sm-4 col-md-3">{{ product.stock }}</div>
+    <div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', product.company]">{{ product.company_title }}</a></div>
+  </div>
+</div>

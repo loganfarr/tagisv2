@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Welcome, {{ user.first_name }}</h1>
+        <div class="component-body">
+            <h3>Recent Orders</h3>
+            <div class="row order-list-header">
+                <div class="col-xs-6 col-sm-4 col-md-3"><h4>Order number</h4></div>
+                <div class="col-xs-6 col-sm-4 col-md-3"><h4>Customer name</h4></div>
+                <div class="hidden-xs hidden-sm col-md-3"><h4>Store</h4></div>
+                <div class="hidden-xs col-sm-4 col-md-3"><h4>Status</h4></div>
+            </div>
+            <div class="row order" *ngFor="let order of orders">
+                <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/orders', order._oid]">{{ order._oid }}</a>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <a [routerLink]="['/orders', order._oid]" *ngIf="order.customer_name != '' && order.customer_name != ' '">{{ order.customer_name }}</a>
+                    <a [routerLink]="['/orders', order._oid]" *ngIf="order.customer_name == ' ' && order.shipping_name != ''">{{ order.shipping_name }}</a>
+                </div>
+                <div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', order._cid]">{{
+                    order.company_title }}</a></div>
+                <div class="hidden-xs col-sm-4 col-md-3">
+                    <div
+                            class="label"
+                            [ngClass]="{
+                              'label-info': order.order_status =='new',
+                              'label-primary': order.order_status=='shipped',
+                              'label-success': order.order_status=='completed',
+                              'label-danger': order.order_status=='cancelled'}"
+                            style="text-transform: capitalize;">
+                        {{ order.order_status }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="component-body">
+            <h3>Products in Low Stock</h3>
+            <p>These products have the lowest stock in the catalog.</p>
+            <div class="row product-list-header">
+                <div class="col-xs-3 col-sm-4"><h4>Title</h4></div>
+                <div class="col-xs-9 col-sm-4"><h4>Stock</h4></div>
+                <div class="hidden-xs col-sm-4"><h4>Store</h4></div>
+            </div>
+            <div class="row product" *ngFor="let product of products">
+                <div class="col-sm-4"><a [routerLink]="['/products', product._pid]">{{ product.product_title }}</a><br/>{{
+                    product.sku }}
+                </div>
+                <div class="col-sm-4">{{ product.stock }}</div>
+                <div class="hidden-xs col-sm-4"><a [routerLink]="['/stores', product.company]">{{ product.company_title
+                    }}</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="component-body">
+            <h3>Store Quick-Reference</h3>
+            <div class="row company-list-header">
+                <div class="col-xs-6"><h3>Store ID</h3></div>
+                <div class="col-xs-6"><h3>Store name</h3></div>
+            </div>
+            <div class="row company" *ngFor="let company of companies">
+                <div class="col-xs-6">{{ company._cid }}</div>
+                <div class="col-xs-6"><a [routerLink]="['/stores', company._cid]">{{ company.company_title }}</a></div>
+            </div>
+        </div>
+    </div>
+</div>

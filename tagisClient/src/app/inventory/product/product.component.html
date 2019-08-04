@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-xs-9">
+    <h1>{{ product.product_title }}</h1>
+    <div class="label status-label label-danger" *ngIf="!product.status">
+      Disabled
+    </div>
+  </div>
+  <div class="col-xs-3" style="padding-top: 35px;">
+    <ul class="pull-right product-options">
+      <li>
+        <a *ngIf="product.status" class="disable" (click)="disableProduct()">Disable product</a>
+        <a *ngIf="!product.status" class="enable" (click)="enableProduct()">Enable product</a>
+      </li>
+      <li>
+        <a [routerLink]="['/products/edit', product._pid]">Edit product</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+    <div class="component-body">
+      <h3>Product information</h3>
+      <div class="row" style="margin: 0;">
+        <div class="field" style="padding-left: 0;">
+          <small>Product SKU</small>
+          {{ product.sku }}
+        </div>
+        <div class="field" style="padding-left: 0;">
+          <small>Product title</small>
+          {{ product.product_title }}
+        </div>
+        <div class="field" style="padding-left: 0;" *ngIf="product.description">
+          <small>Product description</small>
+          {{ product.description }}
+        </div>
+        <div class="field" style="padding-left: 0;">
+          <small>Stock</small>
+          {{ product.stock }}
+        </div>
+        <div class="field" style="padding-left: 0;" *ngIf="product.image">
+          <small>Image</small>
+          <img [src]="product.image" [alt]="product.title">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    <div class="component-body">
+      <h3>Store information</h3>
+      <div class="field">
+        <small>Store title</small>
+        <a [routerLink]="['/stores/', product._cid]">{{ product.company_title }}</a>
+        <img [src]="product.logo" *ngIf="product.logo" />
+      </div>
+      <div class="field" *ngIf="product.store_id">
+        <small>Store ID</small>
+        {{ product.store_id }}
+      </div>
+      <div class="field" style="padding-left: 0;" *ngIf="product.price">
+        <small>Price</small>
+        {{ product.price }}
+      </div>
+      <div class="field" style="padding-left: 0;" *ngIf="product.cost">
+        <small>Cost</small>
+        {{ product.cost }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-xs-9">
+    <h1>{{ company.company_title}}</h1>
+  </div>
+  <div class="col-xs-3" style="padding-top: 35px;">
+    <ul class="pull-right" style="padding-left: 0;">
+      <li style="list-style-type: none;">
+        <a [routerLink]="['/stores/edit', company._cid]">Edit store</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+    <div class="component-body">
+      <h3>Address information</h3>
+      <div class="field" *ngIf="company.address1">
+        <small>Company address</small>
+        {{ company.address1 }}
+      </div>
+      <div class="field" *ngIf="company.address2">
+        <small>Company suite number</small>
+        {{ company.address2 }}
+      </div>
+      <div class="field" *ngIf="company.city">
+        <small>Company city</small>
+        {{ company.city }}
+      </div>
+      <div class="row" *ngIf="company.state">
+        <div class="col-xs-6" *ngIf="company.state" style="padding-left: 0;">
+          <div class="field">
+            <small>Company state</small>
+            {{ company.state }}
+          </div>
+        </div>
+        <div class="col-xs-6" *ngIf="company.zip">
+          <div class="field">
+            <small>Company zip</small>
+            {{ company.zip }}
+          </div>
+        </div>
+      </div>
+      <h3>Contact information</h3>
+      <div class="field" *ngIf="company.contact_name">
+        <small>Name</small>
+        {{ company.contact_name }}
+      </div>
+      <div class="field" *ngIf="company.contact_email">
+        <small>Email</small>
+        {{ company.contact_email }}
+      </div>
+      <div class="field" *ngIf="company.contact_phone && company.contact_phone != 'undefined'">
+        <small>Phone</small>
+        {{ company.contact_phone }}
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    <div class="component-body">
+      <img *ngIf="company.logo" [src]="company.logo" alt="Store logo" />
+      <h3>Online information</h3>
+      <div class="field" *ngIf="company.website">
+        <small>Company website</small>
+        <a [href]="company.website" target="_blank">{{ company.website }}</a>
+      </div>
+      <div class="field" *ngIf="company.company_store">
+        <small>Company store</small>
+        <a [href]="company.company_store" target="_blank">{{ company.company_store }}</a>
+      </div>
+      <div class="field" *ngIf="company.product_api_endpoint">
+        <small>Product API endpoint</small>
+        {{ company.product_api_endpoint }}
+      </div>
+      <div class="field" *ngIf="company.order_api_endpoint">
+        <small>Order API endpoint</small>
+        {{ company.order_api_endpoint }}
+      </div>
+      <div class="field" *ngIf="company.email_from_address">
+        <small>Email &ldquo;from&rsquo; address</small>
+        {{ company.email_from_address }}
+      </div>
+      <div class="field" *ngIf="company.emails_enabled">
+        <small>Transactional emails enabled</small>
+        {{ company.emails_enabled }}
+      </div>
+      <div class="field" *ngIf="company.discount && company.discount != 'null'">
+        <small>Discount</small>
+        {{ company.discount }}
+      </div>
+      <div class="field" *ngIf="company.coupon_code && company.coupon_code != 'null'">
+        <small>Coupon code</small>
+        {{ company.coupon_code }}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="products">
+  <div class="col-xs-12">
+    <div class="component-body">
+      <h3>Products</h3>
+      <div class="row filters">
+        <div class="col-xs-12 col-sm-4" style="padding: 0;">
+          <input 
+            class="form-control" 
+            placeholder="Search by SKU"
+            #skuSearch
+            (keyup)="filterbySku(skuSearch.value)" />
+        </div>
+      </div>
+      <div class="row product-list-header">
+        <div class="col-xs-6 col-sm-4"><h3>Title</h3></div>
+        <div class="col-xs-6 col-sm-4"><h3>Image</h3></div>
+        <div class="hidden-xs col-sm-4 "><h3>Stock</h3></div>
+      </div>
+      <div class="row product" *ngFor="let product of filteredProducts">
+        <div class="col-xs-6 col-sm-4"><a [routerLink]="['/products', product._pid]">{{ product.product_title }}</a><br />{{ product.sku }}</div>
+        <div class="col-xs-6 col-sm-4"><img [src]="product.image" *ngIf="product.image && product.image != 'undefined' && product.image != 'null'" [alt]="product.title" class="product-image" /></div>
+        <div class="hidden-xs col-sm-4">{{ product.stock }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="row">
+  <div class="col-xs-12">
+    <div class="form-controls">
+      <a routerLink="/orders" class="form-cancel">Cancel</a>
+      <input type="submit" class="btn btn-success" value="Edit company" />
+    </div>
+  </div>
+</div> -->

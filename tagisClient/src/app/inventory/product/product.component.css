@@ -1,0 +1,23 @@
+h1 {
+    display: inline-block;
+}
+
+.field img {
+    display: block;
+    margin-top: 20px;
+}
+
+ul.product-options li {
+    list-style-type: none;
+    display: inline;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+ul.product-options .disable {
+    color: red;
+}
+
+ul.product-options .enable {
+    color: green;
+}

@@ -1,0 +1,8 @@
+.order-list-header, .order,
+.company-list-header, .company {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.order, .company {
+  padding: 15px 0px;
+}

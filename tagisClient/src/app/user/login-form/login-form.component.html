@@ -1,0 +1,21 @@
+<div class="row">
+  <div class=" col-xs-12 col-sm-8 col-sm-offset-2 col-md-offset-3 col-md-6">
+    <h1>Sign in</h1>
+    <div class="component-body">
+      <form class="form-signin" #f="ngForm" (ngSubmit)="signIn(f.value)">
+        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
+        <div class="form-group">
+          <input type="email" name="email" ngModel required autofocus (focusout)="checkInput($event.target)" />
+          <label for="email">Email address</label>
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" ngModel required (focusout)="checkInput($event.target)" />
+          <label for="password">Password</label>
+        </div>
+        <div class="form-group">
+          <input type="submit" name="submit" class="btn btn-primary btn-block" value="Sign in">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>  
