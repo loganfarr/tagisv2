@@ -10,7 +10,7 @@ namespace tagisApi.Controllers.Interfaces
     {
         // Get functions
         Task<ActionResult<IEnumerable<OrderResource>>> GetOrders();
-        List<Order> getOrderList();
+        Task<ActionResult<IEnumerable<OrderShortResource>>> getOrderList();
         Task<ActionResult<OrderResource>> getOrder(int id);
         List<Order> getRecentOrders();
         

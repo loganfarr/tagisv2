@@ -31,9 +31,14 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet("list")]
-        public List<Order> getOrderList()
+        public async Task<ActionResult<IEnumerable<OrderShortResource>>> getOrderList()
         {
-            throw new System.NotImplementedException();
+            return await _context.Orders.Select(o => new OrderShortResource
+            {
+                _oid = o._oid,
+                total = o.total,
+                OrderStatus = o.OrderStatus
+            }).ToListAsync();
         }
     
         [HttpGet("{id}")]
