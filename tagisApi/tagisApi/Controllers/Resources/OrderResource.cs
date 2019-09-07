@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,8 +21,8 @@ namespace tagisApi.Controllers.Resources
         public DateTime? LastModifiedDate { get; set; }
         
         // @todo Implement products list
-//        [Column("products")]
-//        public List<Product> Products { get; set; }
+        [Column("products")]
+        public List<OrderItemResource> Products { get; set; }
 
         [Column(TypeName = "decimal(8,2)")]
         public double? subtotal { get; set; }
@@ -36,7 +37,7 @@ namespace tagisApi.Controllers.Resources
         public double? total { get; set; }
         
         [Required]
-        private int Company { get; set; }
+        public int Company { get; set; }
         
         [Column("order_source")]
         public string orderSource { get; set; }
@@ -44,6 +45,30 @@ namespace tagisApi.Controllers.Resources
         // @todo Build customer relationship
 //        private int _customerId { get; set; }
 
+        [Column("customer_name")]
+        public string CustomerName { get; set; }
+
+        [Column("customer_email")] 
+        public string CustomerEmail { get; set; }
+
+        [Column("customer_phone")] 
+        public string CustomerPhone { get; set; }
+
+        [Column("customer_address1")] 
+        public string CustomerAddress1 { get; set; }
+        
+        [Column("customer_address2")] 
+        public string CustomerAddress2 { get; set; }
+
+        [Column("customer_city")] 
+        public string CustomerCity { get; set; }
+
+        [Column("customer_state")] 
+        public string CustomerState { get; set; }
+
+        [Column("customer_zip")] 
+        public string CustomerZip { get; set; }
+        
         [Column("shipping_address1")]
         private string _shippingAddress1 { get; set; }
         

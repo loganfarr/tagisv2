@@ -40,13 +40,19 @@ namespace tagisApi.Controllers
         }
     
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderResource>> getOrder(int id)
+        public async Task<ActionResult<OrderResource>> GetOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
 
             if (order == null)
                 return NotFound();
-            
+
+            if (order.Products == null)
+            {
+                Console.WriteLine(id);
+                order.Products = GetOrderItems(id);
+            }
+
             return order;
         }
 
@@ -57,9 +63,12 @@ namespace tagisApi.Controllers
         }
 
         [HttpPost]
-        public bool postOrder([FromBody] Order order)
+        public async Task<ActionResult<bool>> PostOrder([FromBody] OrderResource order)
         {
-            throw new System.NotImplementedException();
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetOrder), new {id = order._oid}, order);
         }
 
         [HttpPut]
@@ -78,6 +87,11 @@ namespace tagisApi.Controllers
         public bool patchOrder(Order order)
         {
             throw new System.NotImplementedException();
+        }
+
+        private List<OrderItemResource> GetOrderItems(int orderId)
+        {
+            return _context.OrderItems.Where(oi => oi.OrderResource_oid == orderId).ToList();
         }
 
         private void processOrder(Order order)

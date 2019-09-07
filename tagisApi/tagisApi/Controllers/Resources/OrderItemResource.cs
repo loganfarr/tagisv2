@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace tagisApi.Models
+namespace tagisApi.Controllers.Resources
 {
     [Table("order_items")]
-    public class OrderItem
+    public class OrderItemResource
     {
         [Key]
-        public int _oiid { get; set; } 
+        public int _oiid { get; set;  } 
         
         public string sku { get; set; }
 
@@ -20,13 +20,5 @@ namespace tagisApi.Models
         
         [NotMapped]
         public string[] product_options { get; set; }
-        
-//        [Required]
-//        public double subtotal { get; set; }
-        
-//        public double tax { get; set; }
-        
-//        [Required]
-//        public double total { get; set; }
     }
 }
