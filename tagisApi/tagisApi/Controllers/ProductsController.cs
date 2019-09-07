@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
@@ -81,10 +80,41 @@ namespace tagisApi.Controllers
             throw new System.NotImplementedException();
         }
 
-        [HttpPut("stock/{sku}/{stock}")]
-        public int updateProductInventory(int stock, string sku)
+        public async Task<bool> UpdateProductInventory(int stock, string sku)
         {
-            throw new System.NotImplementedException();
+            ProductResource loadedProduct = await _context.Products.Where(p => p.sku == sku).SingleOrDefaultAsync();
+
+            if (loadedProduct == null) return false;
+
+            loadedProduct.stock += stock;
+
+            _context.Attach(loadedProduct);
+            _context.Entry(loadedProduct).Property("stock").IsModified = true;
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> CheckProductsAvailable(List<OrderItemResource> orderItems)
+        {
+            List<string> requestedSkus = new List<string>();
+            IDictionary<string, int> requestedProducts = new Dictionary<string, int>();
+            foreach (var orderItem in orderItems)
+            {
+                requestedSkus.Add(orderItem.sku);
+                requestedProducts[orderItem.sku] = orderItem.quantity;
+            }
+            
+            var loadedProducts = await _context.Products.Where(r => requestedSkus.Contains(r.sku)).ToListAsync();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            for (int i = 0; i < requestedProducts.Count; i++)
+            {
+                if (loadedProducts.ElementAt(i).stock < requestedProducts.ElementAt(i).Value)
+                    return false;
+            }
+
+            return true;
         }
 
         [HttpDelete]

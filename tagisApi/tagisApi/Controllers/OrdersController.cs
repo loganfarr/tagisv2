@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
@@ -15,11 +14,11 @@ namespace tagisApi.Controllers
     public class OrdersController : ControllerBase, IOrdersControllerInterface
     {
         private readonly TagisDbContext _context;
-        private readonly IMapper _mapper;
-        public OrdersController(TagisDbContext context, IMapper mapper)
+        private readonly IProductsControllerInterface _productsController;
+        public OrdersController(TagisDbContext context, IProductsControllerInterface productsController)
         {
             _context = context;
-            _mapper = mapper;
+            _productsController = productsController;
         }
 
         [HttpGet]
@@ -47,11 +46,7 @@ namespace tagisApi.Controllers
             if (order == null)
                 return NotFound();
 
-            if (order.Products == null)
-            {
-                Console.WriteLine(id);
-                order.Products = GetOrderItems(id);
-            }
+            order.Products = GetOrderItems(id);
 
             return order;
         }
@@ -65,9 +60,20 @@ namespace tagisApi.Controllers
         [HttpPost]
         public async Task<ActionResult<bool>> PostOrder([FromBody] OrderResource order)
         {
+            if (!await _productsController.CheckProductsAvailable(order.Products))
+                return false;
+            
+            foreach (var product in order.Products)
+            {
+                // Decrement inventory since it's a new order
+                await _productsController.UpdateProductInventory(product.quantity * -1, product.sku);
+            }
+            
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
+            
+            // @todo send order email receipt and notifications
+            
             return CreatedAtAction(nameof(GetOrder), new {id = order._oid}, order);
         }
 
