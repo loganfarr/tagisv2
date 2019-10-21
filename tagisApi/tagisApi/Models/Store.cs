@@ -1,4 +1,7 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace tagisApi.Models
 {
@@ -46,10 +49,17 @@ namespace tagisApi.Models
 
         public string authToken { get; set; }
 
-        private string orderApiEndpoint { get; set; }
+        public string orderApiEndpoint { get; private set; }
         
-        private string productApiEndpoint { get; set; }
+        public string productApiEndpoint { get; private set; }
 
         private bool emailsEnabled { get; set; }
+        
+        static HttpClient _httpClient = new HttpClient();
+
+        public async Task<bool> postOrderUpdate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -23,6 +23,6 @@ namespace tagisApi.Controllers.Interfaces
         Task<bool> UpdateProductInventory(int stock, string sku);
         Task<bool> CheckProductsAvailable(List<OrderItemResource> orderItems);
 
-        bool deleteProduct(Product product);
+        Task<int> deleteProduct(ProductResource product);
     }
 }

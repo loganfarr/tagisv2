@@ -118,9 +118,10 @@ namespace tagisApi.Controllers
         }
 
         [HttpDelete]
-        public bool deleteProduct(Product product)
+        public async Task<int> deleteProduct(ProductResource product)
         {
-            throw new System.NotImplementedException();
+            _context.Products.Remove(product);
+            return await _context.SaveChangesAsync();
         }
 
         private void processProduct(Product product)

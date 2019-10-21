@@ -9,8 +9,8 @@ namespace tagisApi.Controllers.Resources
     public class OrderResource
     {
         [Key]
-        public int _oid { get; set; }
-        
+        public int _oid { get; }
+         
         [Column("order_status")] 
         public string OrderStatus { get; set; }
 

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using tagisApi.Controllers;
+using tagisApi.Controllers.Interfaces;
 using tagisApi.Models;
 
 namespace tagisApi
@@ -22,6 +24,8 @@ namespace tagisApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped<IProductsControllerInterface, ProductsController>();
             
             services.AddDbContext<TagisDbContext>(options => options.UseMySQL(Configuration["ConnectionStrings:Default"]));
             
