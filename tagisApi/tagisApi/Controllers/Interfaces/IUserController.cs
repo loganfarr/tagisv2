@@ -8,7 +8,7 @@ namespace tagisApi.Controllers.Interfaces
 {
     public interface IUserController
     {
-        Task<ActionResult<bool>> Authenticate(string user, string password);
+//        Task<ActionResult<string>> Authenticate(string email, string password);
 
         Task<ActionResult<IEnumerable<User>>> GetUsers();
 
@@ -19,7 +19,5 @@ namespace tagisApi.Controllers.Interfaces
         Task<ActionResult<User>> UpdateUser([FromBody] User user);
 
         Task<ActionResult<int>> DeleteUser(User user);
-
-        Task<ActionResult<IEnumerable<string>>> GetRoles();
     }
 }

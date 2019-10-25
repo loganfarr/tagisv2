@@ -1,17 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
+using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers
 {
     [Route("[controller]")]
-    public class UserController : IUserController
+    public class UserController : ControllerBase, IUserController
     {
-        public readonly TagisDbContext _context;
+        private readonly TagisDbContext _context;
 
         public UserController(TagisDbContext context)
         {
@@ -19,9 +21,17 @@ namespace tagisApi.Controllers
         }
         
         [HttpPost("authenticate")]
-        public Task<ActionResult<bool>> Authenticate(string user, string password)
+        public async Task<ActionResult<User>> Authenticate([FromBody] UserAuthenticationResource user)
         {
-            throw new System.NotImplementedException();
+//            Console.WriteLine("User authentication attempted: " + user.email);
+//            return user;
+            
+            var loadedUser = await _context.Users.Where(u => u.Email == "logan@loganfarr.com")
+                .SingleOrDefaultAsync();
+
+            // @todo: Add JWT logic here
+//            return loadedUser != null;
+            return loadedUser;
         }
 
         [HttpGet]
@@ -31,9 +41,11 @@ namespace tagisApi.Controllers
         }
 
         [HttpPost]
-        public Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-            throw new System.NotImplementedException();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetUser), new {id = user._uid}, user);
         }
 
         [HttpGet("{id}")]
@@ -53,12 +65,6 @@ namespace tagisApi.Controllers
         {
             _context.Users.Remove(user);
             return await _context.SaveChangesAsync();
-        }
-
-        [HttpGet("roles")]
-        public Task<ActionResult<IEnumerable<string>>> GetRoles()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

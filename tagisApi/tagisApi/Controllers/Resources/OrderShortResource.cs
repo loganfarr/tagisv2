@@ -9,7 +9,7 @@ namespace tagisApi.Controllers.Resources
         public int _oid { get; set; }
         
         [Column(TypeName = "decimal(8,2)")]
-        public double? total { get; set; }
+        public double? Total { get; set; }
         
         [Column("order_status")]
         public string OrderStatus { get; set; }

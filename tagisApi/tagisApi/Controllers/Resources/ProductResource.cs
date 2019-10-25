@@ -9,21 +9,21 @@ namespace tagisApi.Controllers.Resources
         [Key]
         public int _pid { get; set; }
         
-        public string sku { get; set; }
+        public string Sku { get; set; }
 
         [Required]
         [StringLength(255)]
         [Column("product_title")]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        public int stock { get; set; }
+        public int Stock { get; set; }
         
         [Column("image")]
         [StringLength(500)]
-        public string imageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
-        public int status { get; set; }
+        public int Status { get; set; }
 
 //        [Column(TypeName = "decimal(8,2)")]
 //        public double? price { get; set; }

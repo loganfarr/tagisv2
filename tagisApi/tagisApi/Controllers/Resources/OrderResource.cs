@@ -9,8 +9,9 @@ namespace tagisApi.Controllers.Resources
     public class OrderResource
     {
         [Key]
-        public int _oid { get; }
-         
+        [Required]
+        public int _oid { get; set; }
+        
         [Column("order_status")] 
         public string OrderStatus { get; set; }
 
@@ -25,22 +26,22 @@ namespace tagisApi.Controllers.Resources
         public List<OrderItemResource> Products { get; set; }
 
         [Column(TypeName = "decimal(8,2)")]
-        public double? subtotal { get; set; }
+        public double? Subtotal { get; set; }
         
         [Column(TypeName = "decimal(8,2)")]
-        public double? taxes { get; set; }
+        public double? Taxes { get; set; }
         
         [Column("shipping_fees", TypeName =  "decimal(8.2)")]
-        public double? shippingFees { get; set; }
+        public double? ShippingFees { get; set; }
         
         [Column(TypeName = "decimal(8,2)")]
-        public double? total { get; set; }
+        public double? Total { get; set; }
         
         [Required]
         public int Company { get; set; }
         
         [Column("order_source")]
-        public string orderSource { get; set; }
+        public string OrderSource { get; set; }
         
         // @todo Build customer relationship
 //        private int _customerId { get; set; }
@@ -70,36 +71,36 @@ namespace tagisApi.Controllers.Resources
         public string CustomerZip { get; set; }
         
         [Column("shipping_address1")]
-        private string _shippingAddress1 { get; set; }
+        private string ShippingAddress1 { get; set; }
         
         [Column("shipping_address2")]
-        private string _shippingAddress2 { get; set; }
+        private string ShippingAddress2 { get; set; }
         
         [Column("shipping_city")]
-        private string _shippingCity { get; set; }
+        private string ShippingCity { get; set; }
         
         [Column("shipping_state")]
-        private string _shippingState { get; set; }
+        private string ShippingState { get; set; }
         
         [Column("shipping_zip")]
-        private string _shippingZip { get; set; }
+        private string ShippingZip { get; set; }
         
         [Column("ref")]
-        public string refNumber { get; set; }
+        public string RefNumber { get; set; }
         
         [Column("shipping_number")]
-        public string trackingNumber { get; set; }
+        public string TrackingNumber { get; set; }
         
         [Column("shipping_carrier")]
-        public string shippingCarrier { get; set; }
+        public string ShippingCarrier { get; set; }
         
         [Column("receipt_email_sent")]
-        public DateTime? receiptEmailSent { get; set; }
+        public DateTime? ReceiptEmailSent { get; set; }
         
         [Column("shipping_email_sent")]
-        public DateTime? shippingEmailSent { get; set; }
+        public DateTime? ShippingEmailSent { get; set; }
         
         [Column("order_notification_sent")]
-        public DateTime? orderNotificationEmail { get; set; }
+        public DateTime? OrderNotificationEmail { get; set; }
     }
 }

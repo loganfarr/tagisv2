@@ -8,9 +8,9 @@ namespace tagisApi.Models
     {
         [Column("_rid")]
         [Key]
-        public readonly int rid;
+        public int rid { get; set; }
 
         [Column("role_name")]
-        public readonly string roleName;
+        public string RoleName { get; set; }
     }
 }

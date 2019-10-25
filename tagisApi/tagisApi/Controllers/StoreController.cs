@@ -36,7 +36,7 @@ namespace tagisApi.Controllers
         [HttpGet("name/{name}")]
         public async Task<ActionResult<StoreResource>> GetStoreByName(string name)
         {
-            return await _context.Stores.Where(c => c.title == name).SingleOrDefaultAsync();
+            return await _context.Stores.Where(c => c.Title == name).SingleOrDefaultAsync();
         }
         
         [HttpGet("{id}")]

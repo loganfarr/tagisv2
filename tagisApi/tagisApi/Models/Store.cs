@@ -12,52 +12,52 @@ namespace tagisApi.Models
 
         [Required]
         [StringLength(255)]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        public string machineTitle { get; private set; }
+        public string MachineTitle { get; private set; }
 
-        public string logoUrl { get; set; }
+        public string LogoUrl { get; set; }
 
-        public string address1 { get; set; }
+        public string Address1 { get; set; }
 
-        public string address2 { get; set; }
+        public string Address2 { get; set; }
 
-        public string city { get; set; }
+        public string City { get; set; }
 
-        public string state { get; set; }
+        public string State { get; set; }
 
-        public string zip { get; set; }
+        public string Zip { get; set; }
 
-        public string contactName { get; set; }
+        public string ContactName { get; set; }
 
-        public string contactEmail { get; set; }
+        public string ContactEmail { get; set; }
 
-        public string contactPhone { get; set; }
+        public string ContactPhone { get; set; }
 
-        public string websiteUrl { get; set; }
+        public string WebsiteUrl { get; set; }
 
-        public string companyStore { get; set; }
+        public string CompanyStore { get; set; }
         
-        public string emailFromAddress { get; set; }
+        public string EmailFromAddress { get; set; }
 
-        public bool receiptEmail { get; set; }
+        public bool ReceiptEmail { get; set; }
 
-        public bool shippingNotificationEmail { get; set; }
+        public bool ShippingNotificationEmail { get; set; }
 
-        public bool thankYouEmail { get; set; }
+        public bool ThankYouEmail { get; set; }
 
-        public string authToken { get; set; }
+        public string AuthToken { get; set; }
 
-        public string orderApiEndpoint { get; private set; }
+        public string OrderApiEndpoint { get; private set; }
         
-        public string productApiEndpoint { get; private set; }
+        public string ProductApiEndpoint { get; private set; }
 
-        private bool emailsEnabled { get; set; }
+        private bool EmailsEnabled { get; set; }
         
         static HttpClient _httpClient = new HttpClient();
 
-        public async Task<bool> postOrderUpdate()
+        public Task<bool> postOrderUpdate()
         {
             throw new NotImplementedException();
         }

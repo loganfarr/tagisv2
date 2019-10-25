@@ -33,7 +33,7 @@ namespace tagisApi.Controllers
             return await _context.Orders.Select(o => new OrderShortResource
             {
                 _oid = o._oid,
-                total = o.total,
+                Total = o.Total,
                 OrderStatus = o.OrderStatus
             }).ToListAsync();
         }
@@ -66,7 +66,7 @@ namespace tagisApi.Controllers
             foreach (var product in order.Products)
             {
                 // Decrement inventory since it's a new order
-                await _productsController.UpdateProductInventory(product.quantity * -1, product.sku);
+                await _productsController.UpdateProductInventory(product.Quantity * -1, product.Sku);
             }
             
             _context.Orders.Add(order);
@@ -97,7 +97,7 @@ namespace tagisApi.Controllers
 
         private List<OrderItemResource> GetOrderItems(int orderId)
         {
-            return _context.OrderItems.Where(oi => oi.OrderResource_oid == orderId).ToList();
+            return _context.OrderItems.Where(oi => oi.OrderResourceOid == orderId).ToList();
         }
 
         private void processOrder(Order order)

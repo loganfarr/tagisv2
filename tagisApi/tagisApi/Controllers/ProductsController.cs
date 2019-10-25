@@ -41,13 +41,13 @@ namespace tagisApi.Controllers
         [HttpGet("sku/{sku}")]
         public async Task<ActionResult<ProductResource>> GetProductBySku(string sku)
         {
-            return await _context.Products.Where(p => p.sku == sku).SingleOrDefaultAsync();
+            return await _context.Products.Where(p => p.Sku == sku).SingleOrDefaultAsync();
         }
 
         [HttpGet("lowStock")]
         public async Task<ActionResult<IEnumerable<ProductResource>>> GetLowStockProducts()
         {
-            return await _context.Products.Where(p => p.stock > 0).OrderBy(p => p.stock).Take(5).ToListAsync();
+            return await _context.Products.Where(p => p.Stock > 0).OrderBy(p => p.Stock).Take(5).ToListAsync();
         }
 
         [HttpPut("update/{sku}/{status}")]
@@ -82,11 +82,11 @@ namespace tagisApi.Controllers
 
         public async Task<bool> UpdateProductInventory(int stock, string sku)
         {
-            ProductResource loadedProduct = await _context.Products.Where(p => p.sku == sku).SingleOrDefaultAsync();
+            ProductResource loadedProduct = await _context.Products.Where(p => p.Sku == sku).SingleOrDefaultAsync();
 
             if (loadedProduct == null) return false;
 
-            loadedProduct.stock += stock;
+            loadedProduct.Stock += stock;
 
             _context.Attach(loadedProduct);
             _context.Entry(loadedProduct).Property("stock").IsModified = true;
@@ -101,16 +101,16 @@ namespace tagisApi.Controllers
             IDictionary<string, int> requestedProducts = new Dictionary<string, int>();
             foreach (var orderItem in orderItems)
             {
-                requestedSkus.Add(orderItem.sku);
-                requestedProducts[orderItem.sku] = orderItem.quantity;
+                requestedSkus.Add(orderItem.Sku);
+                requestedProducts[orderItem.Sku] = orderItem.Quantity;
             }
             
-            var loadedProducts = await _context.Products.Where(r => requestedSkus.Contains(r.sku)).ToListAsync();
+            var loadedProducts = await _context.Products.Where(r => requestedSkus.Contains(r.Sku)).ToListAsync();
 
             // ReSharper disable once LoopCanBeConvertedToQuery
             for (int i = 0; i < requestedProducts.Count; i++)
             {
-                if (loadedProducts.ElementAt(i).stock < requestedProducts.ElementAt(i).Value)
+                if (loadedProducts.ElementAt(i).Stock < requestedProducts.ElementAt(i).Value)
                     return false;
             }
 
@@ -131,8 +131,8 @@ namespace tagisApi.Controllers
 
         private async Task<ActionResult<int>> GetStock(string sku)
         {
-            var product = await _context.Products.Where(p => p.sku == sku).Take(1).SingleOrDefaultAsync();
-            return product.stock;
+            var product = await _context.Products.Where(p => p.Sku == sku).Take(1).SingleOrDefaultAsync();
+            return product.Stock;
         }
     }
 }

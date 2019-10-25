@@ -15,8 +15,9 @@ namespace tagisApi.Models
             Shipped
         }
 
+        [Key]
         [Required]
-        public int Id { get; set; }
+        public int _oid { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
@@ -26,44 +27,44 @@ namespace tagisApi.Models
         public IList<OrderItem> Products { get; set; }
 
         [Required]
-        public double taxes { get; set; }
+        public double Taxes { get; set; }
 
-        public double shippingFees { get; set; }
-
-        [Required]
-        public double subtotal { get; set; }
+        public double ShippingFees { get; set; }
 
         [Required]
-        public double total { get; set; }
+        public double Subtotal { get; set; }
 
         [Required]
-        private int _companyId { get; set; }
-
-        public string orderSource { get; set; }
+        public double Total { get; set; }
 
         [Required]
-        private int _customerId { get; set; }
+        private int CompanyId { get; set; }
 
-        private string _shippingAddress1 { get; set; }
+        public string OrderSource { get; set; }
 
-        private string _shippingAddress2 { get; set; }
+        [Required]
+        private int CustomerId { get; set; }
 
-        private string _shippingCity { get; set; }
+        private string ShippingAddress1 { get; set; }
 
-        private string _shippingState { get; set; }
+        private string ShippingAddress2 { get; set; }
 
-        private string _shippingZip { get; set; }
+        private string ShippingCity { get; set; }
 
-        public string refNumber { get; set; }
+        private string ShippingState { get; set; }
 
-        public string trackingNumber { get; set; }
+        private string ShippingZip { get; set; }
 
-        public string shippingCarrier { get; set; }
+        public string RefNumber { get; set; }
 
-        public DateTime receiptEmailSent { get; set; }
+        public string TrackingNumber { get; set; }
 
-        public DateTime shippingEmailSent { get; set; }
+        public string ShippingCarrier { get; set; }
 
-        public DateTime orderNotificationEmail { get; set; }
+        public DateTime ReceiptEmailSent { get; set; }
+
+        public DateTime ShippingEmailSent { get; set; }
+
+        public DateTime OrderNotificationEmail { get; set; }
     }
 }

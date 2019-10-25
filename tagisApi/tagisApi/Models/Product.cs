@@ -10,28 +10,28 @@ namespace tagisApi.Models
         public int Id { get; set; }
 
         [Required]
-        public string sku { get; set; }
+        public string Sku { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        public int stock { get; set; }
+        public int Stock { get; set; }
 
         [Required]
-        public int companyId { get; set; }
+        public int CompanyId { get; set; }
 
-        public string imageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
-        public bool status { get; set; }
+        public bool Status { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public double price { get; set; }
+        public double Price { get; set; }
 
-        public double cost { get; set; }
+        public double Cost { get; set; }
 
-        private int storeId { get; set; }
+        private int StoreId { get; set; }
     }
 }

@@ -9,16 +9,16 @@ namespace tagisApi.Controllers.Resources
         [Key]
         public int _oiid { get; set;  } 
         
-        public string sku { get; set; }
+        public string Sku { get; set; }
 
-        public string title { get; set; }
+        public string Title { get; set; }
 
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
         
         [Column("order_id")]
-        public int OrderResource_oid { get; set; }
+        public int OrderResourceOid { get; set; }
         
         [NotMapped]
-        public string[] product_options { get; set; }
+        public string[] ProductOptions { get; set; }
     }
 }

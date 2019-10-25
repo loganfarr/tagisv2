@@ -8,30 +8,29 @@ namespace tagisApi.Models
     public class User
     {
         [Key]
-        public int _uid { get; }
+        public int _uid { get; set; }
         
-        public string email { get; set; }
+        public string Email { get; set; }
         
         [Column("first_name")] 
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
         [Column("last_name")]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
         
-        public string password { get; set; }
+        public string Password { get; set; }
         
-        public bool active { get; set; }
+        public int Active { get; set; }
         
         [Column("last_login")]
-        public DateTime lastLogin { get; set; }
+        public DateTime? lastLogin { get; set; }
 
         [Column("profile_picture")]
-        public string profilePicture { get; set; }
+        public string ProfilePicture { get; set; }
         
-        public int role { get; set; }
+        public int Role { get; set; }
         
-        [Required]
         [Column("company")]
-        public int store { get; set; }
+        public string Store { get; set; }
     }
 }

@@ -12,43 +12,43 @@ namespace tagisApi.Controllers.Resources
         [Required]
         [StringLength(255)]
         [Column("company_title")]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [Required]
         [Column("machine_name")]
-        public string machineTitle { get; set; }
+        public string MachineTitle { get; set; }
 
         [Column("logo")]
-        public string logoUrl { get; set; }
+        public string LogoUrl { get; set; }
 
-        public string address1 { get; set; }
+        public string Address1 { get; set; }
 
-        public string address2 { get; set; }
+        public string Address2 { get; set; }
 
-        public string city { get; set; }
+        public string City { get; set; }
 
-        public string state { get; set; }
+        public string State { get; set; }
 
         [StringLength(10)]
-        public string zip { get; set; }
+        public string Zip { get; set; }
 
         [Column("contact_name")]
-        public string contactName { get; set; }
+        public string ContactName { get; set; }
 
         [Column("contact_email")]
-        public string contactEmail { get; set; }
+        public string ContactEmail { get; set; }
 
         [Column("contact_phone")]
-        public string contactPhone { get; set; }
+        public string ContactPhone { get; set; }
 
         [Column("website")]
-        public string websiteUrl { get; set; }
+        public string WebsiteUrl { get; set; }
 
         [Column("company_store")]        
-        public string companyStore { get; set; }
+        public string CompanyStore { get; set; }
         
         [Column("email_from_address")]
-        public string emailFromAddress { get; set; }
+        public string EmailFromAddress { get; set; }
 
 //        public bool receiptEmail { get; set; }
 
