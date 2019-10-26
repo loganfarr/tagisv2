@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
@@ -7,6 +8,8 @@ using tagisApi.Models;
 
 namespace tagisApi.Controllers
 {
+    [Authorize]
+    [ApiController]
     [Route("roles")]
     public class UserRolesController : ControllerBase, IUserRolesController
     {
