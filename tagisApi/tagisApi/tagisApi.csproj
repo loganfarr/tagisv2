@@ -13,6 +13,7 @@
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.17" />
+        <PackageReference Include="System.Web.Helpers.Crypto" Version="3.2.3" />
     </ItemGroup>
 
     <ItemGroup>

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
@@ -10,7 +11,9 @@ using tagisApi.Models;
 
 namespace tagisApi.Controllers
 {
-    [Route("[controller]")]
+    [Authorize]
+    [ApiController]
+    [Route("store")]
     public class StoreController : Controller, IStoreControllerInterface
     {
         private readonly TagisDbContext _context;

@@ -4,16 +4,14 @@ namespace tagisApi.Models
 {
     public class TagisError
     {
-        private string _errorMessage;
-        private string _errorCode;
-
-        public TagisError AddError(string code, string message)
+        public string ErrorMessage { get; }
+        public int ErrorCode { get; }
+        public string Error { get; }
+        public TagisError(int errorCode, string errorMessage, string error)
         {
-            Console.WriteLine("An error occurred with TAGIS. Code: " + code + ". Message: " + message);
-            
-            _errorMessage = message;
-            _errorCode = code;
-            return this;
+            ErrorCode = errorCode;
+            ErrorMessage = errorMessage;
+            Error = error;
         }
     }
 }
