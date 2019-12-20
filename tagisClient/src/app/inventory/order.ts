@@ -2,36 +2,36 @@ import { Product } from './product';
 
 export class Order {
   _oid: number;
-  order_status: string = '';
-  created_date: string = '';
-  last_modified_date: string = '';
+  orderStatus: string = '';
+  createdDate: string = '';
+  lastModifiedDate: string = '';
   products: Array<Product>;
   subtotal: number;
   taxes: number;
   total: number;
-  company: Object;
-  company_title: string = '';
-  logo: string; // Company logo
-  customer_name: string = '';
-  customer_email: string = '';
-  customer_phone: string = '';
-  customer_address1: string = '';
-  customer_address2: string = '';
-  customer_city: string = '';
-  customer_state: string = '';
-  customer_zip: string = '';
-  shipping_name: string = '';
-  shipping_address1: string = '';
-  shipping_address2: string = '';
-  shipping_city: string = '';
-  shipping_state: string = '';
-  shipping_zip: string = '';
-  order_source: string = '';
+  store: Object;
+
+  logo: string; // Store logo
+  customerName: string = '';
+  customerEmail: string = '';
+  customerPhone: string = '';
+  customerAddress1: string = '';
+  customerAddress2: string = '';
+  customerCity: string = '';
+  customerState: string = '';
+  customerZip: string = '';
+  shippingName: string = '';
+  shippingAddress1: string = '';
+  shippingAddress2: string = '';
+  shippingCity: string = '';
+  shippingState: string = '';
+  shippingZip: string = '';
+  orderSource: string = '';
   ref: string = '';
-  shipping_number: string = '';
-  shipping_carrier: string = '';
-  send_order_receipt: Boolean;
-  receipt_email_sent: Date;
-  send_shipping_notification: Boolean;
+  shippingNumber: string = '';
+  shippingCarrier: string = '';
+  sendOrderReceipt: Boolean;
+  receiptEmailSent: Date;
+  sendShippingNotification: Boolean;
   shipping_email_sent: Date;
 }

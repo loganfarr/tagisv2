@@ -31,7 +31,11 @@ namespace tagisApi.Models
         public double Price { get; set; }
 
         public double Cost { get; set; }
-
-        private int StoreId { get; set; }
+        
+//        [Column("store")]
+//        public Store store { get; set; }
+        
+        [Column("store")]
+        public Store store_cid { get; set; }
     }
 }

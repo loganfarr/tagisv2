@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FileUploadModule} from 'ng2-file-upload';
 import {StorageServiceModule} from 'angular-webstorage-service';
 
-import {CompanyModule} from '../company/company.module';
+import {StoreModule} from '../store/store.module';
 import {SharedModule} from '../shared/shared.module';
 import {UserModule} from '../user/user.module';
 
@@ -25,7 +25,7 @@ import {inventoryRouting} from './inventory.routing';
         FormsModule,
         ReactiveFormsModule,
         StorageServiceModule,
-        CompanyModule,
+        StoreModule,
         SharedModule,
         UserModule,
         FileUploadModule,

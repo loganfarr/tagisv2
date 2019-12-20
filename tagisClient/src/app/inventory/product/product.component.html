@@ -51,7 +51,7 @@
       <h3>Store information</h3>
       <div class="field">
         <small>Store title</small>
-        <a [routerLink]="['/stores/', product._cid]">{{ product.company_title }}</a>
+        <a [routerLink]="['/stores/', product._cid]">{{ product.store_title }}</a>
         <img [src]="product.logo" *ngIf="product.logo" />
       </div>
       <div class="field" *ngIf="product.store_id">

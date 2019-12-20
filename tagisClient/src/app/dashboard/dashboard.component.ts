@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 
 import { AuthService } from '../user/auth.service';
-import { Company } from '../company/company';
-import { CompanyService } from '../company/company.service';
+import { Store } from '../store/store';
+import { StoreService } from '../store/store.service';
 import { Order } from '../inventory/order';
 import { OrderService } from '../inventory/order.service';
 import { Product } from '../inventory/product';
@@ -20,12 +20,12 @@ import { User } from '../user/user';
 export class DashboardComponent implements OnInit {
   orders: Array<Order>;
   products: Array<Product>;
-  companies: Array<Company>;
+  companies: Array<Store>;
   user;
 
   constructor(
     private _orderService: OrderService,
-    private _companyService: CompanyService,
+    private _companyService: StoreService,
     private _productService: ProductService,
     private _authService: AuthService,
     private _notificationsService: NotificationsService) {}

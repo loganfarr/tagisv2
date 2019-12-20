@@ -2,26 +2,26 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 
 import { NotificationsService } from 'angular2-notifications';
 
-import { Company } from '../company';
-import { CompanyService } from '../company.service';
+import { Store } from '../store';
+import { StoreService } from '../store.service';
 
 @Component({
-  selector: 'company-selector',
-  templateUrl: './company-selector.component.html',
-  styleUrls: ['./company-selector.component.css']
+  selector: 'store-selector',
+  templateUrl: './store-selector.component.html',
+  styleUrls: ['./store-selector.component.css']
 })
-export class CompanySelectorComponent implements OnInit, OnChanges {
+export class StoreSelectorComponent implements OnInit, OnChanges {
   companyList: Array<Object>;
-  selectedCompany = new Company();
-  @Input('saved-company') savedCompany;
-  @Output('company-selected') companySelected = new EventEmitter();
+  selectedCompany = new Store();
+  @Input('saved-store') savedCompany;
+  @Output('store-selected') companySelected = new EventEmitter();
 
   constructor(
-    private _companyService: CompanyService,
+    private _storeService: StoreService,
     private _notificationsService: NotificationsService) { }
 
   ngOnInit() {
-    this._companyService.getCompanyList().subscribe(res => this.companyList = res);
+    this._storeService.getCompanyList().subscribe(res => this.companyList = res);
 
     if(this.savedCompany != 0 && this.savedCompany != undefined) {
       this.setCompany(this.savedCompany);
@@ -52,7 +52,7 @@ export class CompanySelectorComponent implements OnInit, OnChanges {
     var textbox = event.target;
 
     if(textbox.value != '') {
-      this._companyService.getCompanyByName(textbox.value).subscribe(
+      this._storeService.getCompanyByName(textbox.value).subscribe(
         res => {
           if(Array.isArray(res)) {
             this.selectedCompany = res[0];
@@ -68,7 +68,7 @@ export class CompanySelectorComponent implements OnInit, OnChanges {
     }
     else {
       if(this.selectedCompany._cid != undefined)
-        this.selectedCompany = new Company();
+        this.selectedCompany = new Store();
     }
   }
 
@@ -76,7 +76,7 @@ export class CompanySelectorComponent implements OnInit, OnChanges {
     if(cid == undefined || cid == 0 || cid == NaN)
       return null;
 
-    this._companyService.getCompany(cid).subscribe(
+    this._storeService.getStore(cid).subscribe(
       res => {
         this.selectedCompany = res[0];
         this.companySelected.emit(this.selectedCompany);

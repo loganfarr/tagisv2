@@ -8,7 +8,7 @@ import { Token } from './token';
 
 @Injectable()
 export class AuthService {
-  private _apiEndpoint = "http://localhost:3010/api/";
+  private _apiEndpoint = "http://localhost:5000/";
   private _jwtHelper;
 
   constructor(
@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   login(credentials) {
-    return this._http.post<Token>(this._apiEndpoint + 'users/authenticate', credentials).pipe(map(res => {
+    return this._http.post<Token>(this._apiEndpoint + 'user/authenticate', credentials).pipe(map(res => {
       let result = res;
       if(result && result.authenticated) {
         console.log('if');
@@ -43,7 +43,6 @@ export class AuthService {
     if(!token)
       return false;
 
-    let expirationDate = this._jwtHelper.getTokenExpirationDate(token);
     let isExpired = this._jwtHelper.isTokenExpired(token);
 
     return !isExpired;

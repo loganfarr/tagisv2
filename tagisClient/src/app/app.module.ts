@@ -9,7 +9,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { routing } from './app.routing';
 
-import { CompanyModule } from './company/company.module';
+import { StoreModule } from './store/store.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './user/user.module';
@@ -29,7 +29,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RouterModule,
     BrowserAnimationsModule,
     SimpleNotificationsModule.forRoot(),
-    CompanyModule,
+    StoreModule,
     InventoryModule,
     SharedModule,
     UserModule,

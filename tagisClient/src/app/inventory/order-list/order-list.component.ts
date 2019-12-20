@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 
 import { AuthService } from '../../user/auth.service'; 
-import { CompanyService } from '../../company/company.service';
+import { StoreService } from '../../store/store.service';
 import { Order } from '../order';
 import { OrderService } from '../order.service';
 import { ProductService } from '../product.service';
@@ -23,7 +23,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
   constructor(
     private _orderService: OrderService,
     private _productService: ProductService,
-    private _companyService: CompanyService,
+    private _companyService: StoreService,
     private _authService: AuthService,
     private _notificationsService: NotificationsService) { }
 
@@ -31,13 +31,17 @@ export class OrderListComponent implements OnInit, OnDestroy {
     var currentUser = this._authService.currentUser;
 
     if(currentUser.role != 4) {
+      var orders;
       this.subscription = this._orderService.getOrderList().subscribe(
-        res => this.filteredOrders = this.orders = res,
-        err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
+        res => this.filteredOrders = orders = res,
+        err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage),
+        function() {
+          console.log(orders);
+        }
       );
     }
     else {
-      this.subscription = this._companyService.getCompanyOrders(currentUser.company).subscribe(
+      this.subscription = this._companyService.getCompanyOrders(currentUser.store).subscribe(
         res => this.filteredOrders = this.orders = res,
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );
@@ -53,14 +57,14 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   filterByCompany(query) {
-    this.filteredOrders = (query) ? this.orders.filter(o => o.company_title.toLowerCase().includes(query.toLowerCase())) : this.orders;
+    this.filteredOrders = (query) ? this.orders.filter(o => o.store_title.toLowerCase().includes(query.toLowerCase())) : this.orders;
   }
 
   filterByCustomerName(query) {
-    this.filteredOrders = (query) ? this.orders.filter(o => o.customer_name.toLowerCase().includes(query.toLowerCase())) : this.orders;
+    this.filteredOrders = (query) ? this.orders.filter(o => o.customerName.toLowerCase().includes(query.toLowerCase())) : this.orders;
   }
 
   filterByStatus(query) {
-    this.filteredOrders = (query) ? this.orders.filter(o => o.order_status.toLowerCase().includes(query.toLowerCase())) : this.orders;
+    this.filteredOrders = (query) ? this.orders.filter(o => o.orderStatus.toLowerCase().includes(query.toLowerCase())) : this.orders;
   }
 }

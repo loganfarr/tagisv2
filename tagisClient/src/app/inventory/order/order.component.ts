@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   cancelOrder() {
-    this.order.order_status = 'cancelled';
+    this.order.orderStatus = 'cancelled';
     this._orderService.cancelOrder(this.orderId).subscribe(
       res => this._router.navigate(['/orders']),
       err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)

@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-xs-9">
-    <h1>{{ company.company_title}}</h1>
+    <h1>{{ store.store_title}}</h1>
   </div>
   <div class="col-xs-3" style="padding-top: 35px;">
     <ul class="pull-right" style="padding-left: 0;">
       <li style="list-style-type: none;">
-        <a [routerLink]="['/stores/edit', company._cid]">Edit store</a>
+        <a [routerLink]="['/stores/edit', store._cid]">Edit store</a>
       </li>
     </ul>
   </div>
@@ -14,82 +14,82 @@
   <div class="col-xs-12 col-sm-6">
     <div class="component-body">
       <h3>Address information</h3>
-      <div class="field" *ngIf="company.address1">
+      <div class="field" *ngIf="store.address1">
         <small>Company address</small>
-        {{ company.address1 }}
+        {{ store.address1 }}
       </div>
-      <div class="field" *ngIf="company.address2">
+      <div class="field" *ngIf="store.address2">
         <small>Company suite number</small>
-        {{ company.address2 }}
+        {{ store.address2 }}
       </div>
-      <div class="field" *ngIf="company.city">
+      <div class="field" *ngIf="store.city">
         <small>Company city</small>
-        {{ company.city }}
+        {{ store.city }}
       </div>
-      <div class="row" *ngIf="company.state">
-        <div class="col-xs-6" *ngIf="company.state" style="padding-left: 0;">
+      <div class="row" *ngIf="store.state">
+        <div class="col-xs-6" *ngIf="store.state" style="padding-left: 0;">
           <div class="field">
             <small>Company state</small>
-            {{ company.state }}
+            {{ store.state }}
           </div>
         </div>
-        <div class="col-xs-6" *ngIf="company.zip">
+        <div class="col-xs-6" *ngIf="store.zip">
           <div class="field">
             <small>Company zip</small>
-            {{ company.zip }}
+            {{ store.zip }}
           </div>
         </div>
       </div>
       <h3>Contact information</h3>
-      <div class="field" *ngIf="company.contact_name">
+      <div class="field" *ngIf="store.contact_name">
         <small>Name</small>
-        {{ company.contact_name }}
+        {{ store.contact_name }}
       </div>
-      <div class="field" *ngIf="company.contact_email">
+      <div class="field" *ngIf="store.contact_email">
         <small>Email</small>
-        {{ company.contact_email }}
+        {{ store.contact_email }}
       </div>
-      <div class="field" *ngIf="company.contact_phone && company.contact_phone != 'undefined'">
+      <div class="field" *ngIf="store.contact_phone && store.contact_phone != 'undefined'">
         <small>Phone</small>
-        {{ company.contact_phone }}
+        {{ store.contact_phone }}
       </div>
     </div>
   </div>
   <div class="col-xs-12 col-sm-6">
     <div class="component-body">
-      <img *ngIf="company.logo" [src]="company.logo" alt="Store logo" />
+      <img *ngIf="store.logo" [src]="store.logo" alt="Store logo" />
       <h3>Online information</h3>
-      <div class="field" *ngIf="company.website">
+      <div class="field" *ngIf="store.website">
         <small>Company website</small>
-        <a [href]="company.website" target="_blank">{{ company.website }}</a>
+        <a [href]="store.website" target="_blank">{{ store.website }}</a>
       </div>
-      <div class="field" *ngIf="company.company_store">
+      <div class="field" *ngIf="store.store_url">
         <small>Company store</small>
-        <a [href]="company.company_store" target="_blank">{{ company.company_store }}</a>
+        <a [href]="store.store_url" target="_blank">{{ store.store_url }}</a>
       </div>
-      <div class="field" *ngIf="company.product_api_endpoint">
+      <div class="field" *ngIf="store.product_api_endpoint">
         <small>Product API endpoint</small>
-        {{ company.product_api_endpoint }}
+        {{ store.product_api_endpoint }}
       </div>
-      <div class="field" *ngIf="company.order_api_endpoint">
+      <div class="field" *ngIf="store.order_api_endpoint">
         <small>Order API endpoint</small>
-        {{ company.order_api_endpoint }}
+        {{ store.order_api_endpoint }}
       </div>
-      <div class="field" *ngIf="company.email_from_address">
+      <div class="field" *ngIf="store.email_from_address">
         <small>Email &ldquo;from&rsquo; address</small>
-        {{ company.email_from_address }}
+        {{ store.email_from_address }}
       </div>
-      <div class="field" *ngIf="company.emails_enabled">
+      <div class="field" *ngIf="store.emails_enabled">
         <small>Transactional emails enabled</small>
-        {{ company.emails_enabled }}
+        {{ store.emails_enabled }}
       </div>
-      <div class="field" *ngIf="company.discount && company.discount != 'null'">
+      <div class="field" *ngIf="store.discount && store.discount != 'null'">
         <small>Discount</small>
-        {{ company.discount }}
+        {{ store.discount }}
       </div>
-      <div class="field" *ngIf="company.coupon_code && company.coupon_code != 'null'">
+      <div class="field" *ngIf="store.coupon_code && store.coupon_code != 'null'">
         <small>Coupon code</small>
-        {{ company.coupon_code }}
+        {{ store.coupon_code }}
       </div>
     </div>
   </div>
@@ -124,7 +124,7 @@
   <div class="col-xs-12">
     <div class="form-controls">
       <a routerLink="/orders" class="form-cancel">Cancel</a>
-      <input type="submit" class="btn btn-success" value="Edit company" />
+      <input type="submit" class="btn btn-success" value="Edit store" />
     </div>
   </div>
 </div> -->

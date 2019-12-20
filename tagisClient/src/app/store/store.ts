@@ -1,6 +1,6 @@
-export class Company {
+export class Store {
   _cid: number;
-  company_title: string = '';
+  store_title: string = '';
   machine_name: string = '';
   logo: string = '';
   address1: string = '';
@@ -12,7 +12,7 @@ export class Company {
   contact_email: string = '';
   contact_phone: string = '';
   website: string = '';
-  company_store: string = '';
+  store_url: string = '';
   product_api_endpoint: string = '';
   order_api_endpoint: string = '';
   auth_token: string = '';

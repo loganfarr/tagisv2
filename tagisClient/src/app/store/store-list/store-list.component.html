@@ -13,8 +13,8 @@
   </div>
   <div class="row company" *ngFor="let company of companies">
     <div class="hidden-xs hidden-sm col-md-2">{{ company._cid }}</div>
-    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/stores', company._cid]">{{ company.company_title }}</a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/stores', company._cid]">{{ company.store_title }}</a></div>
     <div class="col-xs-6 col-sm-4 col-md-3">{{ company.contact_name }}</div>
-    <div class="hidden-xs col-sm-4 col-md-4"><a target="_blank" [href]="company.company_store">{{ company.company_store }}</a></div>
+    <div class="hidden-xs col-sm-4 col-md-4"><a target="_blank" [href]="company.store_url">{{ company.store_url }}</a></div>
   </div>
 </div>

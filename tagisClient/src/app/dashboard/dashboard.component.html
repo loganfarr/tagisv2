@@ -13,21 +13,21 @@
                 <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/orders', order._oid]">{{ order._oid }}</a>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-md-3">
-                    <a [routerLink]="['/orders', order._oid]" *ngIf="order.customer_name != '' && order.customer_name != ' '">{{ order.customer_name }}</a>
-                    <a [routerLink]="['/orders', order._oid]" *ngIf="order.customer_name == ' ' && order.shipping_name != ''">{{ order.shipping_name }}</a>
+                    <a [routerLink]="['/orders', order._oid]" *ngIf="order.customerName != '' && order.customerName != ' '">{{ order.customerName }}</a>
+                    <a [routerLink]="['/orders', order._oid]" *ngIf="order.customerName == ' ' && order.shippingName != ''">{{ order.shippingName }}</a>
                 </div>
                 <div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', order._cid]">{{
-                    order.company_title }}</a></div>
+                    order.store.title }}</a></div>
                 <div class="hidden-xs col-sm-4 col-md-3">
                     <div
                             class="label"
                             [ngClass]="{
-                              'label-info': order.order_status =='new',
-                              'label-primary': order.order_status=='shipped',
-                              'label-success': order.order_status=='completed',
-                              'label-danger': order.order_status=='cancelled'}"
+                              'label-info': order.orderStatus =='new',
+                              'label-primary': order.orderStatus=='shipped',
+                              'label-success': order.orderStatus=='completed',
+                              'label-danger': order.orderStatus=='cancelled'}"
                             style="text-transform: capitalize;">
-                        {{ order.order_status }}
+                        {{ order.orderStatus }}
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     product.sku }}
                 </div>
                 <div class="col-sm-4">{{ product.stock }}</div>
-                <div class="hidden-xs col-sm-4"><a [routerLink]="['/stores', product.company]">{{ product.company_title
+                <div class="hidden-xs col-sm-4"><a [routerLink]="['/stores', product.company]">{{ product.store_title
                     }}</a></div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="row company" *ngFor="let company of companies">
                 <div class="col-xs-6">{{ company._cid }}</div>
-                <div class="col-xs-6"><a [routerLink]="['/stores', company._cid]">{{ company.company_title }}</a></div>
+                <div class="col-xs-6"><a [routerLink]="['/stores', company._cid]">{{ company.store_title }}</a></div>
             </div>
         </div>
     </div>

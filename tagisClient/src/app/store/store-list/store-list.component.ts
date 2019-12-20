@@ -4,20 +4,20 @@ import { Subscription } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 
 import { AuthService } from '../../user/auth.service';
-import { Company } from '../company';
-import { CompanyService } from '../company.service';
+import { Store } from '../store';
+import { StoreService } from '../store.service';
 
 @Component({
-  selector: 'company-list',
-  templateUrl: './company-list.component.html',
-  styleUrls: ['./company-list.component.css']
+  selector: 'store-list',
+  templateUrl: './store-list.component.html',
+  styleUrls: ['./store-list.component.css']
 })
-export class CompanyListComponent implements OnInit, OnDestroy {
+export class StoreListComponent implements OnInit, OnDestroy {
   companies;
   subscription: Subscription;
 
   constructor(
-    private _companyService: CompanyService,
+    private _storeService: StoreService,
     private _authService: AuthService,
     private _notificationsService: NotificationsService) { }
 
@@ -25,12 +25,12 @@ export class CompanyListComponent implements OnInit, OnDestroy {
     var currentUser = this._authService.currentUser;
 
     if(currentUser.role != 4)
-      this.subscription = this._companyService.getAllCompanies().subscribe(
+      this.subscription = this._storeService.getAllCompanies().subscribe(
         res => this.companies = res,
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );
     else 
-      this.subscription = this._companyService.getCompanies(JSON.parse('[' + currentUser.company + ']')).subscribe(
+      this.subscription = this._storeService.getCompanies(JSON.parse('[' + currentUser.store + ']')).subscribe(
         res => this.companies = res,
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );

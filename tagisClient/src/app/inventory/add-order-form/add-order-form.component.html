@@ -53,33 +53,33 @@
       <div class="component-body">
         <h3>Customer information</h3>
         <div class="form-group">
-          <input type="text" name="customer_name" required formControlName="customer_name" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_name" [ngClass]="{'filled': order.customer_name}" #customerName />
+          <input type="text" name="customer_name" required formControlName="customer_name" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerName" [ngClass]="{'filled': order.customerName}" #customerName />
           <label (click)="customerName.focus()">Customer name</label>
         </div>
         <div class="form-group">
-          <input type="email" name="customer_email" required formControlName="customer_email" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_email" [ngClass]="{'filled': order.customer_email}" #customerEmail />
+          <input type="email" name="customer_email" required formControlName="customer_email" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerEmail" [ngClass]="{'filled': order.customerEmail}" #customerEmail />
           <label (click)="customerEmail.focus()">Customer email</label>
         </div>
         <div class="form-group">
-          <input type="text" name="customer_phone" formControlName="customer_phone" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_phone" [ngClass]="{'filled': order.customer_phone}" #customerPhone />
+          <input type="text" name="customer_phone" formControlName="customer_phone" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerPhone" [ngClass]="{'filled': order.customerPhone}" #customerPhone />
           <label (click)="customerPhone.focus()">Customer phone</label>
         </div>
         <div class="form-group">
-          <input type="text" name="customer_address1" required formControlName="customer_address1" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_address1" [ngClass]="{'filled': order.customer_address1}" #address1 />
+          <input type="text" name="customer_address1" required formControlName="customer_address1" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerAddress1" [ngClass]="{'filled': order.customerAddress1}" #address1 />
           <label (click)="address1.focus()">Street address</label>
         </div>
         <div class="form-group">
-          <input type="text" name="customer_address2" formControlName="customer_address2" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_address2" [ngClass]="{'filled': order.customer_address2}" #address2 />
+          <input type="text" name="customer_address2" formControlName="customer_address2" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerAddress2" [ngClass]="{'filled': order.customerAddress2}" #address2 />
           <label (click)="address2.focus()">Street address 2</label>
         </div>
         <div class="form-group">
-          <input type="text" name="customer_city" required formControlName="customer_city" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_city" [ngClass]="{'filled': order.customer_city}" #city />
+          <input type="text" name="customer_city" required formControlName="customer_city" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerCity" [ngClass]="{'filled': order.customerCity}" #city />
           <label (click)="city.focus()">City</label>
         </div>
         <div class="row" style="margin: 0;">
           <div class="col-xs-6" style="padding-left: 0;">
             <div class="form-group">
-              <select name="customer_state" formControlName="customer_state" class="col-xs-12" [(ngModel)]="order.customer_state" required>
+              <select name="customer_state" formControlName="customer_state" class="col-xs-12" [(ngModel)]="order.customerState" required>
                 <option value="" disabled selected="selected">State *</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -137,7 +137,7 @@
           </div>
           <div class="col-xs-6" style="padding-right: 0;">
             <div class="form-group">
-              <input type="text" name="customer_zip" required formControlName="customer_zip" (focusout)="checkInput($event.target)" [(ngModel)]="order.customer_zip" [ngClass]="{'filled': order.customer_zip}" #zip/>
+              <input type="text" name="customer_zip" required formControlName="customer_zip" (focusout)="checkInput($event.target)" [(ngModel)]="order.customerZip" [ngClass]="{'filled': order.customerZip}" #zip/>
               <label (click)="zip.focus()">Zip</label>
             </div>
           </div>
@@ -148,10 +148,10 @@
       <div class="component-body">
         <h3>Store information</h3>
         <div class="form-group">
-          <company-selector [saved-company]="order.company" (company-selected)="addCompany($event)"></company-selector>
+          <store-selector [saved-store]="order.store" (store-selected)="addCompany($event)"></store-selector>
         </div>
         <div class="form-group">
-          <input type="text" class="filled" placeholder="https://store.adventstores.com" name="order_source" class="filled" formControlName="order_source" [(ngModel)]="order.order_source" #orderSource />
+          <input type="text" class="filled" placeholder="https://store.adventstores.com" name="order_source" class="filled" formControlName="order_source" [(ngModel)]="order.orderSource" #orderSource />
           <label (click)="orderSource.focus()">Order source</label>
         </div>
         <div class="form-group">
@@ -168,23 +168,23 @@
         <div class="row">
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
-              <input type="text" name="shipping_name" formControlName="shipping_name" (focusout)="checkInput($event.target)" [(ngModel)]="order.shipping_name" [ngClass]="{'filled': order.shipping_name}" #shippingName />
+              <input type="text" name="shipping_name" formControlName="shipping_name" (focusout)="checkInput($event.target)" [(ngModel)]="order.shippingName" [ngClass]="{'filled': order.shippingName}" #shippingName />
               <label (click)="shippingName.focus()">Ship to</label>
             </div>
             <div class="form-group">
-              <input type="text" name="shipping_address1" formControlName="shipping_address1" (focusout)="checkInput($event.target)" [(ngModel)]="order.shipping_address1" [ngClass]="{'filled': order.shipping_address1}" #shippingAddress1 />
+              <input type="text" name="shipping_address1" formControlName="shipping_address1" (focusout)="checkInput($event.target)" [(ngModel)]="order.shippingAddress1" [ngClass]="{'filled': order.shippingAddress1}" #shippingAddress1 />
               <label (click)="shippingAddress1.focus()">Street address</label>
             </div>
             <div class="form-group">
-              <input type="text" name="shipping_address2" formControlName="shipping_address2" (focusout)="checkInput($event.target)" [(ngModel)]="order.shipping_address2" [ngClass]="{'filled': order.shipping_address2}" #shippingAddress2 />
+              <input type="text" name="shipping_address2" formControlName="shipping_address2" (focusout)="checkInput($event.target)" [(ngModel)]="order.shippingAddress2" [ngClass]="{'filled': order.shippingAddress2}" #shippingAddress2 />
               <label (click)="shippingAddress2.focus()">Street address 2</label>
             </div>
             <div class="form-group">
-              <input type="text" name="shipping_city" formControlName="shipping_city" (focusout)="checkInput($event.target)" [(ngModel)]="order.shipping_city" [ngClass]="{'filled': order.shipping_city}" #shippingCity />
+              <input type="text" name="shipping_city" formControlName="shipping_city" (focusout)="checkInput($event.target)" [(ngModel)]="order.shippingCity" [ngClass]="{'filled': order.shippingCity}" #shippingCity />
               <label (click)="shippingCity.focus()">City</label>
             </div>
             <div class="form-group clearfix">
-              <select name="shipping_state" formControlName="shipping_state" class="col-xs-12" [(ngModel)]="order.shipping_state">
+              <select name="shipping_state" formControlName="shipping_state" class="col-xs-12" [(ngModel)]="order.shippingState">
                 <option value="state" disabled selected="selected">State *</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -240,17 +240,17 @@
               </select>
             </div>
             <div class="form-group">
-              <input type="text" name="shipping_zip" formControlName="shipping_zip" (focusout)="checkInput($event.target)" [(ngModel)]="order.shipping_zip" [ngClass]="{'filled': order.shipping_zip}" #zip/>
+              <input type="text" name="shipping_zip" formControlName="shipping_zip" (focusout)="checkInput($event.target)" [(ngModel)]="order.shippingZip" [ngClass]="{'filled': order.shippingZip}" #zip/>
               <label (click)="zip.focus()">Zip</label>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
-              <input type="text" name="shippping_number" formControlName="shipping_number" (focusout)="checkInput($event.target)" [(ngModel)]="order.shipping_number" [ngClass]="{'filled': order.shipping_number}" #shipping_number>
+              <input type="text" name="shippping_number" formControlName="shipping_number" (focusout)="checkInput($event.target)" [(ngModel)]="order.shippingNumber" [ngClass]="{'filled': order.shippingNumber}" #shipping_number>
               <label (click)="shipping_number.focus()">Shipping number</label>
             </div>
             <div class="form-group">
-              <select name="shipping_carrier" formControlName="shipping_carrier" [(ngModel)]="order.shipping_carrier" [ngClass]="{'filled': order.shipping_carrier}" #shipping_carrier>
+              <select name="shipping_carrier" formControlName="shipping_carrier" [(ngModel)]="order.shippingCarrier" [ngClass]="{'filled': order.shippingCarrier}" #shipping_carrier>
                 <option value="carrier" selected="selected" disabled>Shipping carrier</option>
                 <option value="UPS">UPS</option>
                 <option value="USPS">USPS</option>
@@ -264,7 +264,7 @@
     </div>
     <div class="row">
       <div class="col-xs-6">
-        <div *ngIf="!orderId && !order.order_status">
+        <div *ngIf="!orderId && !order.orderStatus">
           <input 
             type="checkbox" 
             name="send_order_receipt" 
@@ -273,10 +273,10 @@
             #send_order_receipt />
           <label for="send_emails" (click)="send_order_receipt.click()">Send order receipt</label>
         </div>
-        <div *ngIf="order.receipt_email_sent">
-          <small>Receipt email sent: {{ order.receipt_email_sent }}</small>
+        <div *ngIf="order.receiptEmailSent">
+          <small>Receipt email sent: {{ order.receiptEmailSent }}</small>
         </div>
-        <div *ngIf="order.order_status != 'shipped' && order.order_status != 'completed' && shipping_number.value && shipping_carrier.value">
+        <div *ngIf="order.orderStatus != 'shipped' && order.orderStatus != 'completed' && shipping_number.value && shipping_carrier.value">
           <input 
             type="checkbox" 
             name="send_shipping_notification" 
@@ -285,7 +285,7 @@
             #send_shipping_notification/>
           <label for="send_emails" (click)="send_shipping_notification.click()">Send shipping notification</label>
         </div>
-        <div *ngIf="order.order_status == 'shipped' && order.shipping_email_sent">
+        <div *ngIf="order.orderStatus == 'shipped' && order.shipping_email_sent">
           <small>Shipping email sent: {{ order.shipping_email_sent }}</small>
         </div>
       </div>

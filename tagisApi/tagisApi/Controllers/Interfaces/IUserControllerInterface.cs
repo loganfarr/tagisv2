@@ -6,9 +6,9 @@ using tagisApi.Models;
 
 namespace tagisApi.Controllers.Interfaces
 {
-    public interface IUserController
+    public interface IUserControllerInterface
     {
-//        Task<ActionResult<string>> Authenticate(string email, string password);
+        Task<ActionResult<TagisToken>> Authenticate([FromBody] UserAuthenticationResource user);
 
         Task<ActionResult<IEnumerable<User>>> GetUsers();
 

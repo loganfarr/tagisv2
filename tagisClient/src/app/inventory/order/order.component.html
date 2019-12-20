@@ -5,11 +5,11 @@
       <small *ngIf="order.ref && order.ref != 'undefined'" style="font-size: 50%; margin-left: 20px;">Ref: {{order.ref}}</small>
     </h1>
     <div class="label" style="display: inline-block; text-transform: capitalize; position: relative; top: -4px; margin-left: 20px;" [ngClass]="{
-          'label-info': order.order_status =='new', 
-          'label-primary': order.order_status=='shipped',
-          'label-success': order.order_status=='completed',
-          'label-danger': order.order_status=='cancelled'}">
-      {{ order.order_status }}
+          'label-info': order.orderStatus =='new',
+          'label-primary': order.orderStatus=='shipped',
+          'label-success': order.orderStatus=='completed',
+          'label-danger': order.orderStatus=='cancelled'}">
+      {{ order.orderStatus }}
     </div>
   </div>
   <div class="col-xs-12 col-sm-2" style="padding-top: 35px;">
@@ -67,32 +67,32 @@
     <div class="component-body">
       <h3>Customer information</h3>
       <div class="field">
-        <small>Customer name</small> {{ order.customer_name }}
+        <small>Customer name</small> {{ order.customerName }}
       </div>
       <div class="field">
-        <small>Customer email</small> {{ order.customer_email }}
+        <small>Customer email</small> {{ order.customerEmail }}
       </div>
-      <div class="field" *ngIf="order.customer_phone">
-        <small>Customer phone</small> {{ order.customer_phone }}
-      </div>
-      <div class="field">
-        <small>Customer street address</small> {{ order.customer_address1 }}
-      </div>
-      <div class="field" *ngIf="order.customer_address2">
-        <small>Customer street address 2</small> {{ order.customer_address2 }}
+      <div class="field" *ngIf="order.customerPhone">
+        <small>Customer phone</small> {{ order.customerPhone }}
       </div>
       <div class="field">
-        <small>Customer city</small> {{ order.customer_city }}
+        <small>Customer street address</small> {{ order.customerAddress1 }}
+      </div>
+      <div class="field" *ngIf="order.customerAddress2">
+        <small>Customer street address 2</small> {{ order.customerAddress2 }}
+      </div>
+      <div class="field">
+        <small>Customer city</small> {{ order.customerCity }}
       </div>
       <div class="row" style="margin: 0;">
         <div class="col-xs-6" style="padding-left: 0;">
           <div class="field">
-            <small>Customer state</small> {{ order.customer_state }}
+            <small>Customer state</small> {{ order.customerState }}
           </div>
         </div>
         <div class="col-xs-6" style="padding-right: 0;">
           <div class="field">
-            <small>Customer zip</small> {{ order.customer_zip }}
+            <small>Customer zip</small> {{ order.customerZip }}
           </div>
         </div>
       </div>
@@ -102,11 +102,11 @@
     <div class="component-body">
       <h3>Store information</h3>
       <div class="field">
-        <small>Store</small> {{ order.company_title }}
+        <small>Store</small> {{ order.store.title }}
         <img *ngIf="order.logo" [src]="order.logo" />
       </div>
-      <div class="field" *ngIf="order.order_source">
-        <small>Order source</small> {{ order.order_source }}
+      <div class="field" *ngIf="order.orderSource">
+        <small>Order source</small> {{ order.orderSource }}
       </div>
       <div class="field" *ngIf="order.ref">
         <small>Reference number</small> {{ order.ref }}
@@ -114,43 +114,43 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="order.shipping_number || order.shipping_carrier">
+<div class="row" *ngIf="order.shippingNumber || order.shippingCarrier">
   <div class="col-xs-12">
     <div class="component-body">
       <h3>Shipping information</h3>
       <div class="row">
         <div class="col-xs-12 col-sm-6">
-          <div class="field" *ngIf="order.shipping_name">
+          <div class="field" *ngIf="order.shippingName">
             <small>Ship to</small>
-            {{ order.shipping_name }}
+            {{ order.shippingName }}
           </div>
-          <div class="field" *ngIf="order.shipping_address1">
+          <div class="field" *ngIf="order.shippingAddress1">
             <small>Street address</small>
-            {{ order.shipping_address1 }}
+            {{ order.shippingAddress1 }}
           </div>
-          <div class="field" *ngIf="order.shipping_address2">
+          <div class="field" *ngIf="order.shippingAddress2">
             <small>Street address 2</small>
-            {{ order.shipping_address2 }}
+            {{ order.shippingAddress2 }}
           </div>
-          <div class="field" *ngIf="order.shipping_city">
+          <div class="field" *ngIf="order.shippingCity">
             <small>City</small>
-            {{ order.shipping_city }}
+            {{ order.shippingCity }}
           </div>
-          <div class="field" *ngIf="order.shipping_state">
+          <div class="field" *ngIf="order.shippingState">
             <small>State</small>
-            {{ order.shipping_state }}
+            {{ order.shippingState }}
           </div>
-          <div class="field" *ngIf="order.shipping_zip">
+          <div class="field" *ngIf="order.shippingZip">
             <small>Zip</small>
-            {{ order.shipping_zip }}
+            {{ order.shippingZip }}
           </div>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <div class="field" *ngIf="order.shipping_number">
-            <small>Shipping number</small> {{ order.shipping_number }}
+          <div class="field" *ngIf="order.shippingNumber">
+            <small>Shipping number</small> {{ order.shippingNumber }}
           </div>
-          <div class="field" *ngIf="order.shipping_carrier">
-            <small>Shipping carrier</small> {{ order.shipping_carrier }}
+          <div class="field" *ngIf="order.shippingCarrier">
+            <small>Shipping carrier</small> {{ order.shippingCarrier }}
           </div>
         </div>
       </div>
@@ -163,13 +163,13 @@
     <label for="send_emails" (click)="send_order_receipt.click()">Send order receipt</label>
   </div>
   <div class="col-xs-6" *ngIf="orderId != 0">
-    <div *ngIf="order.receipt_email_id">Receipt email sent: {{ order.receipt_email_sent | date:'medium' }}</div>
+    <div *ngIf="order.receipt_email_id">Receipt email sent: {{ order.receiptEmailSent | date:'medium' }}</div>
     <div *ngIf="order.shipping_email_id">Shipping email sent: {{ order.shipping_email_sent | date:'medium' }}</div>
   </div>
   <div class="col-xs-6">
     <div class="form-controls">
       <a routerLink="/orders" class="form-cancel">Cancel</a>
-      <button *ngIf="order.order_status != 'cancelled'" (click)="cancelOrder(orderId)" class="btn btn-danger" value="Cancel order">Cancel order</button>
+      <button *ngIf="order.orderStatus != 'cancelled'" (click)="cancelOrder(orderId)" class="btn btn-danger" value="Cancel order">Cancel order</button>
     </div>
   </div>
 </div>

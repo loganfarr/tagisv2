@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using tagisApi.Models;
 
 namespace tagisApi.Controllers.Resources
 {
@@ -24,7 +25,10 @@ namespace tagisApi.Controllers.Resources
         public string ImageUrl { get; set; }
 
         public int Status { get; set; }
-
+        
+        [Required]
+        public Store store { get; set; }
+        
 //        [Column(TypeName = "decimal(8,2)")]
 //        public double? price { get; set; }
 

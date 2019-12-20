@@ -5,8 +5,8 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 
 import { NotificationsService } from 'angular2-notifications';
 
-import { Company } from '../../company/company';
-import { CompanyService } from '../../company/company.service';
+import { Store } from '../../store/store';
+import { StoreService } from '../../store/store.service';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -24,7 +24,7 @@ export class AddProductFormComponent implements OnInit {
   productList: Array<Product>;
   isSaving: boolean = false;
 
-  selectedCompany = new Company();
+  selectedCompany = new Store();
 
   addProductForm;
 
@@ -40,7 +40,7 @@ export class AddProductFormComponent implements OnInit {
 
   constructor(
     private _productService: ProductService,
-    private _companyService: CompanyService,
+    private _companyService: StoreService,
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
@@ -100,8 +100,8 @@ export class AddProductFormComponent implements OnInit {
 
   addCompany(company) {
     this.selectedCompany = company;
-    // this.addProductForm.controls.company.markAsValid();
-    this.addProductForm.controls['company'].setValue(this.selectedCompany._cid);
+    // this.addProductForm.controls.store.markAsValid();
+    this.addProductForm.controls['store'].setValue(this.selectedCompany._cid);
     console.log(this.selectedCompany);
   }
 
@@ -121,7 +121,7 @@ export class AddProductFormComponent implements OnInit {
     var responseObject = JSON.parse(response);
 
     this.product.image = responseObject.response.location;
-    // this.company.image = 'https://the-advent-group.s3-us-west-2.amazonaws.com/tagis/company-logos/' + item.file.name;
+    // this.store.image = 'https://the-advent-group.s3-us-west-2.amazonaws.com/tagis/company-logos/' + item.file.name;
     console.log(responseObject.response.location, this.product.image);
   }
 
@@ -138,7 +138,7 @@ export class AddProductFormComponent implements OnInit {
       this.product.sku = this.productSku ? this.productSku : formValues.sku;
       this.product.product_title = formValues.product_title;
       this.product.stock = formValues.stock;
-      this.product.company = formValues.company;
+      this.product.store = formValues.store;
       this.product.description = formValues.description;
       this.product.cost = formValues.cost !== "undefined" ? formValues.cost : null;
       this.product.price = formValues.price;

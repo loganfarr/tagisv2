@@ -7,12 +7,12 @@ import { NotificationsService } from 'angular2-notifications';
 
 import { Order } from '../order';
 import { Product } from '../product';
-import { Company } from '../../company/company';
+import { Store } from '../../store/store';
 
 import { InventoryValidators } from '../inventory.validators';
 import { OrderService } from '../order.service';
 import { ProductService } from '../product.service';
-import { CompanyService } from '../../company/company.service';
+import { StoreService } from '../../store/store.service';
 
 @Component({
   selector: 'add-order-form',
@@ -24,8 +24,8 @@ export class AddOrderFormComponent implements OnInit, OnDestroy {
   addOrderForm;
   productList: Array<Product>;
   order: Order = new Order();
-  companyList: Array<Company>;
-  selectedCompany = new Company();
+  companyList: Array<Store>;
+  selectedCompany = new Store();
 
   sendReceiptEmail: Boolean = false;
   sendShippingEmail: Boolean = true;
@@ -40,7 +40,7 @@ export class AddOrderFormComponent implements OnInit, OnDestroy {
     private _orderService: OrderService,
     private _productService: ProductService,
     private _formBuilder: FormBuilder,
-    private _companyService: CompanyService,
+    private _companyService: StoreService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _notificationsService: NotificationsService) { }
@@ -152,7 +152,7 @@ export class AddOrderFormComponent implements OnInit, OnDestroy {
 
   addCompany(company) {
     this.selectedCompany = company;
-    this.addOrderForm.controls.company.setValue(this.selectedCompany._cid);
+    this.addOrderForm.controls.store.setValue(this.selectedCompany._cid);
     console.log(this.selectedCompany);
   }
 
@@ -187,30 +187,30 @@ export class AddOrderFormComponent implements OnInit, OnDestroy {
     this.order = form.value;
     // this.order.company = this.selectedCompany._cid;
 
-    if((this.order.shipping_number != null && this.order.shipping_carrier == null) || (this.order.shipping_number == null && this.order.shipping_carrier != null)) {
+    if((this.order.shippingNumber != null && this.order.shippingCarrier == null) || (this.order.shippingNumber == null && this.order.shippingCarrier != null)) {
       this.addOrderForm.setErrors({ inCompleteShipping : "Please enter both a shipping number and a shipping carrier."});
     } 
 
     if(this.orderId == 0) {
-      this.order.created_date = this.formatDate();
+      this.order.createdDate = this.formatDate();
     }
     else {
-      this.order.last_modified_date = this.formatDate();
+      this.order.lastModifiedDate = this.formatDate();
     }
 
-    if(this.order.order_status == null || this.order.order_status == undefined)
-      this.order.order_status = 'new';
+    if(this.order.orderStatus == null || this.order.orderStatus == undefined)
+      this.order.orderStatus = 'new';
 
-    if(this.order.shipping_carrier && this.order.shipping_number && this.order.shipping_carrier != 'undefined' && this.order.shipping_number != 'undefined') {
-      this.order.order_status = 'shipped';
+    if(this.order.shippingCarrier && this.order.shippingNumber && this.order.shippingCarrier != 'undefined' && this.order.shippingNumber != 'undefined') {
+      this.order.orderStatus = 'shipped';
     }
     
     if(this.order.subtotal != null && this.order.subtotal != NaN && this.order.total != null && this.order.total != NaN) {
       this.order.taxes = this.order.total - this.order.subtotal;
     }
 
-    if(this.order.order_source == 'undefined') {
-      this.order.order_source = 'https://tagis.adventstores.com';
+    if(this.order.orderSource == 'undefined') {
+      this.order.orderSource = 'https://tagis.adventstores.com';
     }
 
     console.log(this.addOrderForm, this.order, this.orderId);

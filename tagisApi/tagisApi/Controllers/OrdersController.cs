@@ -37,6 +37,7 @@ namespace tagisApi.Controllers
             {
                 _oid = o._oid,
                 Total = o.Total,
+                Store = o.Store,
                 OrderStatus = o.OrderStatus
             }).ToListAsync();
         }
@@ -57,7 +58,11 @@ namespace tagisApi.Controllers
         [HttpGet("recent")]
         public async Task<ActionResult<IEnumerable<OrderResource>>> getRecentOrders()
         {
-            return await _context.Orders.OrderByDescending(o => o.CreatedDate).Take(10).ToListAsync();
+            return await _context.Orders
+                .Include(o => o.Store)
+                .OrderByDescending(o => o.CreatedDate)
+                .Take(10)
+                .ToListAsync();
         }
 
         [HttpPost]
@@ -100,7 +105,7 @@ namespace tagisApi.Controllers
 
         private List<OrderItemResource> GetOrderItems(int orderId)
         {
-            return _context.OrderItems.Where(oi => oi.OrderResourceOid == orderId).ToList();
+            return _context.OrderItems.Where(oi => oi.OrderResource_oid == orderId).ToList();
         }
 
         private void processOrder(Order order)

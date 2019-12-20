@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace tagisApi.Controllers.Resources
 {
-    [Table("company")]
+    [Table("store")]
     public class StoreResource
     {
         [Key]

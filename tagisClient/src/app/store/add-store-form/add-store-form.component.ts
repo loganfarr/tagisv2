@@ -5,21 +5,21 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 
 import { NotificationsService } from 'angular2-notifications';
 
-import { Company } from '../../company/company';
-import { CompanyService } from '../../company/company.service';
+import { Store } from '../store';
+import { StoreService } from '../store.service';
 
 @Component({
-  selector: 'add-company-form',
-  templateUrl: './add-company-form.component.html',
-  styleUrls: ['./add-company-form.component.css']
+  selector: 'add-store-form',
+  templateUrl: './add-store-form.component.html',
+  styleUrls: ['./add-store-form.component.css']
 })
-export class AddCompanyFormComponent implements OnInit {
-  companyId: number = 0;
+export class AddStoreFormComponent implements OnInit {
+  storeId: number = 0;
   machineName: string;
 
-  company: Company = new Company();
+  store: Store = new Store();
 
-  addCompanyForm;
+  addStoreForm;
 
   private _apiEndPoint = '//tagis-stage-api.adventstores.com/api/companies/upload-logo';
   uploader = new FileUploader({
@@ -31,15 +31,15 @@ export class AddCompanyFormComponent implements OnInit {
   pageTitle = 'Add new store';
 
   constructor(
-    private _companyService: CompanyService,
+    private _storeService: StoreService,
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _notificationsService: NotificationsService) { }
 
   ngOnInit() {
-    this.addCompanyForm = this._formBuilder.group({
-      company_title: ['', Validators.required],
+    this.addStoreForm = this._formBuilder.group({
+      store_title: ['', Validators.required],
       address1: [''],
       address2: [''],
       city: [''],
@@ -61,16 +61,16 @@ export class AddCompanyFormComponent implements OnInit {
     });
 
     this._activatedRoute.params.subscribe((params: Params) => {
-      this.companyId = params['cid'];
+      this.storeId = params['cid'];
 
-      if(this.companyId != undefined && this.companyId > 0) {
-        this._companyService.getCompany(this.companyId).subscribe(
+      if(this.storeId != undefined && this.storeId > 0) {
+        this._storeService.getStore(this.storeId).subscribe(
           res => {
-            this.company = res[0];
-            this.pageTitle = 'Edit store: ' + this.company.company_title;
-            this.machineName = this.company.machine_name;
+            this.store = res[0];
+            this.pageTitle = 'Edit store: ' + this.store.store_title;
+            this.machineName = this.store.machine_name;
 
-            this.addCompanyForm.get('company_title').disable();
+            this.addStoreForm.get('store_title').disable();
           },
           err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
         );
@@ -81,20 +81,20 @@ export class AddCompanyFormComponent implements OnInit {
     this.uploader.onCompleteItem = (item, response, status, header) =>  this.uploadedLogo(item, response, status, header);
   }
 
-  getCompany() {
-    return this.company;
+  getStore() {
+    return this.store;
   }
 
   uploadedLogo(item, response, status, header) {
     console.log("FileUpload:Uploaded:", item, status, response);
     var responseObject = JSON.parse(response);
-    this.company.logo = responseObject.response.location;
+    this.store.logo = responseObject.response.location;
   }
 
   formatMachineName($event) {
     var name = $event.target.value;
     if(name != null && name != '' && name != undefined)
-      this.machineName = this._companyService.getMachineName(name);
+      this.machineName = this._storeService.getMachineName(name);
   }
 
   checkInput(textbox) {
@@ -116,39 +116,39 @@ export class AddCompanyFormComponent implements OnInit {
   onSubmit(form) {
     var formValues = form.value;
 
-    // this.company = formValues;
-    this.company.machine_name = this.machineName;
-    this.company.address1 = formValues.address1;
-    this.company.address2 = formValues.address2;
-    this.company.city = formValues.city;
-    this.company.state = formValues.state;
-    this.company.contact_name = formValues.contact_name;
-    this.company.contact_email = formValues.contact_email;
-    this.company.contact_phone = formValues.contact_phone;
-    this.company.website = formValues.website;
-    this.company.company_store = formValues.company_store;
-    this.company.product_api_endpoint = formValues.product_api_endpoint;
-    this.company.order_api_endpoint = formValues.order_api_endpoint;
-    this.company.discount = formValues.discount;
-    this.company.coupon_code = formValues.coupon_code;
+    // this.store = formValues;
+    this.store.machine_name = this.machineName;
+    this.store.address1 = formValues.address1;
+    this.store.address2 = formValues.address2;
+    this.store.city = formValues.city;
+    this.store.state = formValues.state;
+    this.store.contact_name = formValues.contact_name;
+    this.store.contact_email = formValues.contact_email;
+    this.store.contact_phone = formValues.contact_phone;
+    this.store.website = formValues.website;
+    this.store.store_url = formValues.store_url;
+    this.store.product_api_endpoint = formValues.product_api_endpoint;
+    this.store.order_api_endpoint = formValues.order_api_endpoint;
+    this.store.discount = formValues.discount;
+    this.store.coupon_code = formValues.coupon_code;
 
-    // Only set the company name if creating a new company
-    if(!this.companyId)
-      this.company.company_title = formValues.company_title;
+    // Only set the store name if creating a new store
+    if(!this.storeId)
+      this.store.store_title = formValues.store_title;
     else
-      this.company._cid = this.companyId;
+      this.store._cid = this.storeId;
 
-    console.log(this.company, this.company.company_title);
+    console.log(this.store, this.store.store_title);
 
-    if(this.companyId == undefined || this.companyId == 0) {
-      this._companyService.postCompany(this.company).subscribe(
-        res => { this._notificationsService.success('Company saved successfully'); this._router.navigate(['/stores']);},
+    if(this.storeId == undefined || this.storeId == 0) {
+      this._storeService.postCompany(this.store).subscribe(
+        res => { this._notificationsService.success('Store saved successfully'); this._router.navigate(['/stores']);},
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );
     }
     else {
-      this._companyService.updateCompany(this.company).subscribe(
-        res => {this._notificationsService.success('Company updated successfully'); this._router.navigate(['/stores']);},
+      this._storeService.updateCompany(this.store).subscribe(
+        res => {this._notificationsService.success('Store updated successfully'); this._router.navigate(['/stores']);},
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );
     }

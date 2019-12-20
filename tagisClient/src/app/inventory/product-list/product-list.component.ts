@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 
 import { AuthService } from '../../user/auth.service';
-import { CompanyService } from '../../company/company.service';
+import { StoreService } from '../../store/store.service';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -23,7 +23,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(
     private _productService: ProductService,
-    private _companyService: CompanyService,
+    private _companyService: StoreService,
     private _authService: AuthService,
     private _notificationsService: NotificationsService) { }
 
@@ -40,7 +40,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       );      
     }
     else {
-      this.subscription = this._companyService.getCompanyProducts(currentUser.company).subscribe(
+      this.subscription = this._companyService.getCompanyProducts(currentUser.store).subscribe(
         res => {
           this.filteredProducts = this.products = res;
           console.log(this.products);
@@ -71,6 +71,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   filterByCompany(query) {
-    this.filteredProducts = (query) ? this.filteredProducts.filter(p => p.company_title.toLowerCase().includes(query.toLowerCase())) : this.products;
+    this.filteredProducts = (query) ? this.filteredProducts.filter(p => p.store_title.toLowerCase().includes(query.toLowerCase())) : this.products;
   }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using tagisApi.Models;
 
 namespace tagisApi.Controllers.Resources
 {
@@ -38,7 +39,7 @@ namespace tagisApi.Controllers.Resources
         public double? Total { get; set; }
         
         [Required]
-        public int Company { get; set; }
+        public Store Store { get; set; }
         
         [Column("order_source")]
         public string OrderSource { get; set; }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using tagisApi.Models;
 
 namespace tagisApi.Controllers.Resources
 {
@@ -15,6 +16,8 @@ namespace tagisApi.Controllers.Resources
         public string OrderStatus { get; set; }
         
         // Store
+        public Store Store { get; set; }
+        
         // Customer
     }
 }

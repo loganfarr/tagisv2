@@ -1,18 +1,18 @@
 <input 
   type="text" 
   id="company" 
-  [(ngModel)]="selectedCompany.company_title" 
+  [(ngModel)]="selectedCompany.store_title"
   (focusout)="getCompany($event)" 
-  [ngClass]="{'filled': selectedCompany.company_title}"
+  [ngClass]="{'filled': selectedCompany.store_title}"
   list="companies" />
 <label for="company">Store</label>
 <input type="hidden" name="company" [value]="selectedCompany._cid" />
 <div class="selected-company" *ngIf="selectedCompany._cid">
-  <img [src]="selectedCompany.logo" [alt]="selectedCompany.company_title" />
-  <h4>{{ selectedCompany.company_title }}</h4>
+  <img [src]="selectedCompany.logo" [alt]="selectedCompany.store_title" />
+  <h4>{{ selectedCompany.store_title }}</h4>
 </div>
 <datalist id="companies">
-  <option *ngFor="let company of companyList" [value]="company.company_title">
+  <option *ngFor="let company of companyList" [value]="company.store_title">
     {{ company._cid }}
   </option>
 </datalist>

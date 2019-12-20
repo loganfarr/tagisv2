@@ -50,9 +50,9 @@
     <div class="hidden-xs hidden-sm col-md-3"><h3>Store</h3></div>
   </div>
   <div class="row product" *ngFor="let product of filteredProducts" [ngClass]="{'disabled': !product.status}">
-    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/products', product._pid]">{{ product.product_title }}</a><br />{{ product.sku }}</div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/products', product._pid]">{{ product.title }}</a><br />{{ product.sku }}</div>
     <div class="col-xs-6 col-sm-4 col-md-3"><img [src]="product.image" *ngIf="product.image && product.image != 'undefined' && product.image != 'null'" [alt]="product.title" class="product-image" /></div>
     <div class="hidden-xs col-sm-4 col-md-3">{{ product.stock }}</div>
-    <div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', product.company]">{{ product.company_title }}</a></div>
+    <!--<div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', product.store._cid]">{{ product.store._cid }}</a></div>-->
   </div>
 </div>
