@@ -7,13 +7,13 @@ orbs:
   aws-s3: circleci/aws-s3@1.0.13
 jobs:
   # Build .NET API
-  build-api:
-    docker:
+  # build-api:
+    # docker:
       # specify the version you desire here
-      - image: circleci/node:10.18.0
-    steps: 
-      - checkout
-      - run: cd ~/tagisv2/tagis.Api
+      # - image: circleci/node:10.18.0
+    # steps: 
+      # - checkout
+      # - run: cd ~/tagisv2/tagis.Api
       # - run: [upload to s3]
 
     ### dotnet compilation may not be necessary with CloudFront ### 
@@ -43,6 +43,9 @@ jobs:
 
   # Build Angular Client
   build-client:
+    branches:
+      only:
+        - master
     # Set job environment variables
     environment:
       S3BUCKET: tagis-build-bucket-temp
@@ -83,3 +86,9 @@ jobs:
 
       # run tests!
       # - run: yarn test
+  workflows:
+    version: 2
+    build_tagis:
+      jobs:
+        - build-api
+        - build-client
