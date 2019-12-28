@@ -1,0 +1,69 @@
+<h1>Orders</h1>
+<ul class="right-options">
+  <li>
+    <a [routerLink]="['add']">Add order</a>
+  </li>
+</ul>
+<div class="component-body">
+  <div class="row filters">
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by order ID"
+        #orderIdSearch
+        (keyup)="filterByOrderId(orderIdSearch.value)" />
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding-right: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by customer name"
+        #nameSearch
+        (keyup)="filterByCustomerName(nameSearch.value)" />
+    </div>
+    <div class="col-xs-12 hidden-sm col-md-3" style="padding-right: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by store"
+        #companySearch
+        (keyup)="filterByCompany(companySearch.value)" />
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding-right: 0;">
+      <input 
+        class="form-control" 
+        placeholder="Search by order status"
+        #statusSearch
+        (keyup)="filterByStatus(statusSearch.value)" />
+    </div>
+  </div>
+  <div class="row order-list-header">
+    <div class="col-xs-6 col-sm-4 col-md-3"><h3>Order number</h3></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><h3>Customer name</h3></div>
+    <div class="hidden-xs hidden-sm col-md-3"><h3>Store</h3></div>
+    <div class="hidden-xs col-sm-4 col-md-3"><h3>Status</h3></div>
+  </div>
+  <div class="row order" *ngFor="let order of filteredOrders">
+    <div class="col-xs-6 col-sm-4 col-md-3">
+      <a [routerLink]="['/orders', order._oid]">{{ order._oid }}</a> <br />
+      {{ order.createdDate | date:'LL-dd-yyyy hh:mm' }}
+    </div>
+    <div class="col-xs-6 col-sm-4 col-md-3">
+      <a [routerLink]="['/orders', order._oid]">
+        <span *ngIf="(order.customerName != null && order.customerName.trim() != ''); else noName">{{ order.customerName }}</span>
+        <ng-template #noName>{{ order.customerEmail }}</ng-template>
+      </a>
+    </div>
+    <div class="hidden-xs hidden-sm col-md-3"><a [routerLink]="['/stores', order.store._cid]">{{ order.store.title }}</a></div>
+    <div class="hidden-xs col-sm-4 col-md-3">
+      <div 
+        class="label" 
+        [ngClass]="{
+          'label-info': order.orderStatus =='new',
+          'label-primary': order.orderStatus=='shipped',
+          'label-success': order.orderStatus=='completed',
+          'label-danger': order.orderStatus=='cancelled'}"
+        style="text-transform: capitalize;">
+        {{ order.orderStatus }}
+      </div>
+    </div>
+  </div>
+</div>

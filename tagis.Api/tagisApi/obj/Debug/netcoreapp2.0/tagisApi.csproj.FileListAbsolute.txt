@@ -1,0 +1,3 @@
+/Users/logan/Projects/tagis/tagisApi/obj/Debug/netcoreapp2.0/tagisApi.csproj.CoreCompileInputs.cache
+/Users/logan/Projects/tagis/tagisApi/obj/Debug/netcoreapp2.0/tagisApi.AssemblyInfoInputs.cache
+/Users/logan/Projects/tagis/tagisApi/obj/Debug/netcoreapp2.0/tagisApi.AssemblyInfo.cs

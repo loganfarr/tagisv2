@@ -1,0 +1,15 @@
+UPDATE tagis.orders SET customer_phone=NULL WHERE customer_phone="undefined";
+UPDATE tagis.orders SET order_status=NULL WHERE order_status="undefined";
+UPDATE tagis.orders SET order_source=NULL WHERE order_source="undefined";
+UPDATE tagis.orders SET customer_phone=NULL WHERE customer_phone="undefined";
+UPDATE tagis.orders SET customer_address2=NULL where customer_address2="undefined";
+UPDATE tagis.orders SET shipping_name=customer_name WHERE shipping_name="undefined";
+UPDATE tagis.orders SET shipping_address1=customer_address1 WHERE shipping_address1="undefined";
+UPDATE tagis.orders SET shipping_address2=customer_address2 WHERE shipping_address2="undefined";
+UPDATE tagis.orders SET shipping_city=customer_city WHERE shipping_city="undefined";
+UPDATE tagis.orders SET shipping_state=customer_state WHERE shipping_state="undefined";
+UPDATE tagis.orders SET shipping_zip=customer_zip WHERE shipping_zip="undefined";
+UPDATE tagis.orders SET ref=NULL WHERE ref="undefined";
+UPDATE tagis.orders SET shipping_number=NULL WHERE shipping_number="undefined";
+UPDATE tagis.orders SET shipping_carrier=NULL WHERE shipping_carrier="undefined";
+UPDATE tagis.orders SET shipping_city=customer_city WHERE shipping_city="undefined";

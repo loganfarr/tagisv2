@@ -1,0 +1,27 @@
+<h1>Users</h1>
+<ul class="right-options">
+  <li>
+    <a [routerLink]="['/users/add']">Add user</a>
+  </li>
+</ul>
+<div class="component-body">
+  <div class="row user-list-header">
+    <div class="col-xs-4 col-md-3 col-lg-2"><h3>Name</h3></div>
+    <div class="col-xs-4 col-md-3 col-lg-2"><h3>Email</h3></div>
+    <div class="hidden-xs hidden-sm hidden-md col-lg-3"><h3>Last login</h3></div>
+    <div class="hidden-xs hidden-sm col-md-3 col-lg-2"><h3>Role</h3></div>
+    <div class="col-xs-4 col-md-3 col-lg-1"><h3>Operations</h3></div>
+  </div>
+  <div class="row user" *ngFor="let user of users">
+    <div class="col-xs-4 col-md-3 col-lg-2">{{ user.FirstName }} {{ user.LastName }}</div>
+    <div class="col-xs-4 col-md-3 col-lg-2"><a [routerLink]="['/users', user._uid]">{{ user.Email }}</a></div>
+    <div class="hidden-xs hidden-sm hidden-md col-lg-3">{{ user.LastLogin | date:'medium' }}</div>
+    <div class="hidden-xs hidden-sm col-md-3 col-lg-2">
+      {{ user.Role }}
+      <div *ngIf="user.Role == 4">
+        ( Stores: {{ user.company }} )
+      </div>
+    </div>
+    <div class="col-xs-4 col-md-3 col-lg-1"><a [routerLink]="['/users', user._uid, 'edit']">Edit</a></div>
+  </div>
+</div>
