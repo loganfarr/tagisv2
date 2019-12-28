@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-9">
-    <h1>{{ store.store_title}}</h1>
+    <h1>{{ store.title}}</h1>
   </div>
   <div class="col-xs-3" style="padding-top: 35px;">
     <ul class="pull-right" style="padding-left: 0;">
@@ -59,13 +59,13 @@
     <div class="component-body">
       <img *ngIf="store.logo" [src]="store.logo" alt="Store logo" />
       <h3>Online information</h3>
-      <div class="field" *ngIf="store.website">
+      <div class="field" *ngIf="store.websiteUrl">
         <small>Company website</small>
-        <a [href]="store.website" target="_blank">{{ store.website }}</a>
+        <a [href]="store.websiteUrl" target="_blank">{{ store.websiteUrl }}</a>
       </div>
-      <div class="field" *ngIf="store.store_url">
+      <div class="field" *ngIf="store.storeUrl">
         <small>Company store</small>
-        <a [href]="store.store_url" target="_blank">{{ store.store_url }}</a>
+        <a [href]="store.storeUrl" target="_blank">{{ store.storeUrl }}</a>
       </div>
       <div class="field" *ngIf="store.product_api_endpoint">
         <small>Product API endpoint</small>

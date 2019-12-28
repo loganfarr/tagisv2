@@ -11,11 +11,11 @@ import { StoreComponent } from './store/store.component';
 
 export const storeRouting = RouterModule.forChild([
   { path: 'stores', component: StoreListComponent, canActivate: [AuthGuard] },
-  { path: 'companies', component: StoreListComponent, canActivate: [AuthGuard] },
+  { path: 'stores', component: StoreListComponent, canActivate: [AuthGuard] },
   { path: 'stores/add', component: AddStoreFormComponent, canActivate: [AuthGuard, EmployeeGuard] },
-  { path: 'companies/add', component: AddStoreFormComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'stores/add', component: AddStoreFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'stores/edit/:cid', component: AddStoreFormComponent, canActivate: [AuthGuard, EmployeeGuard] },
-  { path: 'companies/edit/:cid', component: AddStoreFormComponent, canActivate: [AuthGuard, EmployeeGuard] },
+  { path: 'stores/edit/:cid', component: AddStoreFormComponent, canActivate: [AuthGuard, EmployeeGuard] },
   { path: 'stores/:cid', component: StoreComponent, canActivate: [AuthGuard] },
-  { path: 'companies/:cid', component: StoreComponent, canActivate: [AuthGuard] }
+  { path: 'stores/:cid', component: StoreComponent, canActivate: [AuthGuard] }
 ]);

@@ -13,7 +13,7 @@ import { StoreService } from '../store.service';
   styleUrls: ['./store-list.component.css']
 })
 export class StoreListComponent implements OnInit, OnDestroy {
-  companies;
+  stores;
   subscription: Subscription;
 
   constructor(
@@ -25,13 +25,13 @@ export class StoreListComponent implements OnInit, OnDestroy {
     var currentUser = this._authService.currentUser;
 
     if(currentUser.role != 4)
-      this.subscription = this._storeService.getAllCompanies().subscribe(
-        res => this.companies = res,
+      this.subscription = this._storeService.getAllStores().subscribe(
+        res => this.stores = res,
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );
     else 
       this.subscription = this._storeService.getCompanies(JSON.parse('[' + currentUser.store + ']')).subscribe(
-        res => this.companies = res,
+        res => this.stores = res,
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
       );
   }

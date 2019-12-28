@@ -12,7 +12,7 @@ export class StoreService {
 
   constructor(private _http: HttpClient) { }
 
-  getAllCompanies() {
+  getAllStores() {
     return this._http.get<Store[]>(this._apiEndpoint+'store',{headers:{'X-Api-Key': '123'}});
   }
 
@@ -50,7 +50,7 @@ export class StoreService {
   }
 
   postCompany(company) {
-    return this._http.post(this._apiEndpoint+'companies', company, {headers: {'Content-type': 'application/json', 'charset': 'utf-8','X-Api-Key': '123'}});
+    return this._http.post(this._apiEndpoint+'stores', company, {headers: {'Content-type': 'application/json', 'charset': 'utf-8','X-Api-Key': '123'}});
   }
 
   updateCompany(company) {

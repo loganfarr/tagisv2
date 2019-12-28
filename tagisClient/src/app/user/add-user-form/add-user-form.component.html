@@ -7,8 +7,8 @@
           <input 
             type="email" 
             name="email" 
-            [(ngModel)]="user.email"
-            [ngClass]="{'filled': user.email}"
+            [(ngModel)]="user.Email"
+            [ngClass]="{'filled': user.Email}"
             required 
             autofocus 
             (focusout)="checkEmail($event.target)"
@@ -22,7 +22,7 @@
           <input 
             type="password" 
             name="password" 
-            required 
+            [required]="isNaN(user._uid)"
             ngModel
             (focusout)="checkInput($event.target)"
             #password="ngModel" />
@@ -33,8 +33,8 @@
         <div class="form-group">
           <input 
             type="text" 
-            [(ngModel)]="user.first_name"
-            [ngClass]="{'filled': user.first_name}"
+            [(ngModel)]="user.FirstName"
+            [ngClass]="{'filled': user.FirstName}"
             name="first_name" 
             (focusout)="checkInput($event.target)"
             #firstName="ngModel" />
@@ -43,8 +43,8 @@
         <div class="form-group">
           <input 
             type="text"
-            [(ngModel)]="user.last_name"
-            [ngClass]="{'filled': user.last_name}"
+            [(ngModel)]="user.LastName"
+            [ngClass]="{'filled': user.LastName}"
             name="last_name"
             (focusout)="checkInput($event.target)"
             #lastName="ngModel" />

@@ -57,7 +57,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   filterByCompany(query) {
-    this.filteredOrders = (query) ? this.orders.filter(o => o.store_title.toLowerCase().includes(query.toLowerCase())) : this.orders;
+    this.filteredOrders = (query) ? this.orders.filter(o => o.title.toLowerCase().includes(query.toLowerCase())) : this.orders;
   }
 
   filterByCustomerName(query) {

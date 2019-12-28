@@ -21,7 +21,7 @@ export class AddStoreFormComponent implements OnInit {
 
   addStoreForm;
 
-  private _apiEndPoint = '//tagis-stage-api.adventstores.com/api/companies/upload-logo';
+  private _apiEndPoint = '//tagis-stage-api.adventstores.com/api/stores/upload-logo';
   uploader = new FileUploader({
     url: this._apiEndPoint,
     itemAlias: 'companyLogo',
@@ -67,10 +67,10 @@ export class AddStoreFormComponent implements OnInit {
         this._storeService.getStore(this.storeId).subscribe(
           res => {
             this.store = res[0];
-            this.pageTitle = 'Edit store: ' + this.store.store_title;
+            this.pageTitle = 'Edit store: ' + this.store.title;
             this.machineName = this.store.machine_name;
 
-            this.addStoreForm.get('store_title').disable();
+            this.addStoreForm.get('title').disable();
           },
           err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)
         );
@@ -125,8 +125,8 @@ export class AddStoreFormComponent implements OnInit {
     this.store.contact_name = formValues.contact_name;
     this.store.contact_email = formValues.contact_email;
     this.store.contact_phone = formValues.contact_phone;
-    this.store.website = formValues.website;
-    this.store.store_url = formValues.store_url;
+    this.store.websiteUrl = formValues.websiteUrl;
+    this.store.storeUrl = formValues.storeUrl;
     this.store.product_api_endpoint = formValues.product_api_endpoint;
     this.store.order_api_endpoint = formValues.order_api_endpoint;
     this.store.discount = formValues.discount;
@@ -134,11 +134,11 @@ export class AddStoreFormComponent implements OnInit {
 
     // Only set the store name if creating a new store
     if(!this.storeId)
-      this.store.store_title = formValues.store_title;
+      this.store.title = formValues.title;
     else
       this.store._cid = this.storeId;
 
-    console.log(this.store, this.store.store_title);
+    console.log(this.store, this.store.title);
 
     if(this.storeId == undefined || this.storeId == 0) {
       this._storeService.postCompany(this.store).subscribe(

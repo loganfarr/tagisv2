@@ -73,7 +73,7 @@ export class AddUserFormComponent implements OnInit {
 
   checkEmail(textbox) {
     for (var i = this.users.length - 1; i >= 0; i--) {
-      if(this.users[i].email.toLowerCase() == textbox.value.toLowerCase()) {
+      if(this.users[i].Email.toLowerCase() == textbox.value.toLowerCase()) {
         this.emailError = true;
         return;
       }
@@ -92,7 +92,7 @@ export class AddUserFormComponent implements OnInit {
   }
 
   deleteUser(uid) {
-    if(confirm('Are you sure you want to delete ' + this.user.first_name + ' ' + this.user.last_name + '?')) {
+    if(confirm('Are you sure you want to delete ' + this.user.FirstName + ' ' + this.user.LastName + '?')) {
       return this._userService.deleteUser(uid).subscribe(
         res => {this._notificationsService.info('User deleted successfully'); this._router.navigate(['/users']); },
         err => this._notificationsService.error('Error #' + err.error.errCode, err.error.errMessage)

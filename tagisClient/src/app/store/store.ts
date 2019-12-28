@@ -1,6 +1,6 @@
 export class Store {
   _cid: number;
-  store_title: string = '';
+  title: string = '';
   machine_name: string = '';
   logo: string = '';
   address1: string = '';
@@ -11,8 +11,8 @@ export class Store {
   contact_name: string = '';
   contact_email: string = '';
   contact_phone: string = '';
-  website: string = '';
-  store_url: string = '';
+  websiteUrl: string = '';
+  storeUrl: string = '';
   product_api_endpoint: string = '';
   order_api_endpoint: string = '';
   auth_token: string = '';

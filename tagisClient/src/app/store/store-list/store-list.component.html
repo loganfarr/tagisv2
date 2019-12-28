@@ -11,10 +11,10 @@
     <div class="col-xs-6 col-sm-4 col-md-3"><h3>Contact name</h3></div>
     <div class="hidden-xs col-sm-4 col-md-4"><h3>Website</h3></div>
   </div>
-  <div class="row company" *ngFor="let company of companies">
-    <div class="hidden-xs hidden-sm col-md-2">{{ company._cid }}</div>
-    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/stores', company._cid]">{{ company.store_title }}</a></div>
-    <div class="col-xs-6 col-sm-4 col-md-3">{{ company.contact_name }}</div>
-    <div class="hidden-xs col-sm-4 col-md-4"><a target="_blank" [href]="company.store_url">{{ company.store_url }}</a></div>
+  <div class="row company" *ngFor="let store of stores">
+    <div class="hidden-xs hidden-sm col-md-2">{{ store._cid }}</div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a [routerLink]="['/stores', store._cid]">{{ store.title }}</a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3">{{ store.contactName }}</div>
+    <div class="hidden-xs col-sm-4 col-md-4"><a target="_blank" [href]="store.websiteUrl">{{ store.websiteUrl }}</a></div>
   </div>
 </div>

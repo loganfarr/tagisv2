@@ -11,8 +11,8 @@
               formControlName="company_title"
               (focusout)="checkInput($event.target)" 
               (keyup)="formatMachineName($event)"
-              [(ngModel)]="store.store_title"
-              [ngClass]="{'filled': store.store_title}" />
+              [(ngModel)]="store.title"
+              [ngClass]="{'filled': store.title}" />
             <label for="name">Store title</label>
             <small *ngIf="machineName">Machine name: {{ machineName }}</small>
           </div>
@@ -187,8 +187,8 @@
             name="website" 
             formControlName="website"
             (focusout)="checkInput($event.target)"
-            [(ngModel)]="store.website"
-            [ngClass]="{'filled': store.website}" >
+            [(ngModel)]="store.websiteUrl"
+            [ngClass]="{'filled': store.websiteUrl}" >
           <label for="website">Website</label>
         </div>
         <div class="form-group">
@@ -197,8 +197,8 @@
             name="company_store" 
             formControlName="company_store" 
             (focusout)="checkInput($event.target)"
-            [(ngModel)]="store.store_url"
-            [ngClass]="{'filled': store.store_url}" >
+            [(ngModel)]="store.storeUrl"
+            [ngClass]="{'filled': store.storeUrl}" >
           <label for="company_store">Comapny store</label>
         </div>
         <div class="form-group">

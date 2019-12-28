@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
-        <h1>Welcome, {{ user.first_name }}</h1>
+        <h1>Welcome, {{ user.FirstName }}</h1>
         <div class="component-body">
             <h3>Recent Orders</h3>
             <div class="row order-list-header">
@@ -40,17 +40,16 @@
             <h3>Products in Low Stock</h3>
             <p>These products have the lowest stock in the catalog.</p>
             <div class="row product-list-header">
-                <div class="col-xs-3 col-sm-4"><h4>Title</h4></div>
-                <div class="col-xs-9 col-sm-4"><h4>Stock</h4></div>
+                <div class="col-xs-3 col-sm-6"><h4>Title</h4></div>
+                <div class="col-xs-9 col-sm-2"><h4>Stock</h4></div>
                 <div class="hidden-xs col-sm-4"><h4>Store</h4></div>
             </div>
             <div class="row product" *ngFor="let product of products">
-                <div class="col-sm-4"><a [routerLink]="['/products', product._pid]">{{ product.product_title }}</a><br/>{{
+                <div class="col-sm-6"><a [routerLink]="['/products', product._pid]">{{ product.product_title }}</a><br/>{{
                     product.sku }}
                 </div>
-                <div class="col-sm-4">{{ product.stock }}</div>
-                <div class="hidden-xs col-sm-4"><a [routerLink]="['/stores', product.company]">{{ product.store_title
-                    }}</a></div>
+                <div class="col-sm-2">{{ product.stock }}</div>
+                <div class="hidden-xs col-sm-4"><a [routerLink]="['/stores', product.store._cid]">{{ product.store.title }}</a></div>
             </div>
         </div>
     </div>
@@ -63,7 +62,7 @@
             </div>
             <div class="row company" *ngFor="let company of companies">
                 <div class="col-xs-6">{{ company._cid }}</div>
-                <div class="col-xs-6"><a [routerLink]="['/stores', company._cid]">{{ company.store_title }}</a></div>
+                <div class="col-xs-6"><a [routerLink]="['/stores', company._cid]">{{ company.title }}</a></div>
             </div>
         </div>
     </div>

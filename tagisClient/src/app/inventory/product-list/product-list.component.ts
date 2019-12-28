@@ -71,6 +71,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   filterByCompany(query) {
-    this.filteredProducts = (query) ? this.filteredProducts.filter(p => p.store_title.toLowerCase().includes(query.toLowerCase())) : this.products;
+    this.filteredProducts = (query) ? this.filteredProducts.filter(p => p.title.toLowerCase().includes(query.toLowerCase())) : this.products;
   }
 }

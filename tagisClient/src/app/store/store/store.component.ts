@@ -52,7 +52,7 @@ export class StoreComponent implements OnInit {
   }
 
   filterByStore(query) {
-    this.filteredProducts = (query) ? this.products.filter(p => p.store_title.toLowerCase().includes(query.toLowerCase())) : this.products;
+    this.filteredProducts = (query) ? this.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase())) : this.products;
   }
 
 }
