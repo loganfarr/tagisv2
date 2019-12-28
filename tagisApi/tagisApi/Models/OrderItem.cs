@@ -16,7 +16,7 @@ namespace tagisApi.Models
         public int Quantity { get; set; }
         
         [Column("order_id")]
-        public int OrderResourceOid { get; set; }
+        public int Order_oid { get; set; }
         
         [NotMapped]
         public string[] ProductOptions { get; set; }

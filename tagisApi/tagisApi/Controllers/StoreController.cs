@@ -25,31 +25,31 @@ namespace tagisApi.Controllers
         
         [HttpGet]
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<StoreResource>>>  GetStores()
+        public async Task<ActionResult<IEnumerable<Store>>>  GetStores()
         {
             return await _context.Stores.ToListAsync();
         }
         
         [HttpGet("recent")]
-        public async Task<ActionResult<IEnumerable<StoreResource>>> GetRecentStores()
+        public async Task<ActionResult<IEnumerable<Store>>> GetRecentStores()
         {
             return await _context.Stores.OrderByDescending(c => c._cid).Take(5).ToListAsync();
         }
 
         [HttpGet("name/{name}")]
-        public async Task<ActionResult<StoreResource>> GetStoreByName(string name)
+        public async Task<ActionResult<Store>> GetStoreByName(string name)
         {
             return await _context.Stores.Where(c => c.Title == name).SingleOrDefaultAsync();
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<StoreResource>> GetStore(int id)
+        public async Task<ActionResult<Store>> GetStore(int id)
         {
             return await _context.Stores.FindAsync(id);
         }
 
         [HttpGet("products")]
-        public Task<ActionResult<IEnumerable<ProductResource>>> GetStoreProducts(int storeId)
+        public Task<ActionResult<IEnumerable<Product>>> GetStoreProducts(int storeId)
         {
             throw new System.NotImplementedException();
 //            return await _context.Products.Where(p => p.storeId == storeId).ToListAsync();

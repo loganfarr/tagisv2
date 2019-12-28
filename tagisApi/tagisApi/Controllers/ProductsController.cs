@@ -25,13 +25,13 @@ namespace tagisApi.Controllers
         
         [HttpGet]
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<ProductResource>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductResource>> GetProduct(int id)
+        public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -42,15 +42,20 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet("sku/{sku}")]
-        public async Task<ActionResult<ProductResource>> GetProductBySku(string sku)
+        public async Task<ActionResult<Product>> GetProductBySku(string sku)
         {
             return await _context.Products.Where(p => p.Sku == sku).SingleOrDefaultAsync();
         }
 
         [HttpGet("lowStock")]
-        public async Task<ActionResult<IEnumerable<ProductResource>>> GetLowStockProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetLowStockProducts()
         {
-            return await _context.Products.Where(p => p.Stock > 0).OrderBy(p => p.Stock).Take(5).ToListAsync();
+            return await _context.Products
+                .Where(p => p.Stock > 0)
+                .Include(p => p.Store)
+                .OrderBy(p => p.Stock)
+                .Take(5)
+                .ToListAsync();
         }
 
         [HttpPut("update/{sku}/{status}")]
@@ -85,7 +90,7 @@ namespace tagisApi.Controllers
 
         public async Task<bool> UpdateProductInventory(int stock, string sku)
         {
-            ProductResource loadedProduct = await _context.Products.Where(p => p.Sku == sku).SingleOrDefaultAsync();
+            Product loadedProduct = await _context.Products.Where(p => p.Sku == sku).SingleOrDefaultAsync();
 
             if (loadedProduct == null) return false;
 
@@ -98,7 +103,7 @@ namespace tagisApi.Controllers
             return true;
         }
 
-        public async Task<bool> CheckProductsAvailable(List<OrderItemResource> orderItems)
+        public async Task<bool> CheckProductsAvailable(List<OrderItem> orderItems)
         {
             List<string> requestedSkus = new List<string>();
             IDictionary<string, int> requestedProducts = new Dictionary<string, int>();
@@ -110,18 +115,12 @@ namespace tagisApi.Controllers
             
             var loadedProducts = await _context.Products.Where(r => requestedSkus.Contains(r.Sku)).ToListAsync();
 
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            for (int i = 0; i < requestedProducts.Count; i++)
-            {
-                if (loadedProducts.ElementAt(i).Stock < requestedProducts.ElementAt(i).Value)
-                    return false;
-            }
-
-            return true;
+            return !requestedProducts.Where((t, i) => 
+                loadedProducts.ElementAt(i).Stock < requestedProducts.ElementAt(i).Value).Any();
         }
 
         [HttpDelete]
-        public async Task<int> deleteProduct(ProductResource product)
+        public async Task<int> deleteProduct(Product product)
         {
             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,22 +55,34 @@ namespace tagisApi.Controllers
                 return new TagisToken();
             }
 
-            if (hash != loadedUser.Password)
+            if (hash != loadedUser.Password || loadedUser.Active == 0)
             {
                 Response.StatusCode = 401;
                 return new TagisToken();
             }
-            
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManager.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-             
+
+            var userClaims = new Claim[] {
+                new Claim("FirstName", loadedUser.FirstName),
+                new Claim("LastName", loadedUser.LastName), 
+                new Claim("Email", loadedUser.Email),
+                new Claim("Role", loadedUser.Role.ToString()),
+                new Claim("LastLogin", loadedUser.lastLogin.ToString()),
+                new Claim("UserId", loadedUser._uid.ToString()), 
+                new Claim("IsActive", loadedUser.Active.ToString()), 
+            };
+
             var jwtToken = new JwtSecurityToken(
                 _tokenManager.Issuer,
                 _tokenManager.Audience,
-                null,
+                userClaims,
                 expires:DateTime.Now.AddMinutes(_tokenManager.AccessExpiration),
                 signingCredentials: credentials
             );
+            
+            
             
             return new TagisToken(){Authenticated = new JwtSecurityTokenHandler().WriteToken(jwtToken)};
         }

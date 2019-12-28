@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
-using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers
@@ -25,25 +24,27 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderResource>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             return await _context.Orders.ToListAsync();
         }
 
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<OrderShortResource>>> getOrderList()
+        public async Task<ActionResult<IEnumerable<Order>>> getOrderList()
         {
-            return await _context.Orders.Select(o => new OrderShortResource
-            {
-                _oid = o._oid,
-                Total = o.Total,
-                Store = o.Store,
-                OrderStatus = o.OrderStatus
-            }).ToListAsync();
+            return await _context.Orders.Select(o => new Order
+                {
+                    _oid = o._oid,
+                    Total = o.Total,
+                    Store = o.Store,
+                    OrderStatus = o.OrderStatus
+                })
+                .Include(o => o.Store)
+                .ToListAsync();
         }
     
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderResource>> GetOrder(int id)
+        public async Task<ActionResult<Order>> GetOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
 
@@ -56,7 +57,7 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet("recent")]
-        public async Task<ActionResult<IEnumerable<OrderResource>>> getRecentOrders()
+        public async Task<ActionResult<IEnumerable<Order>>> getRecentOrders()
         {
             return await _context.Orders
                 .Include(o => o.Store)
@@ -66,7 +67,7 @@ namespace tagisApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> PostOrder([FromBody] OrderResource order)
+        public async Task<ActionResult<bool>> PostOrder([FromBody] Order order)
         {
             if (!await _productsController.CheckProductsAvailable(order.Products))
                 return false;
@@ -103,9 +104,9 @@ namespace tagisApi.Controllers
             throw new System.NotImplementedException();
         }
 
-        private List<OrderItemResource> GetOrderItems(int orderId)
+        private List<OrderItem> GetOrderItems(int orderId)
         {
-            return _context.OrderItems.Where(oi => oi.OrderResource_oid == orderId).ToList();
+            return _context.OrderItems.Where(oi => oi.Order_oid == orderId).ToList();
         }
 
         private void processOrder(Order order)

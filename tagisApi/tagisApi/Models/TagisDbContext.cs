@@ -9,13 +9,13 @@ namespace tagisApi.Models
             : base(options)
         {}
 
-        public DbSet<OrderResource> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
         
-        public DbSet<ProductResource> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
         
-        public DbSet<StoreResource> Stores { get; set; }
+        public DbSet<Store> Stores { get; set; }
         
-        public DbSet<OrderItemResource> OrderItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         
         public DbSet<User> Users { get; set; }
         

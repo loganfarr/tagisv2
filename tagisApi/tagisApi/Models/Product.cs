@@ -7,6 +7,8 @@ namespace tagisApi.Models
     public class Product
     {
         [Required]
+        [Key]
+        [Column("_pid")]
         public int Id { get; set; }
 
         [Required]
@@ -14,28 +16,24 @@ namespace tagisApi.Models
 
         [Required]
         [StringLength(255)]
+        [Column("product_title")]
         public string Title { get; set; }
 
         [Required]
         public int Stock { get; set; }
-
-        [Required]
-        public int CompanyId { get; set; }
-
+        
+        [Column("image")]
         public string ImageUrl { get; set; }
 
-        public bool Status { get; set; }
+        public int Status { get; set; }
 
-        public string Description { get; set; }
+        // public string Description { get; set; }
 
-        public double Price { get; set; }
+        // public double Price { get; set; }
 
-        public double Cost { get; set; }
+        // public double Cost { get; set; }
         
-//        [Column("store")]
-//        public Store store { get; set; }
-        
-        [Column("store")]
-        public Store store_cid { get; set; }
+        [Column("store_cid")]
+        public Store Store { get; set; }
     }
 }

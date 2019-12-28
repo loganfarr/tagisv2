@@ -8,9 +8,6 @@ namespace tagisApi.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Order, OrderResource>();
-            CreateMap<OrderItem, OrderItemResource>();
-            CreateMap<Product, ProductResource>();
         }
     }
 }

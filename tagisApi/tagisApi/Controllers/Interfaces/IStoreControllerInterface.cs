@@ -9,11 +9,11 @@ namespace tagisApi.Controllers.Interfaces
 {
     public interface IStoreControllerInterface
     {
-        Task<ActionResult<IEnumerable<StoreResource>>> GetStores();
-        Task<ActionResult<IEnumerable<StoreResource>>> GetRecentStores();
-        Task<ActionResult<StoreResource>> GetStoreByName(string name);
-        Task<ActionResult<StoreResource>> GetStore(int id);
-        Task<ActionResult<IEnumerable<ProductResource>>> GetStoreProducts(int storeId);
+        Task<ActionResult<IEnumerable<Store>>> GetStores();
+        Task<ActionResult<IEnumerable<Store>>> GetRecentStores();
+        Task<ActionResult<Store>> GetStoreByName(string name);
+        Task<ActionResult<Store>> GetStore(int id);
+        Task<ActionResult<IEnumerable<Product>>> GetStoreProducts(int storeId);
         List<Order> getStoreOrders();
         
         bool postStore(Store store);

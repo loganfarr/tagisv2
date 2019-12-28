@@ -7,6 +7,7 @@ using MySqlX.XDevAPI.Relational;
 
 namespace tagisApi.Models
 {
+    [Table("store")]
     public class Store
     {
         [Required]
