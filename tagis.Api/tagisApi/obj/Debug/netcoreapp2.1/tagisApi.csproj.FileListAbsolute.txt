@@ -1,0 +1,14 @@
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.csprojAssemblyReference.cache
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.csproj.CoreCompileInputs.cache
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.RazorAssemblyInfo.cache
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.RazorAssemblyInfo.cs
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.AssemblyInfoInputs.cache
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.AssemblyInfo.cs
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/bin/Debug/netcoreapp2.1/tagisApi.deps.json
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/bin/Debug/netcoreapp2.1/tagisApi.runtimeconfig.json
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/bin/Debug/netcoreapp2.1/tagisApi.runtimeconfig.dev.json
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/bin/Debug/netcoreapp2.1/tagisApi.dll
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/bin/Debug/netcoreapp2.1/tagisApi.pdb
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.RazorTargetAssemblyInfo.cache
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.dll
+/Users/logan/Projects/tagisv2/tagis.Api/tagisApi/obj/Debug/netcoreapp2.1/tagisApi.pdb

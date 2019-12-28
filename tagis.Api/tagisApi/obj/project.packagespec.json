@@ -10,13 +10,13 @@
       "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
     ],
     "originalTargetFrameworks": [
-      "netcoreapp2.2"
+      "netcoreapp2.1"
     ],
     "sources": {
       "https://api.nuget.org/v3/index.json": {}
     },
     "frameworks": {
-      "netcoreapp2.2": {
+      "netcoreapp2.1": {
         "projectReferences": {}
       }
     },
@@ -27,7 +27,7 @@
     }
   },
   "frameworks": {
-    "netcoreapp2.2": {
+    "netcoreapp2.1": {
       "dependencies": {
         "AutoMapper": {
           "target": "Package",
@@ -40,13 +40,13 @@
         "Microsoft.AspNetCore.App": {
           "suppressParent": "All",
           "target": "Package",
-          "version": "[2.2.0, )",
+          "version": "[2.1.1, )",
           "autoReferenced": true
         },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",
-          "version": "[2.2.0, )",
+          "version": "[2.1.0, )",
           "autoReferenced": true
         },
         "MySql.Data.EntityFrameworkCore": {

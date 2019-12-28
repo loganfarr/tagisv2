@@ -47,7 +47,7 @@ namespace tagisApi
 
             services.AddDbContext<TagisDbContext>(options => options.UseMySQL(Configuration["ConnectionStrings:Default"]));
             
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
