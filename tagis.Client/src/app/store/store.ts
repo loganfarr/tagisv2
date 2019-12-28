@@ -23,4 +23,5 @@ export class Store {
   thank_you_email: number;
   discount: string = '';
   coupon_code: string = '';
+  update_on_approval: boolean = false;
 }

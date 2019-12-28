@@ -57,7 +57,7 @@ export class AddStoreFormComponent implements OnInit {
       email_from_address: [''],
       emails_enabled: [''],
       discount: [''],
-      coupon_code: ['']
+      coupon_code: [''],
     });
 
     this._activatedRoute.params.subscribe((params: Params) => {

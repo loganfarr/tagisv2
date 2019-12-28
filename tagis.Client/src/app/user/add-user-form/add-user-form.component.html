@@ -22,7 +22,7 @@
           <input 
             type="password" 
             name="password" 
-            [required]="isNaN(user._uid)"
+            [required]="user._uid == null || user._uid == undefined"
             ngModel
             (focusout)="checkInput($event.target)"
             #password="ngModel" />

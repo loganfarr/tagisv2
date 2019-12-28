@@ -1,4 +1,5 @@
 import { Product } from './product';
+import {Store} from "../store/store";
 
 export class Order {
   _oid: number;
@@ -9,8 +10,7 @@ export class Order {
   subtotal: number;
   taxes: number;
   total: number;
-  store: Object;
-
+  store: Store;
   logo: string; // Store logo
   customerName: string = '';
   customerEmail: string = '';
