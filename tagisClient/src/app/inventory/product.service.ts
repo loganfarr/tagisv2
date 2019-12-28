@@ -59,6 +59,11 @@ export class ProductService {
       }
 
       return false;
-    });
+    },
+      err => {
+        return false;
+      });
+
+    return false;
   }
 }
