@@ -30,6 +30,7 @@ jobs:
       # - image: circleci/mongo:3.4.4
 
     steps:
+      - checkout
       - run: cd ~/tagisv2/tagis.Client
       - run: npm install
       - run: ng build --configuration="prod"
