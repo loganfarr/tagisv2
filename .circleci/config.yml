@@ -9,7 +9,6 @@ jobs:
   # Build .NET API
   build-api:
     docker:
-      specify the version you desire here
       - image: circleci/node:10.18.0
     steps: 
       - checkout
