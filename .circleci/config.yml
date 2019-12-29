@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - checkout
-      - run: cd ~/tagisv2/tagis.Client
+      - run: cd ~/project/tagis.Client
       - run: npm install
       - run: ng build --configuration="prod"
       - aws-s3/sync:
