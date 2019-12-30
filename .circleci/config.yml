@@ -41,9 +41,6 @@ jobs:
       - aws-s3/sync:
           from: ~/project/tagis.Client/dist
           to: 's3://${S3BUCKET}/client'
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
           overwrite: true
 
       # Download and cache dependencies
