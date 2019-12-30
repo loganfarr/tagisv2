@@ -9,10 +9,6 @@ orbs:
 workflows:
   version: 2
   build-tagis:
-    filters:
-      branches:
-        only:
-          - master
     jobs:
       - build-api
       - build-client
