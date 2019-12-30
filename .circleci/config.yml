@@ -21,7 +21,7 @@ jobs:
     steps:
       - checkout
       - aws-s3/sync:
-          from: ~/project/tagis.Api/
+          from: ~/project/tagis.Api/tagisApi
           to: 's3://${BUILD_BUCKET}/api'
           overwrite: true
 
