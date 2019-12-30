@@ -33,7 +33,7 @@ jobs:
       - checkout
       - run: cd ~/project/tagis.Client
       - run: npm install
-      - run: ng build --configuration="prod"
+      - run: node_modules/@angular/cli/bin/ng build --prod=true
       - aws-s3/sync:
           from: dist
           to: 's3://${S3BUCKET}/client'
