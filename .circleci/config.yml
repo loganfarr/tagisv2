@@ -5,29 +5,64 @@
 version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.13
-# workflows:
-  # version: 2
-  # build-tagis:
-  #   branches:
-  #     only:
-  #       - master
-  #   jobs:
-  #     - build-api
-  #     - build-client
+  win: circleci/windows@1.0.0
+workflows:
+  version: 2
+  build-tagis:
+    filters:
+      branches:
+        only:
+          - master
+    jobs:
+      - build-api
+      - build-client
 jobs:
+  # Build API package
+  build-api:
+    docker:
+      - image: circleci/node:10.18.0
+
+    steps:
+      - checkout
+      - run: zip ~/project/tagisApi.zip ~/project/tagis.Api/ 
+      - aws-s3/copy:
+          from: ~/project/tagisApi.zip
+          to: 's3://${BUILD_BUCKET}/'
+          overwrite: true
+
+    ## Commenting this out so I can come back to it later
+    ## For now I think it's going to be built with CloudFormation
+    # executor:
+    #   name: win/vs2019
+    #   shell: powershell.exe
+
+    # steps:
+    #   - checkout
+    #   - restore_cache:
+    #       keys:
+    #         - dotnet-packages-v1-{{ checksum "tagisApi.csproj" }}
+    #   - run:
+    #       name: "Install project dependencies"
+    #       command: dotnet.exe restore
+    #   - save_cache:
+    #       paths:
+    #         - C:\Users\circleci\.nuget\packages
+    #       key: dotnet-packages-v1-{{ checksum "tagisApi.csproj" }}
+    #   - run:
+    #       name: "Run Build step"
+    #       command: dotnet.exe publish -c Release -r win10-x64
+    #   - run:
+    #       name: "Test the executable"
+    #       command: .\bin\Release\netcoreapp2.1\win10-x64\publish\circleci-demo-windows.exe
+    #   - store_artifacts:
+    #       path: .\bin\Release\netcoreapp2.1\win10-x64\publish\circleci-demo-windows.exe
+
+
   # Build Angular Client
-  build:
-    # Set job environment variables
-    environment:
-      S3BUCKET: tagis-build-bucket-temp
+  build-client:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.18.0
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
 
     steps:
       - checkout
@@ -37,22 +72,8 @@ jobs:
           node_modules/@angular/cli/bin/ng build --prod=true;
       - aws-s3/sync:
           from: ~/project/tagis.Client/dist
-          to: 's3://${S3BUCKET}/client'
+          to: 's3://${BUILD_BUCKET}/client'
           overwrite: true
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
       # - run: yarn test
