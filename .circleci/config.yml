@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - checkout
-      - run: zip ~/project/tagisApi.zip ~/project/tagis.Api/ 
-      - aws-s3/copy:
-          from: ~/project/tagisApi.zip
-          to: 's3://${BUILD_BUCKET}/'
+      - aws-s3/sync:
+          from: ~/project/tagis.Api/
+          to: 's3://${BUILD_BUCKET}/api'
+          overwrite: true
 
     ## Commenting this out so I can come back to it later
     ## For now I think it's going to be built with CloudFormation
