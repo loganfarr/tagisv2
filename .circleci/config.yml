@@ -29,16 +29,14 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    - working-directory: ~/tagisv2/tagis.Client
-
     steps:
-      - checkout:
-          path: ~/tagisv2
-      # - run: cd ~/project/tagis.Client
-      - run: npm install
-      - run: node_modules/@angular/cli/bin/ng build --prod=true
+      - checkout
+      - run: 
+          cd ~/project/tagis.Client;
+          npm install;
+          node_modules/@angular/cli/bin/ng build --prod=true;
       - aws-s3/sync:
-          from: dist
+          from: ~/project/tagis.Client/dist
           to: 's3://${S3BUCKET}/client'
           arguments: |
             --acl public-read \
