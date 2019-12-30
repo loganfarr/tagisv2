@@ -17,6 +17,9 @@ orbs:
 jobs:
   # Build Angular Client
   build:
+    branches:
+      only:
+        - master
     # Set job environment variables
     environment:
       S3BUCKET: tagis-build-bucket-temp
