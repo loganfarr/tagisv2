@@ -6,14 +6,14 @@ Globals:
   Function:
     Runtime: dotnetcore2.1
     Timeout: 60
-
+    
 # Template Parameters
 Parameters:
   EnvironmentClass:
     Description: Environment (dev, stage, prod)
     Type: String
     AllowedValues: [dev,stage,prod]
-
+    
 Resources:
   # IAM roles for buckets and RDS 
   TagisBucketRole:
@@ -29,28 +29,28 @@ Resources:
             Action:
               - "sts:AssumeRole"
         Path: "/"
-  TagisBucketPolicy:
+  TagisBucketPolicy: 
     Type: AWS::IAM::Policy
     Properties:
       PolicyName: "TagisBucket"
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
-          -
+          - 
             Effect: "Allow"
             Action: "*"
             Resource: "Tagis-Build-Bucket"
         Roles:
-          -
+          -  
             Ref: "TagisBucketRole"
   TagisBucketProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: "/"
       Roles:
-        -
+        - 
           Ref: "TagisbucketRole"
-
+  
   # S3 bucket for Circle CI builds
   BuildBucket:
     Type: AWS::S3::Bucket
@@ -64,7 +64,7 @@ Resources:
         -
           Key: "application"
           Value: "tagis-build"
-
+          
   # S3 bucket for static website hosting
   ClientBucket:
     Type: AWS::S3::Bucket
@@ -80,14 +80,14 @@ Resources:
           Value: "tagis-client"
       WebsiteConfiguration:
         IndexDocument: "index.html"
-
+        
   # API Lambda Functions
   # GetOrders – GET /orders
   GetOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrders
-      CodeUri:
+      CodeUri: 
         Bucket: !GetAtt BuildBucket.Properties.Bucket-Name
         Key: tagis.Api/Controllers/OrdersController
       FunctionName: "tagis-${EnvironmentClass}-GetOrders"
@@ -97,7 +97,7 @@ Resources:
           Properties:
             Path: /orders
             Method: get
-
+            
   # GetOrderList – GET /orders/list
   GetOrderListFunction:
     Type: AWS::Serverless::Function
@@ -113,7 +113,7 @@ Resources:
           Properties:
             Path: /orders/list
             Method: get
-
+            
   # GetOrder – GET /orders/{id}
   GetOrderFunction:
     Type: AWS::Serverless::Function
@@ -126,10 +126,10 @@ Resources:
       Events:
         GetOrder:
           Type: Api
-          Properties:
+          Properties: 
             Path: /orders/{id}
             Method: get
-
+            
   # GetRecentOrders – GET /orders/recent
   GetOrderFunction:
     Type: AWS::Serverless::Function
@@ -161,18 +161,3 @@ Resources:
           Properties:
             Path: /orders
             Method: post
-
-
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
