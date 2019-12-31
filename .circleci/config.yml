@@ -22,7 +22,7 @@ jobs:
       - checkout
       - aws-s3/sync:
           from: ~/project/tagis.Api/tagisApi
-          to: 's3://${BUILD_BUCKET}/api'
+          to: 's3://${BUILD_BUCKET}/${CIRCLE_BRANCH}/api'
           overwrite: true
 
     ## Commenting this out so I can come back to it later
@@ -67,7 +67,7 @@ jobs:
           node_modules/@angular/cli/bin/ng build --prod=true;
       - aws-s3/sync:
           from: ~/project/tagis.Client/dist
-          to: 's3://${BUILD_BUCKET}/client'
+          to: 's3://${BUILD_BUCKET}/${CIRCLE_BRANCH}/client'
           overwrite: true
 
       # run tests!
