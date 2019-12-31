@@ -1,96 +1,181 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Template for TAGIS application
-
-# Global settings
-Globals:
-  Function:
-    Runtime: dotnetcore2.1
-    Timeout: 60
+Transform: AWS::Serverless-2016-10-31
+Description: "Template for TAGIS application"
 
 # Template Parameters
 Parameters:
   EnvironmentClass:
-    Description: Environment (dev, stage, prod)
+    Description: Environment (Dev, Stage, Prod)
     Type: String
-    AllowedValues: [dev,stage,prod]
+    AllowedValues: 
+      - Dev
+      - Stage
+      - Prod
 
+# Template resources
 Resources:
-  # IAM roles for buckets and RDS 
-  TagisBucketRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-            Service:
-              - "s3.amazonaws.com";
-            Action:
-              - "sts:AssumeRole"
-        Path: "/"
-  TagisBucketPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: "TagisBucket"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Action: "*"
-            Resource: "Tagis-Build-Bucket"
-        Roles:
-          -
-            Ref: "TagisBucketRole"
-  TagisBucketProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: "/"
-      Roles:
-        -
-          Ref: "TagisbucketRole"
+  ## IAM roles for buckets and RDS 
+  #  TagisBucketRole:
+  #    Type: AWS::IAM::Role
+  #    Properties:
+  #      AssumeRolePolicyDocument:
+  #        Version: 2012-10-17
+  #        Statement:
+  #          - Effect: Allow
+  #            Principal:
+  #            Service:
+  #              - "s3.amazonaws.com"
+  #            Action:
+  #              - "sts:AssumeRole"
+  #        Path: "/"
+  #  TagisBucketPolicy:
+  #    Type: AWS::IAM::Policy
+  #    Properties:
+  #      PolicyName: "TagisBucket"
+  #      PolicyDocument:
+  #        Version: "2012-10-17"
+  #        Statement:
+  #          -
+  #            Effect: "Allow"
+  #            Action: "*"
+  #            Resource: "Tagis-Build-Bucket"
+  #        Roles:
+  #          -
+  #            Ref: "TagisBucketRole"
+  #  TagisBucketProfile:
+  #    Type: AWS::IAM::InstanceProfile
+  #    Properties:
+  #      Path: "/"
+  #      Roles:
+  #        -
+  #          Ref: "TagisbucketRole"
 
+  ## S3 buckets
   # S3 bucket for Circle CI builds
-  BuildBucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
-    Properties:
-      Bucket-Name: Tagis-Build-Bucket
-      Tags:
-        -
-          Key: "client"
-          Value: "Advent Group"
-        -
-          Key: "application"
-          Value: "tagis-build"
+#  BuildBucket:
+#    Type: AWS::S3::Bucket
+#    DeletionPolicy: Retain
+#    Properties:
+#      BucketName: tagis-build-bucket
+#      Tags:
+#        -
+#          Key: "client"
+#          Value: "Advent Group"
+#        -
+#          Key: "application"
+#          Value: "tagis-build"
 
   # S3 bucket for static website hosting
-  ClientBucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
+#  ClientBucket:
+#    Type: AWS::S3::Bucket
+#    DeletionPolicy: Retain
+#    Properties:
+#      BucketName: tagis-client
+#      Tags:
+#        -
+#          Key: "client"
+#          Value: "Advent Group"
+#        -
+#          Key: "application"
+#          Value: "tagis-client"
+#      WebsiteConfiguration:
+#        IndexDocument: "index.html"
+  
+  ## RestAPI base settings
+  TagisRestApi: 
+    Type: AWS::Serverless::Api
     Properties:
-      Bucket-Name: Tagis-Client
-      Tags:
-        -
-          Key: "client"
-          Value: "Advent Group"
-        -
-          Key: "application"
-          Value: "tagis-client"
-      WebsiteConfiguration:
-        IndexDocument: "index.html"
+      Name: TagisRestApi
+      StageName: !Ref EnvironmentClass
+      EndpointConfiguration: EDGE
+      Auth:
+        ApiKeyRequired: true
 
-  # API Lambda Functions
+  ## API models
+  # Store
+  StoreModel:
+    Type: AWS::ApiGateway::Model
+    DependsOn: TagisRestApi
+    Properties:
+      RestApiId: !Ref TagisRestApi
+      ContentType: application/json
+      Description: Schema for TAGIS stores
+      Name: StoreModel
+      Schema:
+        $schema: 'http://json-schema.org/draft-04/schema#'
+        title: !Sub
+          - "OrderModel-${EnvironmentClass}"
+          - { EnvironmentClass: !Ref EnvironmentClass }
+        type: object
+        items:
+          type: object
+          properties:
+            _cid:
+              type: integer
+            title:
+              type: string
+            machineTitle:
+              type: string
+            logoUrl:
+              type: string
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            contactName:
+              type: string
+            contactEmail:
+              type: string
+            contactPhone:
+              type: string
+            websiteUrl:
+              type: string
+            companyStore:
+              type: string
+            emailFromAddress:
+              type: string
+            receiptEmail:
+              type: string
+            shippingNotificationEmail:
+              type: string
+            thankYouEmail:
+              type: string
+            authToken:
+              type: string
+            orderApiEndpoint:
+              type: string
+            productApiEndpoint:
+              type: string
+      
+  # Adding ApiGateway stage
+  # Stage and prod exist by default, so need to add dev
+  DevApiGatewayStage:
+    Type: AWS::ApiGateway::Stage
+    DependsOn: TagisRestApi
+    Properties:
+      StageName: "Dev"
+      RestApiId: !Ref TagisRestApi
+      DeploymentId: b7716c4ca18eaf847fa295415cab83ef88ff448c
+        
+  ## API Lambda Functions
   # GetOrders – GET /orders
   GetOrdersFunction:
     Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
     Properties:
+      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrders
-      CodeUri:
-        Bucket: !GetAtt BuildBucket.Properties.Bucket-Name
-        Key: tagis.Api/Controllers/OrdersController
-      FunctionName: "tagis-${EnvironmentClass}-GetOrders"
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetOrders"
+        - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
         GetOrders:
           Type: Api
@@ -101,12 +186,15 @@ Resources:
   # GetOrderList – GET /orders/list
   GetOrderListFunction:
     Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
     Properties:
+      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrderList
-      CodeUri:
-        Bucket: !GetAtt BuildBucket.Properties.Bucket-Name
-        Key: tagis.Api/Controllers/OrdersController
-      FunctionName: "tagis-${EnvironmentClass}-GetOrderList"
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetOrderList"
+        - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
         GetOrderList:
           Type: Api
@@ -118,11 +206,13 @@ Resources:
   GetOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrder
-      CodeUri:
-        Bucket: !GetAtt BuildBucket.Properties.Bucket-Name
-        Key: tagis.Api/Controllers/OrdersController
-      FunctionName: "tagis-${EnvironmentClass}-GetOrder"
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetOrder"
+        - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
         GetOrder:
           Type: Api
@@ -133,12 +223,15 @@ Resources:
   # GetRecentOrders – GET /orders/recent
   GetOrderFunction:
     Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
     Properties:
+      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetRecentOrders
-      CodeUri:
-        Bucket: !GetAtt BuildBucket.Properties.Bucket-Name
-        Key: tagis.Api/Controllers/OrdersController
-      FunctionName: "tagis-${EnvironmentClass}-GetRecentOrders"
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub 
+        - "tagis-${EnvironmentClass}-GetRecentOrders"
+        - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
         GetOrder:
           Type: Api
@@ -149,30 +242,18 @@ Resources:
   # PostOrder – POST /orders
   GetOrderFunction:
     Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
     Properties:
-      CodeUri:
-        Bucket: !GetAtt BuildBucket.Properties.Bucket-Name
-        Key: tagis.Api/Controllers/OrdersController
+      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::PostOrder
-      FunctionName: "tagis-${EnvironmentClass}-PostOrder"
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-PostOrder"
+        - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
         GetOrder:
           Type: Api
           Properties:
             Path: /orders
             Method: post
-
-
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn

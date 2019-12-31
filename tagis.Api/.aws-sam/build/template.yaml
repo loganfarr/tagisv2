@@ -1,0 +1,145 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Template for TAGIS application
+Parameters:
+  EnvironmentClass:
+    Description: Environment (Dev, Stage, Prod)
+    Type: String
+    AllowedValues:
+    - Dev
+    - Stage
+    - Prod
+Resources:
+  TagisRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: TagisRestApi
+      StageName:
+        Ref: EnvironmentClass
+      EndpointConfiguration: EDGE
+      Auth:
+        ApiKeyRequired: true
+  StoreModel:
+    Type: AWS::ApiGateway::Model
+    DependsOn: TagisRestApi
+    Properties:
+      RestApiId:
+        Ref: TagisRestApi
+      ContentType: application/json
+      Description: Schema for TAGIS stores
+      Name: StoreModel
+      Schema:
+        $schema: http://json-schema.org/draft-04/schema#
+        title:
+          Fn::Sub:
+          - OrderModel-${EnvironmentClass}
+          - EnvironmentClass:
+              Ref: EnvironmentClass
+        type: object
+        items:
+          type: object
+          properties:
+            _cid:
+              type: integer
+            title:
+              type: string
+            machineTitle:
+              type: string
+            logoUrl:
+              type: string
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            contactName:
+              type: string
+            contactEmail:
+              type: string
+            contactPhone:
+              type: string
+            websiteUrl:
+              type: string
+            companyStore:
+              type: string
+            emailFromAddress:
+              type: string
+            receiptEmail:
+              type: string
+            shippingNotificationEmail:
+              type: string
+            thankYouEmail:
+              type: string
+            authToken:
+              type: string
+            orderApiEndpoint:
+              type: string
+            productApiEndpoint:
+              type: string
+  DevApiGatewayStage:
+    Type: AWS::ApiGateway::Stage
+    DependsOn: TagisRestApi
+    Properties:
+      StageName: Dev
+      RestApiId:
+        Ref: TagisRestApi
+      DeploymentId: b7716c4ca18eaf847fa295415cab83ef88ff448c
+  GetOrdersFunction:
+    Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
+    Properties:
+      Runtime: dotnetcore2.1
+      Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrders
+      CodeUri: GetOrdersFunction
+      FunctionName:
+        Fn::Sub:
+        - tagis-${EnvironmentClass}-GetOrders
+        - EnvironmentClass:
+            Ref: EnvironmentClass
+      Events:
+        GetOrders:
+          Type: Api
+          Properties:
+            Path: /orders
+            Method: get
+  GetOrderListFunction:
+    Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
+    Properties:
+      Runtime: dotnetcore2.1
+      Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrderList
+      CodeUri: GetOrderListFunction
+      FunctionName:
+        Fn::Sub:
+        - tagis-${EnvironmentClass}-GetOrderList
+        - EnvironmentClass:
+            Ref: EnvironmentClass
+      Events:
+        GetOrderList:
+          Type: Api
+          Properties:
+            Path: /orders/list
+            Method: get
+  GetOrderFunction:
+    Type: AWS::Serverless::Function
+    DependsOn: TagisRestApi
+    Properties:
+      Runtime: dotnetcore2.1
+      Handler: tagisApi::tagisApi.Controllers.OrdersController::PostOrder
+      CodeUri: GetOrderFunction
+      FunctionName:
+        Fn::Sub:
+        - tagis-${EnvironmentClass}-PostOrder
+        - EnvironmentClass:
+            Ref: EnvironmentClass
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /orders
+            Method: post
