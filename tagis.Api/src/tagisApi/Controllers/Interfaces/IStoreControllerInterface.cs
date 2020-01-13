@@ -14,7 +14,7 @@ namespace tagisApi.Controllers.Interfaces
         Task<ActionResult<Store>> GetStoreByName(string name);
         Task<ActionResult<Store>> GetStore(int id);
         Task<ActionResult<IEnumerable<Product>>> GetStoreProducts(int storeId);
-        List<Order> getStoreOrders();
+        List<Order> GetStoreOrders(int storeId);
         
         bool postStore(Store store);
         bool uploadStoreLogo(FileStream image);

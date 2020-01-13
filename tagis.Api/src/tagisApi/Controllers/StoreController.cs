@@ -48,7 +48,7 @@ namespace tagisApi.Controllers
             return await _context.Stores.FindAsync(id);
         }
 
-        [HttpGet("products")]
+        [HttpGet("products/{id}")]
         public Task<ActionResult<IEnumerable<Product>>> GetStoreProducts(int storeId)
         {
             throw new System.NotImplementedException();
@@ -56,7 +56,7 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet("orders")]
-        public List<Order> getStoreOrders()
+        public List<Order> GetStoreOrders(int storeId)
         {
             throw new System.NotImplementedException();
         }

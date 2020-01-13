@@ -80,16 +80,6 @@ Resources:
 #          Value: "tagis-client"
 #      WebsiteConfiguration:
 #        IndexDocument: "index.html"
-  
-  ## RestAPI base settings
-  TagisRestApi: 
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: TagisRestApi
-      StageName: !Ref EnvironmentClass
-      EndpointConfiguration: EDGE
-      Auth:
-        ApiKeyRequired: true
 
   ## API models
   # Store
@@ -153,23 +143,12 @@ Resources:
             productApiEndpoint:
               type: string
       
-  # Adding ApiGateway stage
-  # Stage and prod exist by default, so need to add dev
-  DevApiGatewayStage:
-    Type: AWS::ApiGateway::Stage
-    DependsOn: TagisRestApi
-    Properties:
-      StageName: "Dev"
-      RestApiId: !Ref TagisRestApi
-      DeploymentId: b7716c4ca18eaf847fa295415cab83ef88ff448c
-        
-  ## API Lambda Functions
+  ### API Lambda Functions
+  ## Orders
   # GetOrders – GET /orders
   GetOrdersFunction:
     Type: AWS::Serverless::Function
-    DependsOn: TagisRestApi
     Properties:
-      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrders
       Runtime: dotnetcore2.1
       CodeUri: ./src/tagisApi/
@@ -182,13 +161,12 @@ Resources:
           Properties:
             Path: /orders
             Method: get
+            RestApiId: !Ref TagisRestApi
 
   # GetOrderList – GET /orders/list
   GetOrderListFunction:
     Type: AWS::Serverless::Function
-    DependsOn: TagisRestApi
     Properties:
-      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrderList
       Runtime: dotnetcore2.1
       CodeUri: ./src/tagisApi/
@@ -201,12 +179,12 @@ Resources:
           Properties:
             Path: /orders/list
             Method: get
+            RestApiId: !Ref TagisRestApi
 
   # GetOrder – GET /orders/{id}
   GetOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrder
       Runtime: dotnetcore2.1
       CodeUri: ./src/tagisApi/
@@ -219,13 +197,12 @@ Resources:
           Properties:
             Path: /orders/{id}
             Method: get
+            RestApiId: !Ref TagisRestApi
 
   # GetRecentOrders – GET /orders/recent
-  GetOrderFunction:
+  GetRecentOrders:
     Type: AWS::Serverless::Function
-    DependsOn: TagisRestApi
     Properties:
-      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetRecentOrders
       Runtime: dotnetcore2.1
       CodeUri: ./src/tagisApi/
@@ -238,13 +215,12 @@ Resources:
           Properties:
             Path: /orders/recent
             Method: get
+            RestApiId: !Ref TagisRestApi
 
   # PostOrder – POST /orders
-  GetOrderFunction:
+  PostOrder:
     Type: AWS::Serverless::Function
-    DependsOn: TagisRestApi
     Properties:
-      Runtime: dotnetcore2.1
       Handler: tagisApi::tagisApi.Controllers.OrdersController::PostOrder
       Runtime: dotnetcore2.1
       CodeUri: ./src/tagisApi/
@@ -257,3 +233,138 @@ Resources:
           Properties:
             Path: /orders
             Method: post
+            RestApiId: !Ref TagisRestApi
+          
+  ## Stores  
+  # GetStore – GET /stores
+  GetStores:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.StoreController::GetStores
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetStores"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /stores
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            
+  # GetRecentStores – GET /stores/recent
+  GetRecentStore:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.StoreController::GetRecentStores
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetRecentStores"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /stores/recent
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            
+            
+  # GetStoreByName – GET /stores/name/{name}
+  GetStoreByName:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreByName
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetStoreByName"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /stores/name/{name}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            RequestParameters: 
+              - method.request.path.name:
+                  Required: true
+  
+  # GetStoreById –GET /stores/{id}
+  GetStoreById:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreById
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetStoreById"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /stores/{id}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            RequestParameters:
+              - method.request.path.id:
+                  Required: true
+                
+  # GetStoreProducts –GET /stores/products/{id}
+  GetStoreProducts:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreProducts
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetStoreProducts"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /stores/products/{id}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            RequestParameters:
+              - method.request.path.id:
+                  Required: true
+           
+  # GetStoreOrders – GET /stores/orders/{id}
+  GetStoreOrders:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreOrders
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetStoreOrders"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        GetOrder:
+          Type: Api
+          Properties:
+            Path: /stores/orders/{id}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            RequestParameters:
+              - method.request.path.id:
+                  Required: true
+            
+  ## RestAPI base settings
+  TagisRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: TagisRestApi
+      StageName: !Ref EnvironmentClass
+      EndpointConfiguration: EDGE
+      Auth:
+        ApiKeyRequired: true
+        
+      
