@@ -403,3 +403,4 @@ __pycache__/
 
 # AWS SAM
 .aws-cli/
+.aws-sam/
