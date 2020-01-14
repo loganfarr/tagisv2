@@ -142,6 +142,170 @@ Resources:
               type: string
             productApiEndpoint:
               type: string
+              
+  # Order model
+  OrderModel: 
+    Type: AWS::ApiGateway::Model
+    DependsOn: TagisRestApi
+    Properties:
+      RestApiId: !Ref TagisRestApi
+      ContentType: application/json
+      Description: Schema for TAGIS orders
+      Name: OrderModel
+      Schema: 
+        $schema: 'http://json-schema.org/draft-04/schema#'
+        title: !Sub
+          - "OrderModel-${EnvironmentClass}"
+          - { EnvironmentClass: !Ref EnvironmentClass }
+        type: object
+        items:
+          type: object
+          properties:
+            _oid:
+              type: integer
+            orderStatus:
+              type: string
+            createdDate:
+              type: string
+            lastModifiedDate:
+              type: string
+            products:
+              type: array
+            subtotal:
+              type: number
+            taxes:
+              type: number
+            shippingFees:
+              type: number
+            total:
+              type: number
+            store:
+              type: integer
+            orderSource:
+              type: string
+            customerName:
+              type: string
+            customerEmail:
+              type: string
+            customerPhone:
+              type: string
+            customerAddress1:
+              type: string
+            customerAddress2:
+              type: string
+            customerCity:
+              type: string
+            customerState:
+              type: string
+            customerZip:
+              type: string
+            shippingName:
+              type: string
+            refNumber:
+              type: string
+            trackingNumber:
+              type: string
+            shippingCarrier:
+              type: string
+            receiptEmailSent:
+              type: string
+            shippingEmailSent:
+              type: string
+            orderNotificationEmail:
+              type: string
+              
+  # Order item model          
+  OrderItemModel:
+    Type: AWS::ApiGateway::Model
+    DependsOn: TagisRestApi
+    Properties:
+      RestApiId: !Ref TagisRestApi
+      ContentType: application/json
+      Description: Schema for TAGIS order items
+      Name: OrderItemModel
+      Schema:
+        $schema: 'http://json-schema.org/draft-04/schema#'
+        title: !Sub
+          - "OrderItemModel-${EnvironmentClass}"
+          - { EnvironmentClass: !Ref EnvironmentClass }
+        type: object
+        item: 
+          type: object
+          properties:
+            _oiid:
+              type: integer
+            sku:
+              type: string
+            title:
+              type: string
+            quantity:
+              type: integer
+            order_oid:
+              type: integer
+            productOptions:
+              type: array
+      
+  # User model
+  UserModel:
+    Type: AWS::ApiGateway::Model
+    DependsOn: TagisRestApi
+    Properties:
+      RestApiId: !Ref TagisRestApi
+      ContentType: application/json
+      Description: Schema for TAGIS users
+      Name: UserModel
+      Schema:
+        $schema: 'http://json-schema.org/draft-04/schema#'
+        title: !Sub
+          - "UserModel-${EnvironmentClass}"
+          - { EnvironmentClass: !Ref EnvironmentClass }
+        type: object
+        item:
+          type: object
+          properties:
+            _uid:
+              type: integer
+            email:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            password:
+              type: string
+            active:
+              type: boolean
+            lastLogin:
+              type: string
+            profilePicture:
+              type: string
+            role:
+              type: integer
+            store:
+              type: integer
+  
+  # User authentication model
+  UserAuthenticationModel:
+    Type: AWS::ApiGateway::Model
+    DependsOn: TagisRestApi
+    Properties:
+      RestApiId: !Ref TagisRestApi
+      ContentType: application/json
+      Description: Schema for TAGIS users
+      Name: UserAuthenticationModel
+      Schema:
+        $schema: 'http://json-schema.org/draft-04/schema#'
+        title: !Sub
+          - "UserAuthenticationModel-${EnvironmentClass}"
+          - { EnvironmentClass: !Ref EnvironmentClass }
+        type: object
+        item:
+          type: object
+          properties:
+            Email:
+              type: string
+            Password:
+              type: string
       
   ### API Lambda Functions
   ## Orders
@@ -156,7 +320,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetOrders"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrders:
+        GetOrdersFunction:
           Type: Api
           Properties:
             Path: /orders
@@ -174,7 +338,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetOrderList"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrderList:
+        GetOrderListFunction:
           Type: Api
           Properties:
             Path: /orders/list
@@ -192,7 +356,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetOrder"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetOrderFunction:
           Type: Api
           Properties:
             Path: /orders/{id}
@@ -210,7 +374,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetRecentOrders"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetRecentOrders:
           Type: Api
           Properties:
             Path: /orders/recent
@@ -228,12 +392,15 @@ Resources:
         - "tagis-${EnvironmentClass}-PostOrder"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        PostOrder:
           Type: Api
           Properties:
             Path: /orders
             Method: post
             RestApiId: !Ref TagisRestApi
+#            RequestModel: 
+#              Model: !Ref OrderModel
+#              Required: true
           
   ## Stores  
   # GetStore – GET /stores
@@ -247,7 +414,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetStores"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetStores:
           Type: Api
           Properties:
             Path: /stores
@@ -265,7 +432,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetRecentStores"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetRecentStore:
           Type: Api
           Properties:
             Path: /stores/recent
@@ -284,7 +451,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetStoreByName"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetStoreByName:
           Type: Api
           Properties:
             Path: /stores/name/{name}
@@ -305,7 +472,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetStoreById"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetStoreById:
           Type: Api
           Properties:
             Path: /stores/{id}
@@ -326,7 +493,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetStoreProducts"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetStoreProducts:
           Type: Api
           Properties:
             Path: /stores/products/{id}
@@ -347,7 +514,7 @@ Resources:
         - "tagis-${EnvironmentClass}-GetStoreOrders"
         - { EnvironmentClass: !Ref EnvironmentClass }
       Events:
-        GetOrder:
+        GetStoreOrders:
           Type: Api
           Properties:
             Path: /stores/orders/{id}
@@ -356,6 +523,49 @@ Resources:
             RequestParameters:
               - method.request.path.id:
                   Required: true
+        
+  # PostStore – POST /stores          
+  PostStore:
+    Type: AWS::Serverless::Function
+    Properties: 
+      Handler: tagisApi::tagisApi.Controllers.StoreController::PostStore
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi/
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-PostStore"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore: 
+          Type: Api
+          Properties:
+            Path: /stores
+            Method: post
+            RestApiId: !Ref TagisRestApi
+#            RequestModel:
+#              Model: !Ref StoreModel
+#              Required: true
+              
+  ## Users
+  # Authenticate – POST /users/authenticate
+  AuthenticateFunction:
+    Type: AWS::Serverless::Function
+    Properties: 
+      Handler: tagisApi::tagisApi.Controllers.UserController::Authenticate
+      Runtime: dotnetcore2.1
+      CodeUri: ./src/tagisApi
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-UserAuthenticate"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /users/authenticate
+            Method: post
+            RestApiId: !Ref TagisRestApi
+#            RequestModel:
+#              Model: !Ref UserModel
+#              Required: true
             
   ## RestAPI base settings
   TagisRestApi:
@@ -366,5 +576,9 @@ Resources:
       EndpointConfiguration: EDGE
       Auth:
         ApiKeyRequired: true
-        
-      
+#      Models:
+#        OrderModel: !Ref OrderModel
+#        OrderItemMode: !Ref OrderItemModel
+#        StoreModel: !Ref StoreModel
+#        UserAuthenticationModel: !Ref UserAuthenticationModel
+#        UserModel: !Ref UserModel
