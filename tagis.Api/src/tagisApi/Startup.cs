@@ -45,7 +45,7 @@ namespace tagisApi
 
             services.AddSingleton<IGetAllApiKeysQuery, InMemoryGetAllApiKeysQuery>();
 
-            services.AddDbContext<TagisDbContext>(options => options.UseMySQL(Configuration["ConnectionStrings:Default"]));
+            services.AddDbContext<TagisDbContext>(options => options.UseMySQL(Configuration["ConnectionStrings:Local"]));
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

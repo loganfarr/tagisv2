@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
 using tagisApi.Models;
+using tagisApi.Lambda;
+using Amazon.Lambda.Core;
+
+[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
 namespace tagisApi.Controllers
 {
@@ -15,8 +18,21 @@ namespace tagisApi.Controllers
     [Route("orders")]
     public class OrdersController : ControllerBase, IOrdersControllerInterface
     {
+        
         private readonly TagisDbContext _context;
         private readonly IProductsControllerInterface _productsController;
+
+        public OrdersController()
+        {
+            string connectionString = LambdaConfiguration.GetDatabaseCreds();
+
+            var optionsBuilder = new DbContextOptionsBuilder<TagisDbContext>();
+
+            optionsBuilder.UseMySQL(connectionString);
+
+            _context = new TagisDbContext(optionsBuilder.Options);
+        }
+        
         public OrdersController(TagisDbContext context, IProductsControllerInterface productsController)
         {
             _context = context;
