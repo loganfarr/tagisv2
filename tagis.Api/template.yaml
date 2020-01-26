@@ -1,8 +1,8 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: "Template for TAGIS application"
+Description: "API template for TAGIS application"
 
-# Template Parameters
+### Template Parameters
 Parameters:
   EnvironmentClass:
     Description: Environment (Dev, Stage, Prod)
@@ -11,76 +11,34 @@ Parameters:
       - Dev
       - Stage
       - Prod
-
-# Template resources
+  ## SSM parameters
+  DatabaseHost:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-database-host"
+  DatabaseName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-database-name"
+  DatabaseUser:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-database-username"
+  DatabasePassword:
+    Type: AWS::SSM::Parameter::Value<String> # @todo Change to securestring when cfn supports it
+    Default: "tagis-Dev-database-password"
+      
+### Globals 
+Globals:
+  Function:
+    Runtime: dotnetcore2.1
+    CodeUri: ./src/tagisApi/
+    Environment:
+      Variables:
+        DATABASE_HOST: !Ref DatabaseHost
+        DATABASE_NAME: !Ref DatabaseName
+        DATABASE_USER: !Ref DatabaseUser
+        DATABASE_PASS: !Ref DatabasePassword
+        
+### Template resources
 Resources:
-  ## IAM roles for buckets and RDS 
-  #  TagisBucketRole:
-  #    Type: AWS::IAM::Role
-  #    Properties:
-  #      AssumeRolePolicyDocument:
-  #        Version: 2012-10-17
-  #        Statement:
-  #          - Effect: Allow
-  #            Principal:
-  #            Service:
-  #              - "s3.amazonaws.com"
-  #            Action:
-  #              - "sts:AssumeRole"
-  #        Path: "/"
-  #  TagisBucketPolicy:
-  #    Type: AWS::IAM::Policy
-  #    Properties:
-  #      PolicyName: "TagisBucket"
-  #      PolicyDocument:
-  #        Version: "2012-10-17"
-  #        Statement:
-  #          -
-  #            Effect: "Allow"
-  #            Action: "*"
-  #            Resource: "Tagis-Build-Bucket"
-  #        Roles:
-  #          -
-  #            Ref: "TagisBucketRole"
-  #  TagisBucketProfile:
-  #    Type: AWS::IAM::InstanceProfile
-  #    Properties:
-  #      Path: "/"
-  #      Roles:
-  #        -
-  #          Ref: "TagisbucketRole"
-
-  ## S3 buckets
-  # S3 bucket for Circle CI builds
-#  BuildBucket:
-#    Type: AWS::S3::Bucket
-#    DeletionPolicy: Retain
-#    Properties:
-#      BucketName: tagis-build-bucket
-#      Tags:
-#        -
-#          Key: "client"
-#          Value: "Advent Group"
-#        -
-#          Key: "application"
-#          Value: "tagis-build"
-
-  # S3 bucket for static website hosting
-#  ClientBucket:
-#    Type: AWS::S3::Bucket
-#    DeletionPolicy: Retain
-#    Properties:
-#      BucketName: tagis-client
-#      Tags:
-#        -
-#          Key: "client"
-#          Value: "Advent Group"
-#        -
-#          Key: "application"
-#          Value: "tagis-client"
-#      WebsiteConfiguration:
-#        IndexDocument: "index.html"
-
   ## API models
   # Store
   StoreModel:
@@ -306,15 +264,13 @@ Resources:
             Password:
               type: string
       
-  ### API Lambda Functions
+  ## API Lambda Functions
   ## Orders
   # GetOrders – GET /orders
   GetOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrders
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetOrders"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -331,8 +287,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrderList
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetOrderList"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -349,8 +303,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetOrder
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetOrder"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -367,8 +319,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.OrdersController::GetRecentOrders
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub 
         - "tagis-${EnvironmentClass}-GetRecentOrders"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -385,8 +335,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.OrdersController::PostOrder
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-PostOrder"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -407,8 +355,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.StoreController::GetStores
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetStores"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -425,8 +371,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.StoreController::GetRecentStores
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetRecentStores"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -465,8 +409,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreById
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetStoreById"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -486,8 +428,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreProducts
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetStoreProducts"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -507,8 +447,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.StoreController::GetStoreOrders
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-GetStoreOrders"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -528,8 +466,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties: 
       Handler: tagisApi::tagisApi.Controllers.StoreController::PostStore
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi/
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-PostStore"
         - { EnvironmentClass: !Ref EnvironmentClass }
@@ -550,8 +486,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties: 
       Handler: tagisApi::tagisApi.Controllers.UserController::Authenticate
-      Runtime: dotnetcore2.1
-      CodeUri: ./src/tagisApi
       FunctionName: !Sub
         - "tagis-${EnvironmentClass}-UserAuthenticate"
         - { EnvironmentClass: !Ref EnvironmentClass }
