@@ -62,7 +62,7 @@ namespace tagisApi.Controllers
         }
 
         [HttpPost]
-        public bool postStore([FromBody] Store store)
+        public bool PostStore([FromBody] Store store)
         {
             throw new System.NotImplementedException();
         }

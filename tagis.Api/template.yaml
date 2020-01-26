@@ -229,7 +229,7 @@ Resources:
           - "OrderItemModel-${EnvironmentClass}"
           - { EnvironmentClass: !Ref EnvironmentClass }
         type: object
-        item: 
+        items: 
           type: object
           properties:
             _oiid:
@@ -260,7 +260,7 @@ Resources:
           - "UserModel-${EnvironmentClass}"
           - { EnvironmentClass: !Ref EnvironmentClass }
         type: object
-        item:
+        items:
           type: object
           properties:
             _uid:
@@ -283,7 +283,6 @@ Resources:
               type: integer
             store:
               type: integer
-  
   # User authentication model
   UserAuthenticationModel:
     Type: AWS::ApiGateway::Model
@@ -299,7 +298,7 @@ Resources:
           - "UserAuthenticationModel-${EnvironmentClass}"
           - { EnvironmentClass: !Ref EnvironmentClass }
         type: object
-        item:
+        items:
           type: object
           properties:
             Email:
@@ -422,7 +421,7 @@ Resources:
             RestApiId: !Ref TagisRestApi
             
   # GetRecentStores – GET /stores/recent
-  GetRecentStore:
+  GetRecentStores:
     Type: AWS::Serverless::Function
     Properties:
       Handler: tagisApi::tagisApi.Controllers.StoreController::GetRecentStores
