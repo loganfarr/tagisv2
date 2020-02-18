@@ -24,12 +24,38 @@ Parameters:
   DatabasePassword:
     Type: AWS::SSM::Parameter::Value<String> # @todo Change to securestring when cfn supports it
     Default: "tagis-Dev-database-password"
+  VPCSecurityGroup:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-vpc-security-group-id"
+  VPCSubnetIds: 
+    Type: AWS::SSM::Parameter::Value<List<String>>
+    Default: "tagis-Dev-vpc-subnet-ids"
+  # Temporary subnet IDs until I figure out the list of strings option
+  VPCSubnetId1:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-vpc-subnet-id-1"
+  VPCSubnetId2:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-vpc-subnet-id-2"
+  VPCSubnetId3:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-vpc-subnet-id-3"
+  VPCSubnetId4:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "tagis-Dev-vpc-subnet-id-4"
       
 ### Globals 
 Globals:
   Function:
     Runtime: dotnetcore2.1
     CodeUri: ./src/tagisApi/
+    VpcConfig:
+      SecurityGroupIds: !Ref VPCSecurityGroup
+      SubnetIds: 
+        - !Ref VPCSubnetId1
+        - !Ref VPCSubnetId2
+        - !Ref VPCSubnetId3
+        - !Ref VPCSubnetId4
     Environment:
       Variables:
         DATABASE_HOST: !Ref DatabaseHost
