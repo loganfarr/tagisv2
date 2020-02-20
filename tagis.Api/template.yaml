@@ -50,7 +50,8 @@ Globals:
     Runtime: dotnetcore2.1
     CodeUri: ./src/tagisApi/
     VpcConfig:
-      SecurityGroupIds: !Ref VPCSecurityGroup
+      SecurityGroupIds: 
+        - !Ref VPCSecurityGroup
       SubnetIds: 
         - !Ref VPCSubnetId1
         - !Ref VPCSubnetId2

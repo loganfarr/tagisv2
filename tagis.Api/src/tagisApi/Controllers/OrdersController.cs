@@ -8,6 +8,8 @@ using tagisApi.Controllers.Interfaces;
 using tagisApi.Models;
 using tagisApi.Lambda;
 using Amazon.Lambda.Core;
+using Amazon.Lambda.APIGatewayEvents;
+using Newtonsoft.Json;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
@@ -40,43 +42,44 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public APIGatewayProxyResponse GetOrders()
         {
-            return await _context.Orders.OrderByDescending(o => o.CreatedDate).ToListAsync();
+            var orderList = _context.Orders.OrderByDescending(o => o.CreatedDate).ToListAsync();
+            var response = new APIGatewayProxyResponse {StatusCode = 200, Body = JsonConvert.SerializeObject(orderList)};
+            return response;
         }
 
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<Order>>> getOrderList()
+        public APIGatewayProxyResponse getOrderList()
         {
-            return await _context.Orders
+            var orderList = _context.Orders
                 .Include(o => o.Store)
                 .OrderByDescending(o => o.CreatedDate)
                 .ToListAsync();
+            return new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(orderList)};
         }
     
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public APIGatewayProxyResponse GetOrder(int id)
         {
-            var order = await _context.Orders
+            var order = _context.Orders
                 .Include(o => o.Store)
+                .Include(o => o.Products)
                 .FirstOrDefaultAsync(o => o._oid == id);
 
-            if (order == null)
-                return NotFound();
-
-            order.Products = GetOrderItems(id);
-
-            return order;
+            return order == null ? new APIGatewayProxyResponse {StatusCode = 404, Body = null} : new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(order)};
         }
 
         [HttpGet("recent")]
-        public async Task<ActionResult<IEnumerable<Order>>> getRecentOrders()
+        public APIGatewayProxyResponse getRecentOrders()
         {
-            return await _context.Orders
+            var orders = _context.Orders
                 .Include(o => o.Store)
                 .OrderByDescending(o => o.CreatedDate)
                 .Take(10)
                 .ToListAsync();
+            
+            return new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(orders) };
         }
 
         [HttpPost]
