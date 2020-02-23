@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +23,10 @@ namespace tagisApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetRoles()
+        public APIGatewayProxyResponse GetRoles()
         {
-            return await _context.UserRoles.ToListAsync();
+            List<UserRole> roleList = _context.UserRoles.ToList();
+            return new TypedAPIGatewayProxyResponse<List<UserRole>>(200, roleList);
         }
         
         // @todo Add function for adding roles

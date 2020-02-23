@@ -1,23 +1,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using Microsoft.AspNetCore.Mvc;
-using tagisApi.Controllers.Resources;
 using tagisApi.Models;
+using tagisApi.Models.ResourceModels;
 
 namespace tagisApi.Controllers.Interfaces
 {
     public interface IUserControllerInterface
     {
-        Task<ActionResult<TagisToken>> Authenticate([FromBody] UserAuthenticationResource user);
+        APIGatewayProxyResponse Authenticate([FromBody] UserAuthenticationResource user);
 
-        Task<ActionResult<IEnumerable<User>>> GetUsers();
+        APIGatewayProxyResponse GetUsers();
 
-        Task<ActionResult<User>> PostUser([FromBody] User user);
+        APIGatewayProxyResponse PostUser([FromBody] User user);
 
-        Task<ActionResult<User>> GetUser(int uid);
+        APIGatewayProxyResponse GetUser(int uid);
 
-        Task<ActionResult<User>> UpdateUser([FromBody] User user);
+        APIGatewayProxyResponse UpdateUser([FromBody] User user);
 
-        Task<ActionResult<int>> DeleteUser(User user);
+        APIGatewayProxyResponse DeleteUser(User user);
     }
 }

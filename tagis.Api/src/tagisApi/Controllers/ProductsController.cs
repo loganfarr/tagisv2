@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using tagisApi.Controllers.Interfaces;
-using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers
@@ -25,53 +26,59 @@ namespace tagisApi.Controllers
         
         [HttpGet]
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public APIGatewayProxyResponse GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            List<Product> productList = _context.Products.ToList();
+            return new TypedAPIGatewayProxyResponse<List<Product>>(200, productList);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public APIGatewayProxyResponse GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-
+            Product product = _context.Products.Find(id);
+            
             if (product == null)
-                return NotFound();
+            {
+                return new APIGatewayProxyResponse {StatusCode = 404, Body = "Resource not found"};
+            }
 
-            return product;
+            return new TypedAPIGatewayProxyResponse<Product>(200, product);
         }
 
         [HttpGet("sku/{sku}")]
-        public async Task<ActionResult<Product>> GetProductBySku(string sku)
+        public APIGatewayProxyResponse GetProductBySku(string sku)
         {
-            return await _context.Products.Where(p => p.Sku == sku).SingleOrDefaultAsync();
+            Product product = _context.Products.SingleOrDefault(p => p.Sku == sku);
+            return new TypedAPIGatewayProxyResponse<Product>(200, product);
         }
 
         [HttpGet("lowStock")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetLowStockProducts()
+        public APIGatewayProxyResponse GetLowStockProducts()
         {
-            return await _context.Products
+            List<Product> lowStockProducts = _context.Products
                 .Where(p => p.Stock > 0)
                 .Include(p => p.Store)
                 .OrderBy(p => p.Stock)
                 .Take(5)
-                .ToListAsync();
+                .ToList();
+
+            return new TypedAPIGatewayProxyResponse<List<Product>>(200, lowStockProducts);
         }
 
         [HttpPut("update/{sku}/{status}")]
-        public bool updateProductStatus(string sku, int status)
+        public APIGatewayProxyResponse updateProductStatus(string sku, int status)
         {
             throw new System.NotImplementedException();
         }
 
         [HttpPost]
-        public bool postProduct([FromBody] Product product)
+        public APIGatewayProxyResponse postProduct([FromBody] Product product)
         {
             throw new System.NotImplementedException();
         }
 
         [HttpPost("upload-image")]
-        public bool uploadProductImage([FromBody] FileStream image)
+        public APIGatewayProxyResponse uploadProductImage([FromBody] FileStream image)
         {
             throw new System.NotImplementedException();
         }

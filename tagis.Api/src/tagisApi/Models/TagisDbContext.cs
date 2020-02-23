@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using tagisApi.Controllers.Resources;
 
 namespace tagisApi.Models
 {

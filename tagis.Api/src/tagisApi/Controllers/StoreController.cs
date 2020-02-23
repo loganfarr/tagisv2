@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
-using tagisApi.Controllers.Resources;
 using tagisApi.Models;
 
 namespace tagisApi.Controllers
@@ -25,38 +23,42 @@ namespace tagisApi.Controllers
         
         [HttpGet]
         [HttpGet("list")]
-        public async Task<ActionResult<IEnumerable<Store>>>  GetStores()
+        public APIGatewayProxyResponse GetStores()
         {
-            return await _context.Stores.ToListAsync();
+            List<Store> storeList = _context.Stores.ToList();
+            return new TypedAPIGatewayProxyResponse<List<Store>>(200, storeList);
         }
         
         [HttpGet("recent")]
-        public async Task<ActionResult<IEnumerable<Store>>> GetRecentStores()
+        public APIGatewayProxyResponse GetRecentStores()
         {
-            return await _context.Stores.OrderByDescending(c => c._cid).Take(5).ToListAsync();
+            List<Store> recentStoreList = _context.Stores.OrderByDescending(c => c._cid).Take(5).ToList();
+            return new TypedAPIGatewayProxyResponse<List<Store>>(200, recentStoreList);
         }
 
         [HttpGet("name/{name}")]
-        public async Task<ActionResult<Store>> GetStoreByName(string name)
+        public APIGatewayProxyResponse GetStoreByName(string name)
         {
-            return await _context.Stores.Where(c => c.Title == name).SingleOrDefaultAsync();
+            Store store = _context.Stores.SingleOrDefault(c => c.Title == name);
+            return new TypedAPIGatewayProxyResponse<Store>(200, store);
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<Store>> GetStore(int id)
+        public APIGatewayProxyResponse GetStore(int id)
         {
-            return await _context.Stores.FindAsync(id);
+            Store store = _context.Stores.Find(id);
+            return new TypedAPIGatewayProxyResponse<Store>(200, store);
         }
 
         [HttpGet("products/{id}")]
-        public Task<ActionResult<IEnumerable<Product>>> GetStoreProducts(int storeId)
+        public APIGatewayProxyResponse GetStoreProducts(int storeId)
         {
             throw new System.NotImplementedException();
 //            return await _context.Products.Where(p => p.storeId == storeId).ToListAsync();
         }
 
         [HttpGet("orders")]
-        public List<Order> GetStoreOrders(int storeId)
+        public APIGatewayProxyResponse GetStoreOrders(int storeId)
         {
             throw new System.NotImplementedException();
         }

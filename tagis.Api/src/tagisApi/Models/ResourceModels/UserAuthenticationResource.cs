@@ -1,4 +1,4 @@
-namespace tagisApi.Controllers.Resources
+namespace tagisApi.Models.ResourceModels
 {
     public class UserAuthenticationResource
     {

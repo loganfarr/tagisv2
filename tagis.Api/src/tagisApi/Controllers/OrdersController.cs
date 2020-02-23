@@ -44,42 +44,43 @@ namespace tagisApi.Controllers
         [HttpGet]
         public APIGatewayProxyResponse GetOrders()
         {
-            var orderList = _context.Orders.OrderByDescending(o => o.CreatedDate).ToListAsync();
-            var response = new APIGatewayProxyResponse {StatusCode = 200, Body = JsonConvert.SerializeObject(orderList)};
-            return response;
+            List<Order> orderList = _context.Orders.OrderByDescending(o => o.CreatedDate).ToList();
+            return new TypedAPIGatewayProxyResponse<List<Order>>(200, orderList);
         }
 
         [HttpGet("list")]
         public APIGatewayProxyResponse getOrderList()
         {
-            var orderList = _context.Orders
+            List<Order> orderList = _context.Orders
                 .Include(o => o.Store)
                 .OrderByDescending(o => o.CreatedDate)
-                .ToListAsync();
-            return new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(orderList)};
+                .ToList();
+            return new TypedAPIGatewayProxyResponse<List<Order>>(200, orderList);
         }
     
         [HttpGet("{id}")]
         public APIGatewayProxyResponse GetOrder(int id)
         {
-            var order = _context.Orders
+            Order order = _context.Orders
                 .Include(o => o.Store)
                 .Include(o => o.Products)
-                .FirstOrDefaultAsync(o => o._oid == id);
+                .FirstOrDefault(o => o._oid == id);
 
-            return order == null ? new APIGatewayProxyResponse {StatusCode = 404, Body = null} : new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(order)};
+            return order == null
+                ? new APIGatewayProxyResponse {StatusCode = 404, Body = null}
+                : new TypedAPIGatewayProxyResponse<Order>(200, order);
         }
 
         [HttpGet("recent")]
         public APIGatewayProxyResponse getRecentOrders()
         {
-            var orders = _context.Orders
+            List<Order> orders = _context.Orders
                 .Include(o => o.Store)
                 .OrderByDescending(o => o.CreatedDate)
                 .Take(10)
-                .ToListAsync();
-            
-            return new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(orders) };
+                .ToList();
+
+            return new TypedAPIGatewayProxyResponse<List<Order>>(200, orders);
         }
 
         [HttpPost]
@@ -88,7 +89,7 @@ namespace tagisApi.Controllers
             if (!await _productsController.CheckProductsAvailable(order.Products))
                 return false;
             
-            foreach (var product in order.Products)
+            foreach (OrderItem product in order.Products)
             {
                 // Decrement inventory since it's a new order
                 await _productsController.UpdateProductInventory(product.Quantity * -1, product.Sku);
