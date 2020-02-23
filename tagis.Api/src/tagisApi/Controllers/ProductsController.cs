@@ -32,7 +32,7 @@ namespace tagisApi.Controllers
             return new TypedAPIGatewayProxyResponse<List<Product>>(200, productList);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public APIGatewayProxyResponse GetProduct(int id)
         {
             Product product = _context.Products.Find(id);
@@ -66,31 +66,31 @@ namespace tagisApi.Controllers
         }
 
         [HttpPut("update/{sku}/{status}")]
-        public APIGatewayProxyResponse updateProductStatus(string sku, int status)
+        public APIGatewayProxyResponse UpdateProductStatus(string sku, int status)
         {
             throw new System.NotImplementedException();
         }
 
         [HttpPost]
-        public APIGatewayProxyResponse postProduct([FromBody] Product product)
+        public APIGatewayProxyResponse PostProduct([FromBody] Product product)
         {
             throw new System.NotImplementedException();
         }
 
         [HttpPost("upload-image")]
-        public APIGatewayProxyResponse uploadProductImage([FromBody] FileStream image)
+        public APIGatewayProxyResponse UploadProductImage([FromBody] FileStream image)
         {
             throw new System.NotImplementedException();
         }
 
-        [HttpPut]
-        public bool updateProduct(Product product)
+        [HttpPut("id/{id}")]
+        public bool UpdateProduct(Product product)
         {
             throw new System.NotImplementedException();
         }
 
         [HttpPut("sku/{sku}")]
-        public bool updateProductBySku(Product product)
+        public bool UpdateProductBySku(Product product)
         {
             throw new System.NotImplementedException();
         }
@@ -127,13 +127,13 @@ namespace tagisApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<int> deleteProduct(Product product)
+        public async Task<int> DeleteProduct(Product product)
         {
             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();
         }
 
-        private void processProduct(Product product)
+        private void ProcessProduct(Product product)
         {
             throw new System.NotImplementedException();
         }

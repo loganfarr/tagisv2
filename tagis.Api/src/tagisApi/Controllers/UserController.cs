@@ -137,7 +137,7 @@ namespace tagisApi.Controllers
             return new TypedAPIGatewayProxyResponse<User>(200, user);
         }
         
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize]
         public APIGatewayProxyResponse UpdateUser(User user)
         {

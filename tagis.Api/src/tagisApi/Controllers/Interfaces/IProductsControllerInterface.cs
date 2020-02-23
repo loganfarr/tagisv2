@@ -13,16 +13,16 @@ namespace tagisApi.Controllers.Interfaces
         APIGatewayProxyResponse GetProduct(int id);
         APIGatewayProxyResponse GetProductBySku(string sku);
         APIGatewayProxyResponse GetLowStockProducts();
-        APIGatewayProxyResponse updateProductStatus(string sku, int status);
+        APIGatewayProxyResponse UpdateProductStatus(string sku, int status);
 
-        APIGatewayProxyResponse postProduct(Product product);
-        APIGatewayProxyResponse uploadProductImage(FileStream image);
+        APIGatewayProxyResponse PostProduct(Product product);
+        APIGatewayProxyResponse UploadProductImage(FileStream image);
 
-        bool updateProduct(Product product);
-        bool updateProductBySku(Product product);
+        bool UpdateProduct(Product product);
+        bool UpdateProductBySku(Product product);
         Task<bool> UpdateProductInventory(int stock, string sku);
         Task<bool> CheckProductsAvailable(List<OrderItem> orderItems);
 
-        Task<int> deleteProduct(Product product);
+        Task<int> DeleteProduct(Product product);
     }
 }

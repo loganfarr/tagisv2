@@ -526,6 +526,232 @@ Resources:
 #            RequestModel:
 #              Model: !Ref UserModel
 #              Required: true
+
+  # GetUsers – GET /users
+  GetUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.UserController::GetUsers
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetUsers"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: get
+            RestApiId: !Ref TagisRestApi
+            
+  # PostUser – POST /users
+  PostUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.UserController::PostUser
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-PostUser"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+            RestApiId: !Ref TagisRestApi
+         
+  # GetUser – GET /user/{id}   
+  GetUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.UserController::GetUser
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetUser"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+
+  # UpdateUser – PUT /users/{id}
+  UpdateUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.UserController::UpdateUser
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-UpdateUser"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: put
+            RestApiId: !Ref TagisRestApi
+
+  # DeleteUser – DELETE /users/{id}
+  DeleteUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagisApi::tagisApi.Controllers.UserController::DeleteUser
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-DeleteUser"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: delete
+            RestApiId: !Ref TagisRestApi
+            
+  ## Products
+  # GetProducts – GET /products
+  GetProductsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::GetProducts
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetProducts"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products
+            Method: get
+            RestApiId: !Ref TagisRestApi
+              
+  # GetProduct – GET /products/id/{id}
+  GetProductByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::GetProduct
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetProductById"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/id/{id}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+              
+  # GetProductBySku – GET /products/sku/{sku}
+  GetProductBySkuFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::GetProductBySku
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetProductBySku"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/sku/{sku}
+            Method: get
+            RestApiId: !Ref TagisRestApi
+              
+  # GetLowStockProducts – GET /products/lowStock
+  GetLowStockProductsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::GetLowStockProducts
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-GetLowStockProducts"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/lowStock
+            Method: get
+            RestApiId: !Ref TagisRestApi
+              
+  # UpdateProductStatus – PUT /update/{sku}/{status}
+  UpdateProductStatusFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::UpdateProductStatus
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-UpdateProductStatus"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/update/{sku}/{status}
+            Method: put
+            RestApiId: !Ref TagisRestApi
+              
+              
+  # PostProduct – POST /products
+  PostProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::PostProduct
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-PostProduct"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products
+            Method: post
+            RestApiId: !Ref TagisRestApi
+              
+  # UploadProductImage – POST /products/upload-image
+  UploadProductImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::UploadProductImage
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-UploadProductImage"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/upload-image
+            Method: post
+            RestApiId: !Ref TagisRestApi
+              
+  # UpdateProduct – PUT /products/id/{id}
+  UpdateProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::UpdateProduct
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-UpdateProduct"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/{id}
+            Method: put
+            RestApiId: !Ref TagisRestApi
+              
+  # UpdateProductBySku – POST /products/sku/{sku}
+  UpdateProductBySku:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tagiApi::tagisApi.Controllers.ProductsController::UpdateProductBySku
+      FunctionName: !Sub
+        - "tagis-${EnvironmentClass}-UpdateProductBySku"
+        - { EnvironmentClass: !Ref EnvironmentClass }
+      Events:
+        PostStore:
+          Type: Api
+          Properties:
+            Path: /products/id/{id}
+            Method: put
+            RestApiId: !Ref TagisRestApi
             
   ## RestAPI base settings
   TagisRestApi:
