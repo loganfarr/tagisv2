@@ -18,11 +18,11 @@ namespace tagisApi.Controllers.Interfaces
         APIGatewayProxyResponse PostProduct(Product product);
         APIGatewayProxyResponse UploadProductImage(FileStream image);
 
-        bool UpdateProduct(Product product);
-        bool UpdateProductBySku(Product product);
+        APIGatewayProxyResponse UpdateProduct(Product product);
+        APIGatewayProxyResponse UpdateProductBySku(Product product);
         Task<bool> UpdateProductInventory(int stock, string sku);
         Task<bool> CheckProductsAvailable(List<OrderItem> orderItems);
 
-        Task<int> DeleteProduct(Product product);
+        APIGatewayProxyResponse DeleteProduct(Product product);
     }
 }

@@ -16,10 +16,10 @@ namespace tagisApi.Controllers.Interfaces
         
         Task<ActionResult<bool>> PostOrder(Order order);
         
-        bool updateOrder(Order order);
+        APIGatewayProxyResponse updateOrder(Order order);
         
-        bool deleteOrder(Order order);
+        APIGatewayProxyResponse deleteOrder(Order order);
 
-        bool patchOrder(Order order);
+        APIGatewayProxyResponse patchOrder(Order order);
     }
 }

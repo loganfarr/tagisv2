@@ -96,7 +96,7 @@ namespace tagisApi.Controllers
             }
             
             _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             
             // @todo send order email receipt and notifications
             
@@ -104,19 +104,23 @@ namespace tagisApi.Controllers
         }
 
         [HttpPut]
-        public bool updateOrder(Order order)
+        public APIGatewayProxyResponse updateOrder(Order order)
         {
-            throw new System.NotImplementedException();
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+            return new TypedAPIGatewayProxyResponse<Order>(200, order);
         }
 
         [HttpDelete]
-        public bool deleteOrder(Order order)
+        public APIGatewayProxyResponse deleteOrder(Order order)
         {
-            throw new System.NotImplementedException();
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
+            return new APIGatewayProxyResponse {StatusCode = 200, Body = "true"};
         }
 
         [HttpPatch]
-        public bool patchOrder(Order order)
+        public APIGatewayProxyResponse patchOrder(Order order)
         {
             throw new System.NotImplementedException();
         }

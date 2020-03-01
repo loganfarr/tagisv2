@@ -16,7 +16,7 @@ namespace tagisApi.Controllers.Interfaces
         APIGatewayProxyResponse GetStoreProducts(int storeId);
         APIGatewayProxyResponse GetStoreOrders(int storeId);
         
-        bool PostStore(Store store);
+        APIGatewayProxyResponse PostStore(Store store);
         bool uploadStoreLogo(FileStream image);
     }
 }

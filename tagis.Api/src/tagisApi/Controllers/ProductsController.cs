@@ -68,13 +68,26 @@ namespace tagisApi.Controllers
         [HttpPut("update/{sku}/{status}")]
         public APIGatewayProxyResponse UpdateProductStatus(string sku, int status)
         {
-            throw new System.NotImplementedException();
+            Product updatedProduct = _context.Products.SingleOrDefault(p => p.Sku == sku);
+
+            if (updatedProduct == null)
+                return new APIGatewayProxyResponse {StatusCode = 404, Body = "Requested product could not be found"};
+            
+            updatedProduct.Status = status;
+            _context.Attach(updatedProduct);
+            _context.Entry(updatedProduct).Property("status").IsModified = true;
+            _context.SaveChanges();
+            
+            return new TypedAPIGatewayProxyResponse<Product>(200, updatedProduct);
         }
 
         [HttpPost]
         public APIGatewayProxyResponse PostProduct([FromBody] Product product)
         {
-            throw new System.NotImplementedException();
+            _context.Add(product);
+            _context.SaveChanges();
+            CreatedAtActionResult savedProduct = CreatedAtAction(nameof(GetProduct), new {id = product.Id}, product);
+            return new TypedAPIGatewayProxyResponse<CreatedAtActionResult>(200, savedProduct);
         }
 
         [HttpPost("upload-image")]
@@ -84,15 +97,22 @@ namespace tagisApi.Controllers
         }
 
         [HttpPut("id/{id}")]
-        public bool UpdateProduct(Product product)
+        public APIGatewayProxyResponse UpdateProduct(Product product)
         {
-            throw new System.NotImplementedException();
+            _context.Products.Update(product);
+            _context.SaveChanges();
+            return new TypedAPIGatewayProxyResponse<Product>(200, product);
+
         }
 
         [HttpPut("sku/{sku}")]
-        public bool UpdateProductBySku(Product product)
+        public APIGatewayProxyResponse UpdateProductBySku(Product updatedProduct)
         {
-            throw new System.NotImplementedException();
+            Product loadedProduct = _context.Products.SingleOrDefault(p => p.Sku == updatedProduct.Sku);
+            loadedProduct = updatedProduct;
+            _context.Update(loadedProduct);
+            _context.SaveChanges();
+            return new TypedAPIGatewayProxyResponse<Product>(200, loadedProduct);
         }
 
         public async Task<bool> UpdateProductInventory(int stock, string sku)
@@ -127,10 +147,11 @@ namespace tagisApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<int> DeleteProduct(Product product)
+        public APIGatewayProxyResponse DeleteProduct(Product product)
         {
             _context.Products.Remove(product);
-            return await _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return new APIGatewayProxyResponse {StatusCode = 200, Body = "true"};
         }
 
         private void ProcessProduct(Product product)
@@ -140,8 +161,8 @@ namespace tagisApi.Controllers
 
         private async Task<ActionResult<int>> GetStock(string sku)
         {
-            var product = await _context.Products.Where(p => p.Sku == sku).Take(1).SingleOrDefaultAsync();
-            return product.Stock;
+            Product product = await _context.Products.Where(p => p.Sku == sku).Take(1).SingleOrDefaultAsync();
+            return product?.Stock ?? 0;
         }
     }
 }

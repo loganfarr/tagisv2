@@ -4,6 +4,7 @@ using System.Linq;
 using Amazon.Lambda.APIGatewayEvents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using tagisApi.Controllers.Interfaces;
 using tagisApi.Models;
 
@@ -32,7 +33,7 @@ namespace tagisApi.Controllers
         [HttpGet("recent")]
         public APIGatewayProxyResponse GetRecentStores()
         {
-            List<Store> recentStoreList = _context.Stores.OrderByDescending(c => c._cid).Take(5).ToList();
+            List<Store> recentStoreList = _context.Stores.OrderByDescending(c => c.Id).Take(5).ToList();
             return new TypedAPIGatewayProxyResponse<List<Store>>(200, recentStoreList);
         }
 
@@ -53,20 +54,33 @@ namespace tagisApi.Controllers
         [HttpGet("products/{id}")]
         public APIGatewayProxyResponse GetStoreProducts(int storeId)
         {
-            throw new System.NotImplementedException();
-//            return await _context.Products.Where(p => p.storeId == storeId).ToListAsync();
+            // throw new System.NotImplementedException();
+            List<Product> productList = _context.Products
+                .Include(p => p.Store)
+                .Where(p => p.Store.Id == storeId)
+                .ToList();
+            
+            return new TypedAPIGatewayProxyResponse<List<Product>>(200, productList);
         }
 
         [HttpGet("orders")]
         public APIGatewayProxyResponse GetStoreOrders(int storeId)
         {
-            throw new System.NotImplementedException();
+            List<Order> orderList = _context.Orders
+                .Include(o => o.Store)
+                .Where(o => o.Store.Id == storeId)
+                .ToList();
+            
+            return new TypedAPIGatewayProxyResponse<List<Order>>(200, orderList);
         }
 
         [HttpPost]
-        public bool PostStore([FromBody] Store store)
+        public APIGatewayProxyResponse PostStore([FromBody] Store store)
         {
-            throw new System.NotImplementedException();
+            _context.Add(store);
+            _context.SaveChanges();
+            CreatedAtActionResult createdStore = CreatedAtAction(nameof(GetStore), new { id=store.Id}, store);
+            return new TypedAPIGatewayProxyResponse<CreatedAtActionResult>(200, createdStore);
         }
 
         [HttpPost("upload-logo")]

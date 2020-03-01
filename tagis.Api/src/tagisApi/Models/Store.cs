@@ -12,7 +12,8 @@ namespace tagisApi.Models
     {
         [Required]
         [Key]
-        public int? _cid { get; set; }
+        [Column("_cid")]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
